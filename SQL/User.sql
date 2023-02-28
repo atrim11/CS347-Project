@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 28, 2023 at 07:43 PM
+-- Generation Time: Feb 28, 2023 at 07:53 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -47,7 +47,7 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`User_ID`, `Email`, `Phone#`, `Username`, `Password`, `F_Name`, `L_Name`, `Gender`, `Height`, `Weight`, `Date_Joined`, `DOB`) VALUES
-(1, 'trimmeag@dukes.jmu.edu', '571-207-5051', 'atrimmer', 'password', 'Aidan', 'Trimmer', 'Male', 71, 225, '2023-02-28', '2002-07-02'),
+(1, 'wellingto3@hotmail.com', '786-434-9833', 'blackcat444', 'pheX0baj8ae', 'Jose', 'Spencer', 'Male', 71, 181, '2023-02-28', '1979-10-05'),
 (2, 'captainAmerica@avengers.com', '540-332-2590', 'CaptA', 'shield123', 'Steve', 'Rodgers', 'Male', 74, 245, '2023-02-28', '1920-07-04'),
 (3, 'superman@hero.com', '234-987-9944', 'superman', 'manosteel', 'Clark', 'Kent', 'Male', 72, 230, '2023-02-28', '1950-02-28'),
 (4, 'SamGrant', '571-443-2281', 'SamGrant', 'fluffy124', 'Sam', 'Grant', 'Female', 60, 105, '2023-02-28', '2001-04-19'),
