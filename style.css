@@ -18,6 +18,8 @@
 /* HOME PAGE CSS
 -------------------------------------------------- */
 
+
+
 #workout-pic {
   padding-top: 25%;
 }
@@ -32,7 +34,22 @@
 }
 
 
+@media only screen and (max-width: 600px) {
+  #carousel-pic {
+    height: 500px;
+    width: 100%;
+    object-fit: cover;
+  }
 
+  #car-head {
+    color: black;
+  }
+
+  #car-p {
+    color: black;
+    font-weight: bolder;
+  }
+}
 
 
 /* GLOBAL STYLES
