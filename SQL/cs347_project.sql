@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 02, 2023 at 07:08 PM
+-- Host: 127.0.0.1
+-- Generation Time: Apr 06, 2023 at 08:03 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Project`
+-- Database: `cs347_project`
 --
 
 -- --------------------------------------------------------
@@ -127,24 +127,25 @@ CREATE TABLE `user` (
   `Weight` int(11) DEFAULT NULL,
   `Date_Joined` date NOT NULL,
   `DOB` date NOT NULL,
-  `Gender` enum('Male','Female','Other') DEFAULT 'Other'
+  `Gender` enum('Male','Female','Other') DEFAULT 'Other',
+  `User_Type` enum('user','coach') DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `Email`, `Phone_Num`, `Password`, `Username`, `F_Name`, `L_Name`, `Height`, `Weight`, `Date_Joined`, `DOB`, `Gender`) VALUES
-(1, 'wellingto3@hotmail.com', '786-434-9833', 'pheX0baj8ae', 'blackcat444', 'Jose', 'Spencer', 71, 181, '2023-02-28', '1979-10-05', 'Male'),
-(2, 'captainAmerica@avengers.com', '540-332-2590', 'shield123', 'CaptA', 'Steve', 'Rodgers', 74, 245, '2023-02-28', '1920-07-04', 'Male'),
-(3, 'superman@hero.com', '234-987-9944', 'manosteel', 'superman', 'Clark', 'Kent', 72, 230, '2023-02-28', '1950-02-28', 'Male'),
-(4, 'SamGrant', '571-443-2281', 'fluffy124', 'SamGrant', 'Sam', 'Grant', 60, 105, '2023-02-28', '2001-04-19', 'Female'),
-(5, 'alexa2011@hotmail.com', '712-267-2916', 'Sparky7', 'HollyDSanders', 'Holly', 'Sanders', 61, 144, '2023-03-01', '1968-01-17', 'Female'),
-(6, 'cali1992@hotmail.com', '919-427-3925', 'Anita1', 'AnitaSChapman', 'Anita', 'Chapman', 65, 164, '2023-03-22', '1946-09-22', 'Female'),
-(7, 'fae1973@gmail.com', '267-968-4041', 'Banks55', 'BBanks', 'Brianne', 'Banks', 61, 111, '2023-03-24', '1993-07-24', 'Female'),
-(8, 'ethelyn.vo3@gmail.com', '270-903-2536', 'Ilovesports123', 'teranlie', 'Robert', 'Emmerich', 70, 233, '2023-03-15', '1984-03-30', 'Male'),
-(9, 'ida_hegman10@hotmail.com', '703-315-5844', 'Ohyoe4ULah', 'danielle.h1973', 'Charles', 'Clark', 69, 148, '2023-03-31', '1974-08-21', 'Male'),
-(10, 'sylvester1995@gmail.com', '330-553-9401', 'zooWai8d', 'JumpyWizard', 'Harold', 'Parrish', 73, 165, '2023-04-12', '1958-10-11', 'Male');
+INSERT INTO `user` (`user_id`, `Email`, `Phone_Num`, `Password`, `Username`, `F_Name`, `L_Name`, `Height`, `Weight`, `Date_Joined`, `DOB`, `Gender`, `User_Type`) VALUES
+(1, 'wellingto3@hotmail.com', '786-434-9833', 'pheX0baj8ae', 'blackcat444', 'Jose', 'Spencer', 71, 181, '2023-02-28', '1979-10-05', 'Male', 'user'),
+(2, 'captainAmerica@avengers.com', '540-332-2590', 'shield123', 'CaptA', 'Steve', 'Rodgers', 74, 245, '2023-02-28', '1920-07-04', 'Male', 'user'),
+(3, 'superman@hero.com', '234-987-9944', 'manosteel', 'superman', 'Clark', 'Kent', 72, 230, '2023-02-28', '1950-02-28', 'Male', 'user'),
+(4, 'SamGrant', '571-443-2281', 'fluffy124', 'SamGrant', 'Sam', 'Grant', 60, 105, '2023-02-28', '2001-04-19', 'Female', 'user'),
+(5, 'alexa2011@hotmail.com', '712-267-2916', 'Sparky7', 'HollyDSanders', 'Holly', 'Sanders', 61, 144, '2023-03-01', '1968-01-17', 'Female', 'user'),
+(6, 'cali1992@hotmail.com', '919-427-3925', 'Anita1', 'AnitaSChapman', 'Anita', 'Chapman', 65, 164, '2023-03-22', '1946-09-22', 'Female', 'user'),
+(7, 'fae1973@gmail.com', '267-968-4041', 'Banks55', 'BBanks', 'Brianne', 'Banks', 61, 111, '2023-03-24', '1993-07-24', 'Female', 'user'),
+(8, 'ethelyn.vo3@gmail.com', '270-903-2536', 'Ilovesports123', 'teranlie', 'Robert', 'Emmerich', 70, 233, '2023-03-15', '1984-03-30', 'Male', 'user'),
+(9, 'ida_hegman10@hotmail.com', '703-315-5844', 'Ohyoe4ULah', 'danielle.h1973', 'Charles', 'Clark', 69, 148, '2023-03-31', '1974-08-21', 'Male', 'user'),
+(10, 'sylvester1995@gmail.com', '330-553-9401', 'zooWai8d', 'JumpyWizard', 'Harold', 'Parrish', 73, 165, '2023-04-12', '1958-10-11', 'Male', 'user');
 
 --
 -- Indexes for dumped tables
