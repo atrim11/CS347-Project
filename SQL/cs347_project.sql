@@ -117,15 +117,15 @@ INSERT INTO `log_posts` (`post_id`, `user_id`, `workout`, `date`) VALUES
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
-  `Email` varchar(200) DEFAULT NULL,
-  `Phone_Num` varchar(15) NOT NULL,
+  `Email` varchar(200) NOT NULL,
+  `Phone_Num` varchar(15) DEFAULT NULL,
   `Password` varchar(200) NOT NULL,
   `Username` varchar(200) NOT NULL,
   `F_Name` varchar(255) DEFAULT NULL,
   `L_Name` varchar(200) DEFAULT NULL,
   `Height` int(11) DEFAULT NULL,
   `Weight` int(11) DEFAULT NULL,
-  `Date_Joined` date NOT NULL,
+  `Date_Joined` date DEFAULT NULL,
   `DOB` date NOT NULL,
   `Gender` enum('Male','Female','Other') DEFAULT 'Other',
   `User_Type` enum('user','coach') DEFAULT 'user'
