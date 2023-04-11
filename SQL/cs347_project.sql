@@ -125,8 +125,8 @@ CREATE TABLE `user` (
   `L_Name` varchar(200) DEFAULT NULL,
   `Height` int(11) DEFAULT NULL,
   `Weight` int(11) DEFAULT NULL,
-  `Date_Joined` date DEFAULT NULL,
-  `DOB` date NOT NULL,
+  `Date_Joined` date NOT NULL,
+  `DOB` date DEFAULT NULL,
   `Gender` enum('Male','Female','Other') DEFAULT 'Other',
   `User_Type` enum('user','coach') DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
