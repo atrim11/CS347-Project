@@ -9,23 +9,34 @@ if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
     } else {
-        $sql = "INSERT INTO user (Email, Password, Username, Date_Joined) VALUES (:Email, :Password, :Username, CURDATE())";
-        
-        // Prepare the SQL statement
-        $stmt = $conn->prepare($sql);
-
+        // Check if the email and username are unique
+        $check_unique = "SELECT * FROM user WHERE Email = :Email OR Username = :Username";
+        $check_stmt = $conn->prepare($check_unique);
         // Bind the parameters
-        $stmt->bindParam(':Email', $_POST["Email"]);
-        $stmt->bindParam(':Password', $_POST["Password"]);
-        $stmt->bindParam(':Username', $_POST["Username"]);
+        $check_stmt->bindParam(':Email', $_POST["Email"]);
+        $check_stmt->bindParam(':Username', $_POST["Username"]);
+        $check_stmt->execute();
 
-        // Execute the SQL statement
-        if ($stmt->execute()) {
-            function_alert("User successfully created!");
-            setcookie("user_name", $_POST["Username"], time()+3600);
-            header("location:feed.php");
+        // Check if the query returned any rows meaning the email or username already exists
+        if ($check_stmt->rowCount() > 0) {
+            function_alert("Email or Username already exists. Please try again.");
         } else {
-            function_alert("Error creating user. Please try again.");
+            $sql = "INSERT INTO user (Email, Password, Username) VALUES (:Email, :Password, :Username)";
+        
+            // Prepare the SQL statement
+            $stmt = $conn->prepare($sql);
+    
+            // Bind the parameters
+            $stmt->bindParam(':Email', $_POST["Email"]);
+            $stmt->bindParam(':Password', $_POST["Password"]);
+            $stmt->bindParam(':Username', $_POST["Username"]);
+    
+            // Execute the SQL statement
+            if ($stmt->execute()) {
+                function_alert("User successfully created!");
+                setcookie("user_name", $_POST["Username"], time()+3600);
+                header("location:feed.php");
+            }
         }
 
     }
