@@ -1,10 +1,6 @@
 <?php
 include("db_connection.php");
 
-if(isset($_COOKIE["Username"])) {
-    header("location:feed.php");
-}
-
 if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
@@ -21,6 +17,8 @@ if (isset($_POST["Sign_Up"])) {
         if ($check_stmt->rowCount() > 0) {
             function_alert("Email or Username already exists. Please try again.");
         } else {
+            // Hash the password
+            $hashed_password = password_hash($_POST["Password"], PASSWORD_DEFAULT);
             $sql = "INSERT INTO user (Email, Password, Username) VALUES (:Email, :Password, :Username)";
         
             // Prepare the SQL statement
@@ -28,7 +26,7 @@ if (isset($_POST["Sign_Up"])) {
     
             // Bind the parameters
             $stmt->bindParam(':Email', $_POST["Email"]);
-            $stmt->bindParam(':Password', $_POST["Password"]);
+            $stmt->bindParam(':Password', $hashed_password);
             $stmt->bindParam(':Username', $_POST["Username"]);
     
             // Execute the SQL statement

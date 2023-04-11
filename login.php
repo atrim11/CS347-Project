@@ -34,7 +34,7 @@ if(isset($_POST["login"]))
   } else {
     $result = $stmt->fetchAll();
     foreach($result as $row) {
-      if ($_POST['user_password'] == $row['Password']){ // if (password_verify($_POST['user_password'], $row['Password'])) {
+      if (password_verify($_POST['user_password'], $row['Password'])) {
         setcookie("user_name", $row['Username'], time()+3600);
         header("location:feed.php");
       } else {
