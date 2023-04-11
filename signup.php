@@ -32,6 +32,7 @@ if (isset($_POST["Sign_Up"])) {
                 function_alert("User successfully created!");
                 setcookie("user_name", $_POST["Username"], time()+3600);
                 header("location:feed.php");
+            }
         }
 
     }
