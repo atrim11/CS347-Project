@@ -5,7 +5,7 @@ if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
     } else {
-        $sql = "INSERT INTO user (Email, Password, Username) VALUES (:Email, :Password, :Username)";
+        $sql = "INSERT INTO user (Email, Password, Username, Date_Joined) VALUES (:Email, :Password, :Username, CURDATE())";
         
         // Prepare the SQL statement
         $stmt = $conn->prepare($sql);
