@@ -18,9 +18,12 @@ if (isset($_POST["Sign_Up"])) {
         // Execute the SQL statement
         if ($stmt->execute()) {
             function_alert("User successfully created!");
+            setcookie("user_name", $_POST["Username"], time()+3600);
+            header("location:feed.php");
         } else {
             function_alert("Error creating user. Please try again.");
         }
+
     }
 }
 
