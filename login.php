@@ -6,13 +6,13 @@ if(isset($_COOKIE["u_f_name"]))
  header("location:feed.php");
 }
 
-$message = '';
+$msg = '';
 
 if(isset($_POST["login"]))
 {
  if(empty($_POST["user_email"]) || empty($_POST["user_password"]))
  {
-  $message = "<div class='alert alert-danger'>Both Fields are required</div>";
+  $msg = "<div class='alert alert-danger'>Both Fields are required</div>";
  }
  else
  {
@@ -20,25 +20,25 @@ if(isset($_POST["login"]))
   SELECT * FROM user
   WHERE Email = :user_email
   ";
-  $statement = $connect->prepare($query);
-  $statement->execute(
+  $stmt = $conn->prepare($query);
+  $stmt->execute(
    array(
     'user_email' => $_POST["user_email"]
    )
   );
 
-  $count = $statement->rowCount();
+  $count = $stmt->rowCount();
 
   if($count == 0) {
-    $message = '<div class="alert alert-danger">Account With Email Does Not Exist</div>';
+    $msg = '<div class="alert alert-danger">Account With Email Does Not Exist</div>';
   } else {
-    $result = $statement->fetchAll();
+    $result = $stmt->fetchAll();
     foreach($result as $row) {
       if ($_POST['user_password'] == $row['Password']){ // if (password_verify($_POST['user_password'], $row['Password'])) {
         setcookie("u_f_name", $row['F_Name'], time()+3600);
         header("location:feed.php");
       } else {
-        $message = '<div class="alert alert-danger">Wrong Password</div>';
+        $msg = '<div class="alert alert-danger">Wrong Password</div>';
       }
     }
   }
@@ -131,7 +131,7 @@ if(isset($_POST["login"]))
             <div class="panel panel-default">         
              <div class="panel-heading">Login</div>
              <div class="panel-body">
-              <span><?php echo $message; ?></span>
+              <span><?php echo $msg; ?></span>
 
               <form method="post">
                <div class="form-group">

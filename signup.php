@@ -1,23 +1,34 @@
 <?php
 include("db_connection.php");
 
+if (isset($_POST["Sign_Up"])) {
+    if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
+        function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
+    } else {
+        $sql = "INSERT INTO user (Email, Password, Username) VALUES (:Email, :Password, :Username)";
+        
+        // Prepare the SQL statement
+        $stmt = $conn->prepare($sql);
 
-if (isset($_POST["Sign Up"])) {
-    if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"]) || empty($_POST["Phone_Num"])) {
-        function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" and \"Phone Number\" fields.");
-    }
-    else {
-        $sql = "INSERT INTO user (Email, Phone_Num, Password, Username, F_Name, 
-        L_Name, Date_Joined, DOB, Gender) VALUES (:Email, :Phone_Num, :Password, 
-        :Username, :F_Name, :L_Name, :Date_Joined, :DOB, :Gender";
+        // Bind the parameters
+        $stmt->bindParam(':Email', $_POST["Email"]);
+        $stmt->bindParam(':Password', $_POST["Password"]);
+        $stmt->bindParam(':Username', $_POST["Username"]);
+
+        // Execute the SQL statement
+        if ($stmt->execute()) {
+            function_alert("User successfully created!");
+        } else {
+            function_alert("Error creating user. Please try again.");
+        }
     }
 }
 
 function function_alert($msg) {
     echo "<script type='text/javascript'>alert('$msg');</script>";
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,36 +105,8 @@ function function_alert($msg) {
                     <input type="password" name="Password" id="Password" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" name="F_Name" id="F_Name" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" name="L_Name" id="L_Name" class="form-control">
-                </div>
-                <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="Email" id="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" name="Phone_Num" id="Phone_Num" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Date Of Birth</label>
-                    <input type="date" name="DOB" id="DOB" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Gender</label><br>
-
-                    <input type="radio" name="Gender" id="Male" value="Male">
-                    <label for="Male">Male</label><br>
-
-                    <input type="radio" name="Gender" id="Female" value="Female">
-                    <label for="Female">Female</label><br>
-
-                    <input type="radio" name="Gender" id="Other" value="Other">
-                    <label for="Other">Other</label><br>
                 </div>
                 <div class="form-group">
                     <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" class="btn btn-lg btn-primary">

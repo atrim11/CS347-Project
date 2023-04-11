@@ -12,7 +12,7 @@
 // }
 // echo "Connected successfully";
 
-// $connect = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
+$conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
 
 
 
