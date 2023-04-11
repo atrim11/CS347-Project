@@ -13,7 +13,7 @@
     <?php
        if(isset($_COOKIE["user_name"]))
        {
-        echo '<h2 align="center">Welcome '.htmlspecialchars($_COOKIE["u_f_name"]).'</h2>';
+        echo '<h2 align="center">Welcome '.htmlspecialchars($_COOKIE["user_name"]).'</h2>';
        }
     ?>
 </body>

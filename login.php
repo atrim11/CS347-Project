@@ -1,7 +1,7 @@
 <?php 
 include("db_connection.php");
 
-if(isset($_COOKIE["u_f_name"]))
+if(isset($_COOKIE["user_name"]))
 {
  header("location:feed.php");
 }

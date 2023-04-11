@@ -1,6 +1,10 @@
 <?php
 include("db_connection.php");
 
+if(isset($_COOKIE["Username"])) {
+    header("location:feed.php");
+}
+
 if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
