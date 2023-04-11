@@ -69,15 +69,6 @@ if(isset($_POST["login"]))
             flex-direction: column;
         }
 
-        input[type=text] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        } 
-
         img {
             position: relative;
             max-width: 100%;
@@ -89,6 +80,9 @@ if(isset($_POST["login"]))
             opacity: 0.8;
         }
 
+        .checkbox {
+          float: right;
+        }
     </style>
 </head>
 <body>
@@ -134,22 +128,45 @@ if(isset($_POST["login"]))
               <span><?php echo $msg; ?></span>
 
               <form method="post">
-               <div class="form-group">
-                <label>User Email</label>
-                <input type="text" name="user_email" id="user_email" class="form-control" />
-               </div>
-               <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="user_password" id="user_password" class="form-control" />
-               </div>
-               <div class="form-group">
-                <input type="submit" name="login" id="login" class="btn btn-lg btn-primary" value="Login" />
-               </div>
+
+                <div class="form-group">
+                  <label>User Email</label>
+                  <input type="text" name="user_email" id="user_email" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" name="user_password" id="user_password" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                  <a href="#">Forgot Password?</a>
+                  <label class="checkbox" >
+                    <input type="checkbox" value="show-password" id="show-password"> Show Password
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <input type="submit" name="login" id="login" class="btn btn-lg btn-primary" value="Login" />
+                </div>
+               
               </form>
              </div>
             </div>
     </main>
 </body>
+
+<script>
+  let show_password = document.getElementById("show-password");
+  show_password.onclick = function toggle_password_view() {
+      let password_box = document.getElementById("user_password");
+      if (password_box.type === "password") {
+          password_box.type = "text";
+      } else {
+          password_box.type = "password";
+      }
+  }
+</script>
 
 <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
