@@ -35,7 +35,7 @@ if(isset($_POST["login"]))
     $result = $stmt->fetchAll();
     foreach($result as $row) {
       if ($_POST['user_password'] == $row['Password']){ // if (password_verify($_POST['user_password'], $row['Password'])) {
-        setcookie("u_f_name", $row['F_Name'], time()+3600);
+        setcookie("user_name", $row['Username'], time()+3600);
         header("location:feed.php");
       } else {
         $msg = '<div class="alert alert-danger">Wrong Password</div>';

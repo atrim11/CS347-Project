@@ -11,7 +11,7 @@
         <a href="logout.php">Logout</a>
     </div>
     <?php
-       if(isset($_COOKIE["u_f_name"]))
+       if(isset($_COOKIE["user_name"]))
        {
         echo '<h2 align="center">Welcome '.htmlspecialchars($_COOKIE["u_f_name"]).'</h2>';
        }

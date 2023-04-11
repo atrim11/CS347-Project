@@ -8,6 +8,7 @@ if (isset($_POST["Sign_Up"])) {
         // Check if the email and username are unique
         $check_unique = "SELECT * FROM user WHERE Email = :Email OR Username = :Username";
         $check_stmt = $conn->prepare($check_unique);
+        // Bind the parameters
         $check_stmt->bindParam(':Email', $_POST["Email"]);
         $check_stmt->bindParam(':Username', $_POST["Username"]);
         $check_stmt->execute();
@@ -29,10 +30,10 @@ if (isset($_POST["Sign_Up"])) {
             // Execute the SQL statement
             if ($stmt->execute()) {
                 function_alert("User successfully created!");
-            } else {
-                function_alert("Error creating user. Please try again.");
-            }
+                setcookie("user_name", $_POST["Username"], time()+3600);
+                header("location:feed.php");
         }
+
     }
 }
 
