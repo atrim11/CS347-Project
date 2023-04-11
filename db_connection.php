@@ -1,16 +1,18 @@
 
 <?php
-$servername = "db5012579411.hosting-data.io";
-$username = "dbu486281";
-$password = "L@XXmwKtbZax6Gqo";
-$database = "dbs10574449";
-// create connection
-$conn = mysqli_connect($servername, $username, $password, $database);
-// check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-echo "Connected successfully";
+// $servername = "db5012579411.hosting-data.io";
+// $username = "dbu486281";
+// $password = "L@XXmwKtbZax6Gqo";
+// $database = "dbs10574449";
+// // create connection
+// $connect = mysqli_connect($servername, $username, $password, $database);
+// // check connection
+// if (!$connect) {
+//   die("Connection failed: " . mysqli_connect_error());
+// }
+// echo "Connected successfully";
+
+// $connect = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
 
 
 
