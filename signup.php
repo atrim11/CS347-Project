@@ -19,7 +19,7 @@ if (isset($_POST["Sign_Up"])) {
         } else {
             // Hash the password
             $hashed_password = password_hash($_POST["Password"], PASSWORD_DEFAULT);
-            $sql = "INSERT INTO user (Email, Password, Username) VALUES (:Email, :Password, :Username)";
+            $sql = "INSERT INTO user (Email, Password, Username, Date_Joined) VALUES (:Email, :Password, :Username, CURDATE())";
         
             // Prepare the SQL statement
             $stmt = $conn->prepare($sql);
