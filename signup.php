@@ -10,11 +10,14 @@ if (isset($_POST["Sign_Up"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
     } else {
         // Check if the email and username are unique
-        $check_unique = "SELECT * FROM user WHERE Email = :Email OR Username = :Username";
+        $check_unique = "SELECT * FROM user WHERE Email = ? OR Username = ?";
         $check_stmt = $conn->prepare($check_unique);
         // Bind the parameters
-        $check_stmt->bindParam(':Email', $_POST["Email"]);
-        $check_stmt->bindParam(':Username', $_POST["Username"]);
+        // $check_stmt->bindParam(':Email', $_POST["Email"]);
+        // $check_stmt->bindParam(':Username', $_POST["Username"]);
+        // $check_stmt->bindParam('ss', $_POST["Email"], $_POST["Username"]);
+        $check_stmt->bindParam(1, $_POST["Email"], PDO::PARAM_STR);
+        $check_stmt->bindParam(2, $_POST["Username"], PDO::PARAM_STR);
         $check_stmt->execute();
 
         // Check if the query returned any rows meaning the email or username already exists
@@ -23,15 +26,18 @@ if (isset($_POST["Sign_Up"])) {
         } else {
             // Hash the password
             $hashed_password = password_hash($_POST["Password"], PASSWORD_DEFAULT);
-            $sql = "INSERT INTO user (Email, Password, Username, Date_Joined) VALUES (:Email, :Password, :Username, CURDATE())";
+            $sql = "INSERT INTO user (Email, Password, Username, Date_Joined) VALUES (?, ?, ?, CURDATE())";
         
             // Prepare the SQL statement
             $stmt = $conn->prepare($sql);
     
             // Bind the parameters
-            $stmt->bindParam(':Email', $_POST["Email"]);
-            $stmt->bindParam(':Password', $hashed_password);
-            $stmt->bindParam(':Username', $_POST["Username"]);
+            // $stmt->bindParam(':Email', $_POST["Email"]);
+            // $stmt->bindParam(':Password', $hashed_password);
+            // $stmt->bindParam(':Username', $_POST["Username"]);
+            $stmt->bindParam(1, $_POST["Email"], PDO::PARAM_STR);
+            $stmt->bindParam(2, $hashed_password, PDO::PARAM_STR);
+            $stmt->bindParam(3, $_POST["Username"], PDO::PARAM_STR);
     
             // Execute the SQL statement
             if ($stmt->execute()) {
