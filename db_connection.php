@@ -1,16 +1,16 @@
-
 <?php
-$servername = "db5012579411.hosting-data.io";
-$username = "dbu486281";
-$password = "L@XXmwKtbZax6Gqo";
-$database = "dbs10574449";
-// create connection
-$connect = mysqli_connect($servername, $username, $password, $database);
-// check connection
-if (!$connect) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+  $host_name = 'db5012579411.hosting-data.io';
+  $database = 'dbs10574449';
+  $user_name = 'dbu486281';
+  $password = 'L@XXmwKtbZax6Gqo';
 
-//$conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
+  $link = new mysqli($host_name, $user_name, $password, $database);
 
+  if ($link->connect_error) {
+    die('<p>Failed to connect to MySQL: '. $link->connect_error .'</p>');
+  } else {
+    echo '<p>Connection to MySQL server successfully established.</p>';
+  }
+
+  //$conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
 ?>
