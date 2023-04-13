@@ -69,9 +69,9 @@ function function_alert($msg) {
 </head>
 <style>
     img {
-        position: relative;
-        max-width: 100vw;
-        max-height: 100%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     input[type="date"] {
