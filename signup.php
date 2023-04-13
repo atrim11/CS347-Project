@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("db_connection.php");
 
 if (isset($_COOKIE["user_name"])) {
@@ -42,8 +43,8 @@ if (isset($_POST["Sign_Up"])) {
             // Execute the SQL statement
             if ($stmt->execute()) {
                 function_alert("User successfully created!");
-                setcookie("user_name", $_POST["Username"], time()+3600, '/');
-                $_COOKIE['user_name'] = $_POST["Username"];
+                $_SESSION["user_name"] = $_POST["Username"];
+                //setcookie("user_name", $_POST["Username"], time()+3600);
                 echo "<script>window.location.href='feed.php';</script>";
                 //header("location:feed.php");
             }

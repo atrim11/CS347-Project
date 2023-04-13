@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // if (!isset($_COOKIE["user_name"])) {
     //     header("location:index.php");
     // }
@@ -25,10 +26,10 @@
     <?php
         include("navbar.php");
         echo "we have made it here";
-        if(isset($_COOKIE['user_name']))
+        if(isset($_SESSION['user_name']))
         {
           echo "the cookies are not sucking";
-          echo '<h2 align="center">Welcome '.htmlspecialchars($_COOKIE['user_name']).'</h2>';
+          echo '<h2 align="center">Welcome '.htmlspecialchars($_SESSION['user_name']).'</h2>';
         }
     ?>
 </body>
