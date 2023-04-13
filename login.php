@@ -35,7 +35,12 @@ if(isset($_POST["login"]))
     $result = $stmt->fetchAll();
     foreach($result as $row) {
       if (password_verify($_POST['user_password'], $row['Password'])) {
-        setcookie("user_name", $row['Username'], time()+3600);
+        $time = time()+3600;
+        if (!empty($_POST["remember-me"])) {
+          // Sets timeout to expire January 9, 2038
+          $time = 2147483647;
+        }
+        setcookie("user_name", $row['Username'], $time);
         header("location:feed.php");
       } else {
         $msg = '<div class="alert alert-danger">Wrong Password</div>';
@@ -87,35 +92,9 @@ if(isset($_POST["login"]))
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-          <a class="navbar-brand" href="#">FitNation</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link" href=".\index.html"
-                  >Home </a
-                >
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href=".\login.php">Login <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href=".\signup.php">Sign Up</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <?php
+          include("navbar.php");
+        ?>
     </header>
 
     <main role="main">
@@ -143,6 +122,12 @@ if(isset($_POST["login"]))
                   <a href="#">Forgot Password?</a>
                   <label class="checkbox" >
                     <input type="checkbox" value="show-password" id="show-password"> Show Password
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="checkbox">
+                    <input type="checkbox" value="remember-me" id="remember-me"> Remember Me
                   </label>
                 </div>
 

@@ -1,6 +1,10 @@
 <?php
 include("db_connection.php");
 
+if (isset($_COOKIE["user_name"])) {
+    header("location:feed.php");
+}
+
 if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
@@ -77,35 +81,9 @@ function function_alert($msg) {
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">FitNation</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarCollapse"
-                aria-controls="navbarCollapse"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href=".\index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=".\login.php">Login</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href=".\signup.php">Sign Up
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <?php
+            include("navbar.php");
+        ?>
     </header>
     <main role="main">
         <img src="Images/Cyan-Logo.png" alt="FitNation Logo with Cyan Background">

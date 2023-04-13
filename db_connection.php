@@ -11,6 +11,6 @@ if (!$connect) {
   die("Connection failed: " . mysqli_connect_error());
 }
 
-//$conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
+// $conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
 
 ?>
