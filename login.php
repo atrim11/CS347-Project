@@ -40,8 +40,9 @@ if(isset($_POST["login"]))
           // Sets timeout to expire January 9, 2038
           $time = 2147483647;
         }
-        setcookie("user_name", $row['Username'], $time);
-        header("location:feed.php");
+        setcookie("user_name", $row['Username'], $time, '/');
+        $_COOKIE['user_name'] = $_POST["Username"];
+        echo "<script>window.location.href='feed.php';</script>";
       } else {
         $msg = '<div class="alert alert-danger">Wrong Password</div>';
       }

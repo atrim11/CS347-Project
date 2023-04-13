@@ -42,8 +42,10 @@ if (isset($_POST["Sign_Up"])) {
             // Execute the SQL statement
             if ($stmt->execute()) {
                 function_alert("User successfully created!");
-                setcookie("user_name", $_POST["Username"], time()+3600);
-                header("location:feed.php");
+                setcookie("user_name", $_POST["Username"], time()+3600, '/');
+                $_COOKIE['user_name'] = $_POST["Username"];
+                echo "<script>window.location.href='feed.php';</script>";
+                //header("location:feed.php");
             }
         }
 

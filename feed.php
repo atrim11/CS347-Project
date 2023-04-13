@@ -1,8 +1,8 @@
 <?php
-    if (!isset($_COOKIE["user_name"])) {
-        header("location:index.php");
-    }
-?>
+    // if (!isset($_COOKIE["user_name"])) {
+    //     header("location:index.php");
+    // }
+?> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,10 +24,12 @@
 <body>
     <?php
         include("navbar.php");
-       if(isset($_COOKIE["user_name"]))
-       {
-        echo '<h2 align="center">Welcome '.htmlspecialchars($_COOKIE["user_name"]).'</h2>';
-       }
+        echo "we have made it here";
+        if(isset($_COOKIE['user_name']))
+        {
+          echo "the cookies are not sucking";
+          echo '<h2 align="center">Welcome '.htmlspecialchars($_COOKIE['user_name']).'</h2>';
+        }
     ?>
 </body>
 </html>
