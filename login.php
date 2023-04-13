@@ -1,6 +1,6 @@
 <?php 
 include("db_connection.php");
-
+session_start();
 if(isset($_COOKIE["user_name"]))
 {
  header("location:feed.php");
@@ -40,7 +40,14 @@ if(isset($_POST["login"]))
           // Sets timeout to expire January 9, 2038
           $time = 2147483647;
         }
+
+        $_SESSION['logged'] = 1;
+        $_SESSION['user'] = $_POST['user_name'];
+        $_SESSION['valid_user'] = 1;
+
         setcookie("user_name", $row['Username'], $time);
+        setcookie("active", 1, $time);
+        
         header("location:feed.php");
       } else {
         $msg = '<div class="alert alert-danger">Wrong Password</div>';

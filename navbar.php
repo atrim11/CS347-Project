@@ -34,7 +34,7 @@ if(isset($_COOKIE["user_name"])) {
 <html lang="en">
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="index.html">FitNation</a>
+    <a class="navbar-brand" href="index.php">FitNation</a>
     <button
         class="navbar-toggler"
         type="button"
