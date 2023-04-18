@@ -1,10 +1,10 @@
 <?php
+session_start();
 // $timeout = 1800;
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 include("db_connection.php");
 
-session_start();
 
 $display_posts = '';
 

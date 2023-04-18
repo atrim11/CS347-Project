@@ -1,9 +1,10 @@
 <?php 
+session_start();
 // $timeout = 1800;
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 
-session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
