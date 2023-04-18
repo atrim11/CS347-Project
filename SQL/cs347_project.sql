@@ -66,7 +66,8 @@ CREATE TABLE `log_posts` (
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `workout` text DEFAULT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `like_count` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
