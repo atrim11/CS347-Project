@@ -2,7 +2,7 @@
 
 $options = '';
 
-if(!isset($_SESSION["user_name"])) {
+if(!isset($_SESSION["active"])) {
     $options = "
         <ul class=\"navbar-nav mr-auto\">
             <li class=\"nav-item\">

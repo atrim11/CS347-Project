@@ -1,4 +1,8 @@
 <?php
+    // $timeout = 1800;
+    // ini_set("session.gc_maxlifetime", $timeout);
+    // ini_set("session.cookie_lifetime", $timeout);
+
     session_start();
 ?> 
 
@@ -30,7 +34,7 @@
 <body>
     <?php
         include("navbar.php");
-        if(isset($_SESSION['user_name']))
+        if(isset($_SESSION['active']))
         {
           echo '<h2 align="center">Welcome '.htmlspecialchars($_SESSION['user_name']).'</h2>';
         }

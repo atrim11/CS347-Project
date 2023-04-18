@@ -1,6 +1,10 @@
 <?php 
 include("db_connection.php");
+// $timeout = 1800;
+// ini_set("session.gc_maxlifetime", $timeout);
+// ini_set("session.cookie_lifetime", $timeout);
 session_start();
+
 if(isset($_SESSION["user_name"]))
 {
  header("location:feed.php");
@@ -41,14 +45,14 @@ if(isset($_POST["login"]))
           $time = 2147483647;
         }
 
-        $_SESSION['logged'] = 1;
-        $_SESSION['user'] = $_POST['user_name'];
-        $_SESSION['valid_user'] = 1;
+        // $_SESSION['logged'] = 1;
+        $_SESSION['user_name'] = $row['Username'];
+        $_SESSION['active'] = 1;
 
-        setcookie("user_name", $row['Username'], $time, '/');
-        setcookie("active", 1, $time);
+        // setcookie("user_name", $row['Username'], $time, '/');
+        // setcookie("active", 1, $time);
         
-        $_COOKIE['user_name'] = $_POST["Username"];
+        // $_COOKIE['user_name'] = $_POST["Username"];
         echo "<script>window.location.href='feed.php';</script>";
       } else {
         $msg = '<div class="alert alert-danger">Wrong Password</div>';
