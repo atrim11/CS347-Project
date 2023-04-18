@@ -183,14 +183,14 @@ a.list-group-item, .list-group-item-action {
 
 
 
-.comment {
+.post {
     display: block;
     position: relative;
     margin-bottom: 30px;
     padding-left: 66px
 }
 
-.comment .comment-author-ava {
+.post .post-author-ava {
     display: block;
     position: absolute;
     top: 0;
@@ -200,12 +200,12 @@ a.list-group-item, .list-group-item-action {
     overflow: hidden
 }
 
-.comment .comment-author-ava>img {
+.post .post-author-ava>img {
     display: block;
     width: 100%
 }
 
-.comment .comment-body {
+.post .post-body {
     position: relative;
     padding: 24px;
     border: 1px solid #e1e7ec;
@@ -213,50 +213,50 @@ a.list-group-item, .list-group-item-action {
     background-color: #fff
 }
 
-.comment .comment-body::after {
+.post .post-body::after {
     border-width: 9px;
     border-color: transparent;
     border-right-color: #fff
 }
 
-.comment .comment-body::before {
+.post .post-body::before {
     margin-top: -1px;
     border-width: 10px;
     border-color: transparent;
     border-right-color: #e1e7ec
 }
 
-.comment .comment-title {
+.post .post-title {
     margin-bottom: 8px;
     color: #606975;
     font-size: 14px;
     font-weight: 500
 }
 
-.comment .comment-text {
+.post .post-text {
     margin-bottom: 12px
 }
 
-.comment .comment-footer {
+.post .post-footer {
     display: table;
     width: 100%
 }
 
-.comment .comment-footer>.column {
+.post .post-footer>.column {
     display: table-cell;
     vertical-align: middle
 }
 
-.comment .comment-footer>.column:last-child {
+.post .post-footer>.column:last-child {
     text-align: right
 }
 
-.comment .comment-meta {
+.post .post-meta {
     color: #9da9b9;
     font-size: 13px
 }
 
-.comment .reply-link {
+.post .reply-link {
     transition: color .3s;
     color: #606975;
     font-size: 14px;
@@ -266,34 +266,34 @@ a.list-group-item, .list-group-item-action {
     text-decoration: none
 }
 
-.comment .reply-link>i {
+.post .reply-link>i {
     display: inline-block;
     margin-top: -3px;
     margin-right: 4px;
     vertical-align: middle
 }
 
-.comment .reply-link:hover {
+.post .reply-link:hover {
     color: #0da9ef
 }
 
-.comment.comment-reply {
+.post.post-reply {
     margin-top: 30px;
     margin-bottom: 0
 }
 
 @media (max-width: 576px) {
-    .comment {
+    .post {
         padding-left: 0
     }
-    .comment .comment-author-ava {
+    .post .post-author-ava {
         display: none
     }
-    .comment .comment-body {
+    .post .post-body {
         padding: 15px
     }
-    .comment .comment-body::before,
-    .comment .comment-body::after {
+    .post .post-body::before,
+    .post .post-body::after {
         display: none
     }
 }

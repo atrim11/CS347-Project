@@ -38,7 +38,16 @@
                 $stmt->execute();
                 $username = $stmt->fetch();
                 $display_comments = $display_comments . 
-                "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
+                "<div class='post'>
+                <div class='post-body'>
+                  <p class='post-text'>
+                    $comment[comment]
+                  </p>
+                  <div class='post-footer'>
+                    <span class='post-meta'>$username[Username]</span>
+                  </div>
+                </div>
+                </div>";
             }
         }
 
@@ -158,20 +167,6 @@
                       </table>
                   </div> -->
           <!-- Messages-->
-          <div class="comment">
-            <div class="comment-body">
-              <p class="comment-text">
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                dolores et quas molestias excepturi sint occaecati cupiditate
-                non provident, similique sunt in culpa qui officia deserunt
-                mollitia animi.
-              </p>
-              <div class="comment-footer">
-                <span class="comment-meta">Daniel Adams</span>
-              </div>
-            </div>
-          </div>
           <div class="comment">
             <div class="comment-body">
               <p class="comment-text">
