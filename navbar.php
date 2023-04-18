@@ -29,7 +29,7 @@ if(!isset($_SESSION["active"])) {
                 <a class=\"nav-link\" href=\".\logout.php\">Log Out</a>
             </li>
         </ul>
-        <a href=\".\Template.php\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>
+        <a href=\".\user.php\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>
     ";
 }
 

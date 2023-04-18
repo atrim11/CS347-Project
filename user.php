@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,7 +30,7 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <!-- <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="index.php">FitNation</a>
         <button
           class="navbar-toggler"
@@ -56,7 +59,10 @@
             <i class="fa-regular fa-user fa-xl" style="color: white"></i>
           </a>
         </div>
-      </nav>
+      </nav> -->
+      <?php
+        include("navbar.php");
+      ?>
     </header>
     <body>
       <div class="container">
