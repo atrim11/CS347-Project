@@ -52,7 +52,7 @@ foreach ($posts as $post) {
           <span class='post-meta'>$username[Username]</span>
         </div>
       </div>
-      </div> $display_comments";
+    </div>";
 }
 ?>
 
@@ -79,10 +79,10 @@ foreach ($posts as $post) {
 <body>
   <?php
   include("navbar.php");
-  if (isset($_SESSION['active'])) {
-    echo '<h2 align="center">Welcome ' . htmlspecialchars($_SESSION['user_name']) . '</h2>';
-    // echo $display_posts;
-  }
+  // if (isset($_SESSION['user_name'])) {
+  //   echo '<h2 align="center">Welcome ' . htmlspecialchars($_SESSION['user_name']) . '</h2>';
+  //   // echo $display_posts;
+  // }
   ?>
   <!-- parts of this code are from a template
       https://www.bootdey.com/snippets/view/shop-user-profile-with-ticket -->
@@ -93,7 +93,9 @@ foreach ($posts as $post) {
         <aside class="user-info-wrapper">
           <div class="user-info">
             <div class="user-data">
-              <h4>Aidan Trimmer</h4>
+              <?php 
+              echo '<h4>' . htmlspecialchars($_SESSION['user_name']) . '</h4>';
+              ?>
               <span>Joined February 06, 2017</span>
             </div>
           </div>
@@ -120,9 +122,7 @@ foreach ($posts as $post) {
       </div>
       <div class="col-lg-8">
         <?php
-        if (isset($_SESSION['active'])) {
-          echo $display_posts;
-        }
+        echo $display_posts;
         ?>
         <!-- <div class="comment">
             <div class="comment-body">
