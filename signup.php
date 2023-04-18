@@ -2,7 +2,7 @@
 session_start();
 include("db_connection.php");
 
-if (isset($_COOKIE["user_name"])) {
+if (isset($_SESSION["user_name"])) {
     header("location:feed.php");
 }
 

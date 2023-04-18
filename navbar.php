@@ -2,7 +2,7 @@
 
 $options = '';
 
-if(isset($_COOKIE["user_name"])) {
+if(!isset($_SESSION["user_name"])) {
     $options = "
         <ul class=\"navbar-nav mr-auto\">
             <li class=\"nav-item\">
@@ -23,13 +23,13 @@ if(isset($_COOKIE["user_name"])) {
                 <a class=\"nav-link\" href=\".\index.php\">Home</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\login.php\">Login</a>
+                <a class=\"nav-link\" href=\".\Feed.php\">Feed</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\signup.php\">Sign Up</a>
+                <a class=\"nav-link\" href=\".\logout.php\">Log Out</a>
             </li>
         </ul>
-        <a href=\"\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>
+        <a href=\".\Template.php\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>
     ";
 }
 
