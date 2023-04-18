@@ -167,7 +167,13 @@
                       </table>
                   </div> -->
           <!-- Messages-->
-          <div class="comment">
+        <?php
+        if(isset($_SESSION['active']))
+        {
+          echo $display_posts;
+        }
+        ?>
+          <!-- <div class="comment">
             <div class="comment-body">
               <p class="comment-text">
                 At vero eos et accusamus et iusto odio dignissimos ducimus qui
@@ -209,7 +215,7 @@
                 <span class="comment-meta">Jacob Hammond, Coach</span>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
