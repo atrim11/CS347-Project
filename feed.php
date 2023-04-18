@@ -38,7 +38,12 @@
                 $stmt->execute();
                 $username = $stmt->fetch();
                 $display_comments = $display_comments . 
-                "<div class='post'>
+                "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
+            }
+        }
+
+        $display_posts = $display_posts . 
+        "<div class='post'>
                 <div class='post-body'>
                   <p class='post-text'>
                     $comment[comment]
@@ -47,12 +52,7 @@
                     <span class='post-meta'>$username[Username]</span>
                   </div>
                 </div>
-                </div>";
-            }
-        }
-
-        $display_posts = $display_posts . 
-        "<div class='post'><a href='#'><h3>$username[Username]</h3></a><p>$log_post<br>" . 
+                </div>" . 
         $display_comments ."</p></div>";
     }
 ?> 
