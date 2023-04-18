@@ -39,5 +39,138 @@
           echo '<h2 align="center">Welcome '.htmlspecialchars($_SESSION['user_name']).'</h2>';
         }
     ?>
+     <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <div class="container padding-bottom-3x mb-2">
+      <div class="row">
+        <div class="col-lg-4" id="leftside">
+          <aside class="user-info-wrapper"> 
+            <div class="user-info">
+              <div class="user-data">
+                <h4>Aidan Trimmer</h4>
+                <span>Joined February 06, 2017</span>
+              </div>
+            </div>
+          </aside>
+          <nav class="list-group">
+            <a class="list-group-item" href="#"
+              ><i class="fa fa-user"></i>Profile</a
+            >
+            <a class="list-group-item with-badge" href="#"
+              ><i class="fa fa-th"></i>Workouts<span
+                class="badge badge-primary badge-pill"
+                >6</span
+              ></a
+            >
+            <a class="list-group-item" href="#"
+              ><i class="fa fa-th"></i>Suggested Workouts</a
+            >
+          </nav>
+          <!-- Reply Form-->
+          <h5 class="mb-30 padding-top-1x">Post Your Workout</h5>
+          <form method="post">
+            <div class="form-group">
+              <textarea
+                class="form-control form-control-rounded"
+                id="review_text"
+                rows="8"
+                placeholder="Write your message here..."
+                required=""
+              ></textarea>
+            </div>
+            <div class="text-right">
+              <button class="btn btn-outline-primary" type="submit">
+                Submit Workout
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-8">
+          <!-- <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+                  <div class="table-responsive margin-bottom-2x">
+                      <table class="table margin-bottom-none">
+                          <thead>
+                              <tr>
+                                  <th>Date Submitted</th>
+                                  <th>Last Updated</th>
+                                  <th>Type</th>
+                                  <th>Priority</th>
+                                  <th>Status</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>08/08/2017</td>
+                                  <td>08/14/2017</td>
+                                  <td>Website problem</td>
+                                  <td><span class="text-warning">High</span></td>
+                                  <td><span class="text-primary">Open</span></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div> -->
+          <!-- Messages-->
+          <div class="comment">
+            <div class="comment-body">
+              <p class="comment-text">
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                blanditiis praesentium voluptatum deleniti atque corrupti quos
+                dolores et quas molestias excepturi sint occaecati cupiditate
+                non provident, similique sunt in culpa qui officia deserunt
+                mollitia animi.
+              </p>
+              <div class="comment-footer">
+                <span class="comment-meta">Daniel Adams</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-body">
+              <p class="comment-text">
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                blanditiis praesentium voluptatum deleniti atque corrupti quos
+                dolores et quas molestias excepturi sint occaecati cupiditate
+                non provident, similique sunt in culpa qui officia deserunt
+                mollitia animi.
+              </p>
+              <div class="comment-footer">
+                <span class="comment-meta">Daniel Adams</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-body">
+              <p class="comment-text">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                accusantium doloremque laudantium, totam rem aperiam, eaque
+                ipsa quae ab illo inventore veritatis et quasi architecto
+                beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
+                quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur magni dolores eos qui ratione voluptatem sequi
+                nesciunt.
+              </p>
+              <div class="comment-footer">
+                <span class="comment-meta">Jacob Hammond, Coach</span>
+              </div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="comment-body">
+              <p class="comment-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <div class="comment-footer">
+                <span class="comment-meta">Jacob Hammond, Coach</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 </html>
