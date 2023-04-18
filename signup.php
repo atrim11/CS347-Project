@@ -82,9 +82,7 @@ function function_alert($msg) {
 </head>
 <style>
     img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
+        width: 100%;
     }
 
     input[type="date"] {

@@ -37,8 +37,8 @@ foreach ($posts as $post) {
       $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
       $stmt->execute();
       $username = $stmt->fetch();
-      $display_comments = $display_comments .
-        "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
+    //   $display_comments = $display_comments .
+        // "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
     }
   }
 
@@ -52,8 +52,7 @@ foreach ($posts as $post) {
           <span class='post-meta'>$username[Username]</span>
         </div>
       </div>
-      </div>" .
-    $display_comments . "</p></div>";
+      </div> $display_comments";
 }
 ?>
 
@@ -69,7 +68,7 @@ foreach ($posts as $post) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="feed.css" />
   <!-- Icon script -->
   <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
   <!-- Website Icon -->
@@ -82,8 +81,7 @@ foreach ($posts as $post) {
   include("navbar.php");
   if (isset($_SESSION['active'])) {
     echo '<h2 align="center">Welcome ' . htmlspecialchars($_SESSION['user_name']) . '</h2>';
-    echo '<p>Showing Latest Posts:</p>';
-    echo $display_posts;
+    // echo $display_posts;
   }
   ?>
   <!-- parts of this code are from a template
@@ -121,30 +119,6 @@ foreach ($posts as $post) {
         </form>
       </div>
       <div class="col-lg-8">
-        <!-- <div class="padding-top-2x mt-2 hidden-lg-up"></div>
-                  <div class="table-responsive margin-bottom-2x">
-                      <table class="table margin-bottom-none">
-                          <thead>
-                              <tr>
-                                  <th>Date Submitted</th>
-                                  <th>Last Updated</th>
-                                  <th>Type</th>
-                                  <th>Priority</th>
-                                  <th>Status</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>08/08/2017</td>
-                                  <td>08/14/2017</td>
-                                  <td>Website problem</td>
-                                  <td><span class="text-warning">High</span></td>
-                                  <td><span class="text-primary">Open</span></td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div> -->
-        <!-- Messages-->
         <?php
         if (isset($_SESSION['active'])) {
           echo $display_posts;
@@ -161,35 +135,6 @@ foreach ($posts as $post) {
               </p>
               <div class="comment-footer">
                 <span class="comment-meta">Daniel Adams</span>
-              </div>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-body">
-              <p class="comment-text">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque
-                ipsa quae ab illo inventore veritatis et quasi architecto
-                beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
-                quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione voluptatem sequi
-                nesciunt.
-              </p>
-              <div class="comment-footer">
-                <span class="comment-meta">Jacob Hammond, Coach</span>
-              </div>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-body">
-              <p class="comment-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <div class="comment-footer">
-                <span class="comment-meta">Jacob Hammond, Coach</span>
               </div>
             </div>
           </div> -->
