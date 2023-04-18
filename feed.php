@@ -2,8 +2,50 @@
     // $timeout = 1800;
     // ini_set("session.gc_maxlifetime", $timeout);
     // ini_set("session.cookie_lifetime", $timeout);
+    include("db_connection.php");
 
     session_start();
+
+    $display_posts = '';
+
+    $get_posts = "SELECT * FROM log_posts";
+    $stmt = $conn->prepare($get_posts);
+    $stmt->execute();
+    $posts = $stmt->fetchAll();
+    $posts = array_reverse($posts);
+
+    foreach ($posts as $post) {
+        $log_post = $post["workout"];
+
+        $get_user = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
+        $stmt = $conn->prepare($get_user);
+        $stmt->bindParam(1, $post["user_id"], PDO::PARAM_STR);
+        $stmt->execute();
+        $username = $stmt->fetch();
+
+        $get_comments = "SELECT * FROM comments WHERE post_id = ?";
+        $stmt = $conn->prepare($get_comments);
+        $stmt->bindParam(1, $post["post_id"], PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $display_comments = '';
+        if ($stmt->rowCount() > 0) {
+            $comments = $stmt->fetchAll();
+            foreach ($comments as $comment) {
+                $user_query = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
+                $stmt = $conn->prepare($user_query);
+                $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
+                $stmt->execute();
+                $username = $stmt->fetch();
+                $display_comments = $display_comments . 
+                "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
+            }
+        }
+
+        $display_posts = $display_posts . 
+        "<div class='post'><a href='#'><h3>$username[Username]</h3></a><p>$log_post<br>" . 
+        $display_comments ."</p></div>";
+    }
 ?> 
 
 <!DOCTYPE html>
@@ -37,6 +79,8 @@
         if(isset($_SESSION['active']))
         {
           echo '<h2 align="center">Welcome '.htmlspecialchars($_SESSION['user_name']).'</h2>';
+          echo '<p>Showing Latest Posts:</p>';
+          echo $display_posts;
         }
     ?>
 </body>
