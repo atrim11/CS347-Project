@@ -69,36 +69,48 @@ if(isset($_POST["login"]))
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Icon script -->
+    <!-- google fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
     <style>
-
+        .navbar-brand {
+            font-family: 'Anton', sans-serif;
+        } 
+    </style>
+    <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
+    <!-- Website Icon -->
+    <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
+    <title>FitNation Login</title>
+    <style>
         main {
             display: flex;
             align-items: center;
             flex-direction: column;
         }
-
         img {
             position: relative;
             max-width: 100%;
             max-height: 100%;
         }
-        
         /* Add a hover effect for buttons */
         button:hover {
             opacity: 0.8;
         }
-
         .checkbox {
           float: right;
         }

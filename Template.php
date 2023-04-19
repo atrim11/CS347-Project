@@ -23,6 +23,13 @@ session_start();
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
+    <!-- google fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
+    <style>
+        .navbar-brand {
+            font-family: 'Anton', sans-serif;
+        } 
+    </style>
     <!-- Icon script -->
     <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
     <!-- Website Icon -->

@@ -25,41 +25,22 @@ session_start();
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
+    <!-- google fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
+    <style>
+        h2 {
+            font-family: 'Anton', sans-serif;
+        }
+        .navbar-brand {
+            font-family: 'Anton', sans-serif;
+        } 
+    </style>
     <!-- Website Icon -->
     <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
     <title>FitNation</title>
   </head>
   <body>
     <header>
-      <!-- <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">FitNation</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#"
-                >Home <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href=".\login.php">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="signup.php">Sign Up</a>
-            </li>
-          </ul>
-        </div>
-      </nav> -->
       <?php
         include("navbar.php");
       ?>

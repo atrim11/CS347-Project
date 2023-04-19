@@ -69,6 +69,13 @@ foreach ($posts as $post) {
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
   <!-- Custom CSS -->
   <link rel="stylesheet" href="feed.css" />
+  <!-- google fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
+    <style>
+        .navbar-brand {
+            font-family: 'Anton', sans-serif;
+        } 
+    </style>
   <!-- Icon script -->
   <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
   <!-- Website Icon -->
