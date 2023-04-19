@@ -86,7 +86,7 @@ if(isset($_POST["login"]))
       crossorigin="anonymous"
     />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <!-- Icon script -->
     <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
     <!-- google fonts -->
