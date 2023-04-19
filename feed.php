@@ -130,7 +130,7 @@ foreach ($posts as $post) {
           </div>
         </form>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-8" id="feed">
         <?php
         echo $display_posts;
         ?>
