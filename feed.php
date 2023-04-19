@@ -50,12 +50,19 @@ foreach ($posts as $post) {
   $display_posts = $display_posts .
     "<div class='post'>
       <div class='post-body'>
+        <h6>$username[Username]</h6> 
         <p class='post-text'>
         $log_post
         </p>
         <div class='post-footer'>
-          <span class='post-meta'>$username[Username]</span>
-          <button class='btn btn-outline-primary' name='show_comments' style='float: right'>Show Comments</button>
+          <div class='post-footer-option'>
+            <!-- like count-->
+            <span>0</span>
+            <i class='fa-solid fa-heart fa-lg'></i>
+            <!-- Comment count-->
+            <span>0</span>  
+            <i class='fa-solid fa-message fa-lg'></i>
+          </div>
         </div>
       </div>
     </div>";
@@ -177,7 +184,7 @@ if (isset($_POST["submit_post"])) {
           </div>
         </form>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-8" id="feed">
         <?php
         echo $display_posts;
         ?>
