@@ -47,14 +47,14 @@ foreach ($posts as $post) {
   $display_posts = $display_posts .
     "<div class='post'>
       <div class='post-body'>
-        <h3>$username[Username]</h3> 
+        <h6>$username[Username]</h6> 
         <p class='post-text'>
         $log_post
         </p>
         <div class='post-footer'>
           <div class='post-footer-option'>
-            <i class='fa-solid fa-heart fa-xl'></i>
-            <i class='fa-solid fa-message fa-xl'></i>
+            <i class='fa-solid fa-heart fa-lg'></i>
+            <i class='fa-solid fa-message fa-lg'></i>
           </div>
         </div>
       </div>
