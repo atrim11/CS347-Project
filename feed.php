@@ -47,11 +47,19 @@ foreach ($posts as $post) {
   $display_posts = $display_posts .
     "<div class='post'>
       <div class='post-body'>
+        <h3>$username[Username]</h3> 
         <p class='post-text'>
         $log_post
         </p>
         <div class='post-footer'>
-          <span class='post-meta'>$username[Username]</span>
+          <div class='post-footer-option'>
+            <button type='button' class='btn btn-outline-primary' data-toggle='modal' data-target='#commentModal'>
+              Comment
+            </button>
+            <button type='button' class='btn btn-outline-primary' data-toggle='modal' data-target='#likeModal'>
+              Like
+            </button>
+          </div>
         </div>
       </div>
     </div>";
