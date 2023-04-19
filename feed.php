@@ -53,7 +53,11 @@ foreach ($posts as $post) {
         </p>
         <div class='post-footer'>
           <div class='post-footer-option'>
+            <!-- like count-->
+            <span>0</span>
             <i class='fa-solid fa-heart fa-lg'></i>
+            <!-- Comment count-->
+            <span>0</span>  
             <i class='fa-solid fa-message fa-lg'></i>
           </div>
         </div>
