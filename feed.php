@@ -53,12 +53,8 @@ foreach ($posts as $post) {
         </p>
         <div class='post-footer'>
           <div class='post-footer-option'>
-            <button type='button' class='btn btn-outline-primary' data-toggle='modal' data-target='#commentModal'>
-              Comment
-            </button>
-            <button type='button' class='btn btn-outline-primary' data-toggle='modal' data-target='#likeModal'>
-              Like
-            </button>
+            <i class='fa-solid fa-heart fa-xl'></i>
+            <i class='fa-solid fa-message fa-xl'></i>
           </div>
         </div>
       </div>
