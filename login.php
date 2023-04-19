@@ -49,6 +49,9 @@ if(isset($_POST["login"]))
 
         // $_SESSION['logged'] = 1;
         $_SESSION['user_name'] = $row['Username'];
+        $_Session['first_name'] = $row['F_Name'];
+        $_Session['last_name'] = $row['L_Name'];
+        $_SESSION['date_joined'] = $row['Date_Joined'];
         $_SESSION['active'] = 1;
 
         // setcookie("user_name", $row['Username'], $time, '/');
@@ -85,8 +88,9 @@ if(isset($_POST["login"]))
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
     <!-- Icon script -->
+    <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
     <!-- google fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
     <style>
         .navbar-brand {
             font-family: 'Anton', sans-serif;

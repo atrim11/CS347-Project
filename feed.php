@@ -14,6 +14,8 @@ $stmt->execute();
 $posts = $stmt->fetchAll();
 $posts = array_reverse($posts);
 
+
+
 foreach ($posts as $post) {
   $log_post = $post["workout"];
 
@@ -102,8 +104,9 @@ foreach ($posts as $post) {
             <div class="user-data">
               <?php 
               echo '<h4>' . htmlspecialchars($_SESSION['user_name']) . '</h4>';
+              echo '<span>Joined ' . $_SESSION['date_joined'] . '</span>';
               ?>
-              <span>Joined February 06, 2017</span>
+              <!-- <span>Joined February 06, 2017</span> -->
             </div>
           </div>
         </aside>
