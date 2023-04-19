@@ -5,6 +5,11 @@ session_start();
 // ini_set("session.cookie_lifetime", $timeout);
 include("db_connection.php");
 
+$get_current_user = "SELECT * FROM user WHERE Username = ? LIMIT 1";
+$stmt = $conn->prepare($get_current_user);
+$stmt->bindParam(1, $_SESSION["user_name"], PDO::PARAM_STR);
+$stmt->execute();
+$user_info = $stmt->fetch();
 
 $display_posts = '';
 
@@ -13,8 +18,6 @@ $stmt = $conn->prepare($get_posts);
 $stmt->execute();
 $posts = $stmt->fetchAll();
 $posts = array_reverse($posts);
-
-
 
 foreach ($posts as $post) {
   $log_post = $post["workout"];
@@ -52,10 +55,34 @@ foreach ($posts as $post) {
         </p>
         <div class='post-footer'>
           <span class='post-meta'>$username[Username]</span>
+          <button class='btn btn-outline-primary' name='show_comments' style='float: right'>Show Comments</button>
         </div>
       </div>
     </div>";
 }
+
+if (isset($_POST["submit_post"])) {
+    if (strlen($_POST["post_text"]) > 0) { 
+        $new_post = "INSERT INTO log_posts (user_id, workout, date) VALUES (?, ?, NOW())";
+        $stmt = $conn->prepare($new_post);
+        $stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
+        $stmt->bindParam(2, $_POST["post_text"], PDO::PARAM_STR);
+        if ($stmt->execute()) {
+            echo "<script type='text/javascript'>alert('Log post successfully created!');</script>";
+            unset($_POST["submit_post"]);
+        }
+    } else {
+        echo "<script type='text/javascript'>alert('You must enter text into the textbox to post!');</script";
+        unset($_POST["submit_post"]);
+    }
+}
+
+// echo isset($_POST["run"]);
+
+// if (isset($_POST["run"])) {
+//     echo "it worky!!!!";
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -82,6 +109,24 @@ foreach ($posts as $post) {
   <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
   <!-- Website Icon -->
   <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
+
+  <!-- Scripts for navbar collapse and some styling -->
+  <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
   <title>FitNation</title>
 </head>
 
@@ -103,8 +148,10 @@ foreach ($posts as $post) {
           <div class="user-info">
             <div class="user-data">
               <?php 
-              echo '<h4>' . htmlspecialchars($_SESSION['user_name']) . '</h4>';
-              echo '<span>Joined ' . $_SESSION['date_joined'] . '</span>';
+            //   echo '<h4>' . htmlspecialchars($_SESSION['user_name']) . '</h4>';
+            //   echo '<span>Joined ' . $_SESSION['date_joined'] . '</span>';
+                echo '<h4>' . htmlspecialchars($user_info['Username']) . '<h4>';
+                echo '<span>Joined ' . $user_info['Date_Joined'] . '</span>';
               ?>
               <!-- <span>Joined February 06, 2017</span> -->
             </div>
@@ -118,13 +165,13 @@ foreach ($posts as $post) {
         </nav>
         <!-- Reply Form-->
         <h5 class="mb-30 padding-top-1x">Post Your Workout</h5>
-        <form method="post">
+        <form id="post_form" method="post">
           <div class="form-group">
-            <textarea class="form-control form-control-rounded" id="review_text" rows="8"
+            <textarea class="form-control form-control-rounded" id="review_text" name="post_text" rows="8"
               placeholder="Write your message here..." required=""></textarea>
           </div>
           <div class="text-right">
-            <button class="btn btn-outline-primary" type="submit">
+            <button id="submit_post" name="submit_post" class="btn btn-outline-primary" type="submit">
               Submit Workout
             </button>
           </div>
@@ -151,6 +198,33 @@ foreach ($posts as $post) {
       </div>
     </div>
   </div>
+    <!-- <script>
+        form = document.getElementById("post_form");
+        log_post = document.getElementById("review_text");
+        form.onsubmit = (event) => {
+            // if (log_post.value.length > 0) {
+            //     // $.ajax({
+            //     //     type: "POST",
+            //     //     data: {run: true},
+            //     //     url: "feed.php",
+            //     //     success: function () {
+
+            //     //     }
+            //     // });
+            //     var xmlhttp = new XMLHttpRequest();
+            //     xmlhttp.open("POST", "feed.php", true);
+            //     xmlhttp.send("run=1");
+            //     console.log("hi!");
+            // } else {
+            //     alert("You must enter something into the text field to make a post.");
+            // }
+        };   
+    </script> -->
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </body>
 
 </html>

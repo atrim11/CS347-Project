@@ -5,8 +5,6 @@ include("db_connection.php");
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 
-
-
 if (isset($_SESSION["user_name"])) {
     header("location:feed.php");
 }
@@ -49,6 +47,7 @@ if (isset($_POST["Sign_Up"])) {
             if ($stmt->execute()) {
                 function_alert("User successfully created!");
                 $_SESSION["user_name"] = $_POST["Username"];
+                $_SESSION["active"] = 1;
                 //setcookie("user_name", $_POST["Username"], time()+3600);
                 echo "<script>window.location.href='feed.php';</script>";
                 //header("location:feed.php");
@@ -151,5 +150,10 @@ function function_alert($msg) {
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </body>
 </html>
