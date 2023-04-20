@@ -118,7 +118,7 @@ if (isset($_POST["submit_post"])) {
   <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
 
   <!-- Scripts for navbar collapse and some styling -->
-  <script
+    <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
@@ -168,7 +168,7 @@ if (isset($_POST["submit_post"])) {
           <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
           <a class="list-group-item with-badge" href="#"><i class="fa fa-th"></i>Workouts<span
               class="badge badge-primary badge-pill">6</span></a>
-          <a class="list-group-item" href="#"><i class="fa fa-th"></i>Suggested Workouts</a>
+          <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
         </nav>
         <!-- Reply Form-->
         <h5 class="mb-30 padding-top-1x">Post Your Workout</h5>
