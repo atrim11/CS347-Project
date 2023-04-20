@@ -9,7 +9,7 @@ if (isset($_SESSION["user_name"])) {
     header("location:feed.php");
 }
 
-if (isset($_POST["Sign_Up"])) {
+if (isset($_POST["Sign_Up"]) && $_POST["Sign_Up"] == TRUE) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
     } else {
@@ -100,8 +100,14 @@ function function_alert($msg) {
         width: 100%;
     }
 
-    input[type="date"] {
-        max-width: 250px;
+    .valid {
+        color: green;
+        background-color: rgba(36, 207, 147, 0.1);
+    }
+
+    .invalid {
+        color: red;
+        background-color: rgba(255, 49, 101, 0.1);
     }
 </style>
 
@@ -114,8 +120,7 @@ function function_alert($msg) {
     <main role="main">
         <img src="Images/Cyan-Logo.png" alt="FitNation Logo with Cyan Background">
         <div class="container">
-
-            <form method="post">
+            <form id="signup_form" method="post">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" name="Username" id="Username" class="form-control">
@@ -123,13 +128,21 @@ function function_alert($msg) {
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" name="Password" id="Password" class="form-control">
+                    <span id="password_message">
+                        <ul style="list-style-type: none">
+                            <li id="password_letter">Password contains at least <b>one letter</b>.</li>
+                            <li id="password_number">Password contains at least <b>one number</b>.</li>
+                            <li id="password_symbol">Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~`!@#$%^&*_:;",.?/</li>
+                            <li id="password_length">Password must be at least <b>7 characters</b> in length.</li>
+                        </ul>
+                    </span>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="Email" id="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" class="btn btn-lg btn-primary">
+                    <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" onsubmit="return submitPasswordValid();" class="btn btn-lg btn-primary">
                 </div>
             </form>
         </div>
@@ -154,6 +167,76 @@ function function_alert($msg) {
         if ( window.history.replaceState ) {
             window.history.replaceState( null, null, window.location.href );
         }
+    </script>
+    <!-- Password verifier 
+        Verifies that the password entered meets certain requirements.
+    -->
+    <script type="text/javascript">
+        var password = document.getElementById("Password");
+        password.oninput = function verifyPassword() {
+
+            var letter = document.getElementById("password_letter");
+            var number = document.getElementById("password_number");
+            var symbol = document.getElementById("password_symbol");
+            var length = document.getElementById("password_length");
+
+            var invalid = "&#x274C";
+            var valid = "&#x2713;";
+
+            var accepted_letters = /[a-zA-Z]/g;
+            if (password.value.match(accepted_letters)) {
+                letter.innerHTML = `${valid} Password contains at least <b>one letter</b>.`;
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+            } else {
+                letter.innerHTML = `${invalid} Password contains at least <b>one letter</b>.`;
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+            }
+
+            var accepted_numbers = /[1-9]/g;
+            if (password.value.match(accepted_numbers)) {
+                number.innerHTML = `${valid} Password contains at least <b>one number</b>.`;
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+            } else {
+                number.innerHTML = `${invalid} Password contains at least <b>one number</b>.`;
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+            }
+
+            var accepted_symbols = /[~`!@#\$%\^&\*_:;",.\?\/]/g;
+            if (password.value.match(accepted_symbols)) {
+                symbol.innerHTML = `${valid} Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~\`!@#$%^&*_:;",.?/`;
+                symbol.classList.remove("invalid");
+                symbol.classList.add("valid");
+            } else {
+                symbol.innerHTML = `${invalid} Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~\`!@#$%^&*_:;",.?/`;
+                symbol.classList.remove("valid");
+                symbol.classList.add("invalid");
+            }
+
+            if (password.value.length > 7) {
+                length.innerHTML = `${valid} Password must be at least <b>7 characters</b> in length.`;
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+            } else {
+                length.innerHTML = `${invalid} Password must be at least <b>7 characters</b> in length.`;
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+            }
+        }
+
+        // function submitPasswordValid () {
+        //     var letter = document.getElementById("password_letter");
+        //     var number = document.getElementById("password_number");
+        //     var symbol = document.getElementById("password_symbol");
+        //     var length = document.getElementById("password_length");
+
+        //     return letter.classList.contains("valid") && number.classList.contains("valid") &&
+        //         symbol.classList.contains("valid") && length.classList.contains("valid");
+        // }
+
     </script>
 </body>
 </html>
