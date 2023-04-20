@@ -1,5 +1,19 @@
 <?php
   session_start();
+  if (!isset($_SESSION["user_name"])) {
+    header("location:index.php");
+  } 
+
+  // $user_query = "
+  // SELECT * FROM user
+  // WHERE Username = ?
+  // ";
+
+  // $user_info = $conn->prepare($user_query);
+  // $user_info->bindParam(1, $_SESSION["user_name"]);
+  // $user_info->execute();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,41 +44,13 @@
   </head>
   <body>
     <header>
-      <!-- <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="index.php">FitNation</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href=".\index.php">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href=".\login.php">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href=".\signup.php">Sign Up</a>
-            </li>
-          </ul>
-          <a href="">
-            <i class="fa-regular fa-user fa-xl" style="color: white"></i>
-          </a>
-        </div>
-      </nav> -->
       <?php
         include("navbar.php");
       ?>
     </header>
     <body>
+      <br>
+      <br>
       <div class="container">
         <div class="main-body">
 
@@ -78,9 +64,22 @@
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
                         <i class="fa fa-user fa-2xl"></i>
                         <div class="mt-3">
-                          <h4>John Doe</h4>
-                          <p class="text-secondary mb-1">Join Date</p>
-                          <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                          <!-- User Name Display -->
+                          <h4>
+                            <?php
+                            echo $_SESSION["user_name"];
+                            ?>
+                          </h4>
+                          <p class="text-secondary mb-1">
+                            <!-- Displays Date Joined -->
+                            <?php 
+                            // echo $_SESSION["date_joined"];
+                            $date = date_create($_SESSION["date_joined"]);
+                            echo "Joined: ".date_format($date,"m/d/Y");
+                            ?>
+                            
+                          </p>
+                          <p class="text-muted font-size-sm">Athlete or Coach</p>
                         </div>
                       </div>
                     </div>
