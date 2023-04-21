@@ -53,7 +53,7 @@ if(isset($_POST["login"]))
         $_Session['last_name'] = $row['L_Name'];
         $_SESSION['date_joined'] = $row['Date_Joined'];
         $_SESSION['active'] = 1;
-
+        $_SESSION['user_id'] = $row['user_id'];
         // setcookie("user_name", $row['Username'], $time, '/');
         // setcookie("active", 1, $time);
         
