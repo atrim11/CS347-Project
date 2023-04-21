@@ -44,28 +44,47 @@ session_start();
     </header>
     <main>
     <div class="container">
-      <div class="row">
-        <div class="col">
-            <h2>workout catagory</h2>
+      <div class="row ">
+        <div class="col-lg-4">
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Arms
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" id="triceps">triceps</a>
+            <a class="dropdown-item" id="biceps">biceps</a>
+            <a class="dropdown-item" id="forearms">forearms</a>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Torso
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" id="chest">chest</a>
+            <a class="dropdown-item" id="lats">lats</a>
+            <a class="dropdown-item" id="abdominals">abdominals</a>
+            <a class="dropdown-item" id="middleback">middle Back</a>
+            <a class="dropdown-item" id="lowerback">lower Back</a>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Legs
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" id="glutes">glutes</a>
+            <a class="dropdown-item" id="hamstrings">hamstrings</a>
+            <a class="dropdown-item" id="quadriceps">quadriceps</a>
+            <a class="dropdown-item" id="calves">calves</a>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-4">
-          <h4>Name of workout</h4>
-        </div>
-        <div class="col-lg-4">
-          <h4>Equipment</h4>
-        </div>
-        <div class="col-lg-4">
-          <h4>Work Level</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-            <p>Instructions: </p>
-        </div>
-      </div>
+      <div id="workouts"></div>
     </div>
+        <!--  JavaScript -->
+    <script src="workout.js"></script>
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
