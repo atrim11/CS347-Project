@@ -120,7 +120,7 @@ function function_alert($msg) {
     <main role="main">
         <img src="Images/Cyan-Logo.png" alt="FitNation Logo with Cyan Background">
         <div class="container">
-            <form id="signup_form" method="post">
+            <form id="signup_form" method="post" onsubmit="return submitPasswordValid();">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" name="Username" id="Username" class="form-control">
@@ -142,7 +142,7 @@ function function_alert($msg) {
                     <input type="email" name="Email" id="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" onsubmit="return submitPasswordValid();" class="btn btn-lg btn-primary">
+                    <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" class="btn btn-lg btn-primary">
                 </div>
             </form>
         </div>
@@ -227,15 +227,26 @@ function function_alert($msg) {
             }
         }
 
-        // function submitPasswordValid () {
-        //     var letter = document.getElementById("password_letter");
-        //     var number = document.getElementById("password_number");
-        //     var symbol = document.getElementById("password_symbol");
-        //     var length = document.getElementById("password_length");
+        function submitPasswordValid() {
+            var letter = document.getElementById("password_letter");
+            var number = document.getElementById("password_number");
+            var symbol = document.getElementById("password_symbol");
+            var length = document.getElementById("password_length");
 
-        //     return letter.classList.contains("valid") && number.classList.contains("valid") &&
-        //         symbol.classList.contains("valid") && length.classList.contains("valid");
-        // }
+            console.log(letter.classList.contains("valid"));
+            console.log(number.classList.contains("valid"));
+            console.log(symbol.classList.contains("valid"));
+            console.log(length.classList.contains("valid"));
+
+            if (letter.classList.contains("valid") && number.classList.contains("valid") &&
+                symbol.classList.contains("valid") && length.classList.contains("valid")) {
+                return true;
+            } else {
+                // function_alert("Password doesn't meet the requirements.");
+                return false;
+            }
+        }
+
 
     </script>
 </body>
