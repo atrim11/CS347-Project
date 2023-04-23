@@ -22,7 +22,7 @@ session_start();
       crossorigin="anonymous"
     />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <!-- google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
     <style>

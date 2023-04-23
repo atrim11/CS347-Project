@@ -9,7 +9,7 @@ if (isset($_SESSION["user_name"])) {
     header("location:feed.php");
 }
 
-if (isset($_POST["Sign_Up"]) && $_POST["Sign_Up"] == TRUE) {
+if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
         function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
     } else {
@@ -53,7 +53,6 @@ if (isset($_POST["Sign_Up"]) && $_POST["Sign_Up"] == TRUE) {
                 //header("location:feed.php");
             }
         }
-
     }
 }
 
@@ -96,8 +95,28 @@ function function_alert($msg) {
 
 </head>
 <style>
+    main {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    /* .img_container {
+        position: relative;
+        max-height: 400px;
+        max-width: 100%;
+    } */
+    /* img {
+        max-height: 250px;
+        max-width: 100%;
+        object-fit: fill;
+    } */
+    .img_container {
+        max-width: 900px;
+        overflow: hidden;
+    }
     img {
         width: 100%;
+        object-fit: contain;
     }
 
     .valid {
@@ -118,7 +137,9 @@ function function_alert($msg) {
         ?>
     </header>
     <main role="main">
-        <img src="Images/Cyan-Logo.png" alt="FitNation Logo with Cyan Background">
+        <div class="img_container">
+            <img src="Images/Purple-Logo.png" alt="FitNation Logo with Purple Background">
+        </div>
         <div class="container">
             <form id="signup_form" method="post" onsubmit="return submitPasswordValid();">
                 <div class="form-group">
@@ -242,7 +263,7 @@ function function_alert($msg) {
                 symbol.classList.contains("valid") && length.classList.contains("valid")) {
                 return true;
             } else {
-                // function_alert("Password doesn't meet the requirements.");
+                alert("Password doesn't meet the requirements. Please type a password that meets them and try again.");
                 return false;
             }
         }
