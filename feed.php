@@ -47,9 +47,9 @@ foreach ($posts as $post) {
     }
   }
 
-  $display_posts = $display_posts .
+  $display_posts = $display_posts . 
     "<div class='post'>
-      <div class='post-body'>
+      <div class='post-body' id='post_$post[post_id]'>
         <h6>$username[Username]</h6> 
         <p class='post-text'>
         $log_post
@@ -58,15 +58,16 @@ foreach ($posts as $post) {
           <div class='post-footer-option'>
             <!-- like count-->
             <span>0</span>
-            <i class='fa-solid fa-heart fa-lg'></i>
+            <button class='btn' id='like_$post[post_id]'><i class='fa-solid fa-heart fa-lg'></i></button>
             <!-- Comment count-->
             <span>0</span>  
-            <i class='fa-solid fa-message fa-lg'></i>
+            <button class='btn' id='comment_$post[post_id]'><i class='fa-solid fa-message fa-lg'></i></button>
           </div>
         </div>
       </div>
     </div>";
 }
+
 
 if (isset($_POST["submit_post"])) {
     if (strlen($_POST["post_text"]) > 0) { 
@@ -84,11 +85,20 @@ if (isset($_POST["submit_post"])) {
     }
 }
 
-// echo isset($_POST["run"]);
-
-// if (isset($_POST["run"])) {
-//     echo "it worky!!!!";
+// EITHER OF THE BELOW SHOULD WORK IF IT'S WORKING PROPERLY. 
+// $data = json_decode(file_get_contents('php://input'), true);
+// if (isset($_POST["foo"])) {
+    // print_r($_POST);
+    // echo "<script>console.log('foo is set');</script>";
+    // if ($_POST["foo"] == "bar") {
+        // echo "<script>console.log('bar has been found');</script>";
+    // }
 // }
+if (array_key_exists('foo', $_POST)) {
+    $bar = $_POST['foo'];
+    echo json_encode('IT WORKS!');
+    echo $bar;
+}
 
 ?>
 
@@ -205,32 +215,44 @@ if (isset($_POST["submit_post"])) {
       </div>
     </div>
   </div>
-    <!-- <script>
-        form = document.getElementById("post_form");
-        log_post = document.getElementById("review_text");
-        form.onsubmit = (event) => {
-            // if (log_post.value.length > 0) {
-            //     // $.ajax({
-            //     //     type: "POST",
-            //     //     data: {run: true},
-            //     //     url: "feed.php",
-            //     //     success: function () {
-
-            //     //     }
-            //     // });
-            //     var xmlhttp = new XMLHttpRequest();
-            //     xmlhttp.open("POST", "feed.php", true);
-            //     xmlhttp.send("run=1");
-            //     console.log("hi!");
-            // } else {
-            //     alert("You must enter something into the text field to make a post.");
-            // }
-        };   
-    </script> -->
     <script>
         if ( window.history.replaceState ) {
             window.history.replaceState( null, null, window.location.href );
         }
+    </script>
+    <script>
+        // Event Listener for clicking on different profiles or 
+        // buttons or whatever have you. Detects clicks properly,
+        // but comment part does not work.
+        document.addEventListener('click', function(e)
+        {
+            console.log(e.target);
+            if(e.target && (/comment_/.test(e.target.id) || /comment_/.test(e.target.parentNode.id))) {
+                console.log("this is comment");
+                // var test = {};
+                // test["foo"] = "bar";
+                console.log(window.location);
+                var url = window.location.pathname;
+                // const encoded = new URLSearchParams(Object.entries(test)).toString();
+                const http = new XMLHttpRequest();
+                http.open("POST", url, true);
+                http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                        console.log("ALERT: IT WORKY");
+                    }
+                }
+                // let data = JSON.stringify({"foo": "bar"});
+                // http.send(data);
+                // http.send(encoded);
+                http.send('foo=' + 'bar');
+            } else if (e.target && (/like_/.test(e.target.id) || /like_/.test(e.target.parentNode.id))) {
+              console.log("this is like");
+            } else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
+              console.log("this is post");
+            }
+        });
     </script>
 </body>
 

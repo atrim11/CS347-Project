@@ -11,7 +11,7 @@ if (isset($_SESSION["user_name"])) {
 
 if (isset($_POST["Sign_Up"])) {
     if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
-        function_alert("You must input something in to the \"Username\", \"Password\", \"Email\" fields.");
+        function_alert("You must input something in to the \"Username\", \"Password\", and \"Email\" fields.");
     } else {
         // Check if the email and username are unique
         $check_unique = "SELECT * FROM user WHERE Email = ? OR Username = ?";
@@ -215,7 +215,7 @@ function function_alert($msg) {
                 letter.classList.add("invalid");
             }
 
-            var accepted_numbers = /[1-9]/g;
+            var accepted_numbers = /[0-9]/g;
             if (password.value.match(accepted_numbers)) {
                 number.innerHTML = `${valid} Password contains at least <b>one number</b>.`;
                 number.classList.remove("invalid");
