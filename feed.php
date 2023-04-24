@@ -33,19 +33,22 @@ foreach ($posts as $post) {
   $stmt->bindParam(1, $post["post_id"], PDO::PARAM_INT);
   $stmt->execute();
 
-  $display_comments = '';
-  if ($stmt->rowCount() > 0) {
-    $comments = $stmt->fetchAll();
-    foreach ($comments as $comment) {
-      $user_query = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
-      $stmt = $conn->prepare($user_query);
-      $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
-      $stmt->execute();
-      $username = $stmt->fetch();
-    //   $display_comments = $display_comments .
-        // "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
-    }
-  }
+  //IF YOU ARE GOING TO UNCOMMENT THIS, USE A DIFFERENT VARIABLE THAN $username.
+  //IT WILL OVERWRITE THE USERNAME OF THE POSTER OTHERWISE.
+  
+  // $display_comments = '';
+  // if ($stmt->rowCount() > 0) {
+  //   $comments = $stmt->fetchAll();
+  //   foreach ($comments as $comment) {
+  //     $user_query = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
+  //     $stmt = $conn->prepare($user_query);
+  //     $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
+  //     $stmt->execute();
+  //     $username = $stmt->fetch();
+  //   //   $display_comments = $display_comments .
+  //       // "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
+  //   }
+  // }
 
   // Comment count
   $comment_count = $stmt->rowCount();
