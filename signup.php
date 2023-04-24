@@ -16,8 +16,10 @@ if (isset($_POST["Sign_Up"])) {
         $char = "/[a-zA-Z]/";
         $num = "/[0-9]/";
         $symbol = "/[~`!@#\$%^&*_:;\",.?\/]/";
+        $not_allowed_symbol = "/[<>[]\\'()\+-={}]/";
         if (strlen($_POST["Password"]) > 7 && preg_match($char, $_POST["Password"]) 
-            && preg_match($num, $_POST["Password"]) && preg_match($symbol, $_POST["Password"])) {
+            && preg_match($num, $_POST["Password"]) && preg_match($symbol, $_POST["Password"])
+            && !preg_match($not_allowed_symbol, $_POST["Password"])) {
             // Check if the email and username are unique
             $check_unique = "SELECT * FROM user WHERE Email = ? OR Username = ?";
             $check_stmt = $conn->prepare($check_unique);
@@ -154,7 +156,7 @@ function function_alert($msg) {
                         <ul style="list-style-type: none">
                             <li id="password_letter">Password contains at least <b>one letter</b>.</li>
                             <li id="password_number">Password contains at least <b>one number</b>.</li>
-                            <li id="password_symbol">Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~`!@#$%^&*_:;",.?/</li>
+                            <li id="password_symbol">Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~`!@#$%^&*_:;",.?/<br>Not Allowed Symbols: <>[]'()\+-={}</li>
                             <li id="password_length">Password must be at least <b>7 characters</b> in length.</li>
                         </ul>
                     </span>
@@ -228,12 +230,13 @@ function function_alert($msg) {
             }
 
             var accepted_symbols = /[~`!@#\$%\^&\*_:;",.\?\/]/g;
-            if (password.value.match(accepted_symbols)) {
-                symbol.innerHTML = `${valid} Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~\`!@#$%^&*_:;",.?/`;
+            var not_accepted = /[<>\[\]\\'\(\)\-\+\=\{\}]/g;
+            if (password.value.match(accepted_symbols) && !password.value.match(not_accepted)) {
+                symbol.innerHTML = `${valid} Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~\`!@#$%^&*_:;",.?/<br>Not Allowed Symbols: <>[]'()\+-={}`;
                 symbol.classList.remove("invalid");
                 symbol.classList.add("valid");
             } else {
-                symbol.innerHTML = `${invalid} Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~\`!@#$%^&*_:;",.?/`;
+                symbol.innerHTML = `${invalid} Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~\`!@#$%^&*_:;",.?/<br>Not Allowed Symbols: <>[]'()\+-={}`;
                 symbol.classList.remove("valid");
                 symbol.classList.add("invalid");
             }
