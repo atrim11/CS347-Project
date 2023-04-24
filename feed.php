@@ -47,6 +47,9 @@ foreach ($posts as $post) {
     }
   }
 
+  // Comment count
+  $comment_count = $stmt->rowCount();
+
   $display_posts = $display_posts . 
     "<div class='post'>
       <div class='post-body' id='post_$post[post_id]'>
@@ -60,7 +63,7 @@ foreach ($posts as $post) {
             <span>0</span>
             <button class='btn' id='like_$post[post_id]'><i class='fa-solid fa-heart fa-lg'></i></button>
             <!-- Comment count-->
-            <span>0</span>  
+            <span>$comment_count</span>  
             <button class='btn' id='comment_$post[post_id]'><i class='fa-solid fa-message fa-lg'></i></button>
           </div>
         </div>
@@ -224,35 +227,17 @@ if (array_key_exists('foo', $_POST)) {
         // Event Listener for clicking on different profiles or 
         // buttons or whatever have you. Detects clicks properly,
         // but comment part does not work.
-        document.addEventListener('click', function(e)
-        {
-            console.log(e.target);
-            if(e.target && (/comment_/.test(e.target.id) || /comment_/.test(e.target.parentNode.id))) {
-                console.log("this is comment");
-                // var test = {};
-                // test["foo"] = "bar";
-                console.log(window.location);
-                var url = window.location.pathname;
-                // const encoded = new URLSearchParams(Object.entries(test)).toString();
-                const http = new XMLHttpRequest();
-                http.open("POST", url, true);
-                http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                
-                http.onreadystatechange = function() {
-                    if (http.readyState == 4 && http.status == 200) {
-                        console.log("ALERT: IT WORKY");
-                    }
-                }
-                // let data = JSON.stringify({"foo": "bar"});
-                // http.send(data);
-                // http.send(encoded);
-                http.send('foo=' + 'bar');
-            } else if (e.target && (/like_/.test(e.target.id) || /like_/.test(e.target.parentNode.id))) {
-              console.log("this is like");
-            } else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
-              console.log("this is post");
-            }
-        });
+        document.addEventListener('click', function(e) {
+              if(e.target && (/comment_/.test(e.target.id) || /comment_/.test(e.target.parentNode.id))) {
+                  let postId = e.target.id.split('_')[1] || e.target.parentNode.id.split('_')[1];
+                  window.open(`post_details.php?post_id=${postId}`, '_blank');
+              } else if (e.target && (/like_/.test(e.target.id) || /like_/.test(e.target.parentNode.id))) {
+                  console.log("this is like");
+              } else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
+                  console.log("this is post");
+              }
+          });
+
     </script>
 </body>
 
