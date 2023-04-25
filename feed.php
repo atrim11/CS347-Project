@@ -202,7 +202,7 @@ else if (isset($_POST["unlike"])) {
   <div class="container padding-bottom-3x mb-2">
     <div class="row">
       <div class="col-lg-4" id="leftside">
-        <aside class="user-info-wrapper">
+        <aside class="user-info-wrapper" style="background-color: #7768AE">
           <div class="user-info">
             <div class="user-data">
               <?php 
