@@ -24,25 +24,19 @@ async function getAbs() {
       contentType: "application/json",
     }
   );
-  abdominals = await abdominals.json();
-  for (var i = 0; i < abdominals.length; i++) { 
+  var temp = await abdominals.json();
+  for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${abdominals[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${abdominals[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${abdominals[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${abdominals[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -60,22 +54,16 @@ async function getBiceps() {
   var temp = await biceps.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -93,22 +81,16 @@ async function getCalves() {
   var temp = await calves.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -126,22 +108,16 @@ async function getChest() {
   var temp = await chest.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -159,22 +135,16 @@ async function getForearms() {
   var temp = await forearms.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -192,22 +162,16 @@ async function getGlutes() {
   var temp = await glutes.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -225,22 +189,16 @@ async function getHamstrings() {
   var temp = await hamstrings.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -258,22 +216,16 @@ async function getLats() {
   var temp = await lats.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -291,22 +243,16 @@ async function getLowerBack() {
   var temp = await lowerBack.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -324,22 +270,16 @@ async function getMiddleBack() {
   var temp = await middleBack.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -357,22 +297,16 @@ async function getQuadriceps() {
   var temp = await quadriceps.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -391,22 +325,16 @@ async function getTraps() {
   var temp = await traps.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -423,22 +351,16 @@ async function getTriceps() {
   var temp = await triceps.json();
   for (var i = 0; i < temp.length; i++) { 
     exercise = `
-    <div class="row">
-        <div class="col-lg-4">
-        <h4>${temp[i].name}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].equipment}</h4>
-        </div>
-        <div class="col-lg-4">
-        <h4>${temp[i].difficulty}</h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+      ${temp[i].name}
+      </div>
+    <div class="card-body">
+      <h5 class="card-title">${temp[i].equipment} - ${temp[i].difficulty}</h5>
+      <p class="card-text">${temp[i].instructions}</p>
     </div>
-    <div class="row">
-    <div class="col">
-        <p>Instructions: ${temp[i].instructions}</p>
     </div>
-    </div>`;
+    <br>`;
      document.getElementById("workouts").innerHTML += exercise;
   } 
 }
@@ -492,5 +414,8 @@ document.getElementById("triceps").addEventListener("click", e => {
   document.getElementById("workouts").innerHTML = "";
   getTriceps();
 });
-
+document.getElementById("traps").addEventListener("click", e => {
+  document.getElementById("workouts").innerHTML = "";
+  getTraps();
+});
 
