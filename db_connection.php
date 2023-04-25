@@ -12,5 +12,5 @@
     echo "Error!:" . $e->getMessage() . "<br/>";
     die();
   }
-  //$conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
+  // $conn = new PDO("mysql:host=localhost;dbname=cs347_project", "root", "");
 ?>
