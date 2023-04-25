@@ -5,14 +5,32 @@
   } 
   include("db_connection.php");
 
-  // $user_query = "
-  // SELECT * FROM user
-  // WHERE Username = ?
-  // ";
+  if(isset($_POST['liked'])) {
 
-  // $user_info = $conn->prepare($user_query);
-  // $user_info->bindParam(1, $_SESSION["user_name"]);
-  // $user_info->execute();
+    $create_new_like = $conn->prepare("
+    INSERT INTO likes (user_id, post_id, date_time)
+    VALUES (?, ?, NOW())
+    ");
+    $create_new_like->bindParam(1, $_SESSION["user_id"]);
+    $create_new_like->bindParam(2, $_POST['postid']);
+    $create_new_like->execute();
+    exit();
+
+  }
+
+  if(isset($_POST["unliked"])) {
+
+    $q = $conn->prepare("
+    DELETE FROM likes 
+    WHERE post_id = ? and user_id = ?
+    ");
+    $q->bindParam(1, $_POST["postid"]);
+    $q->bindParam(2, $_SESSION["user_id"]);
+    $q->execute();
+    exit();
+
+  }
+
 
 
 ?>
@@ -36,6 +54,23 @@
     <link rel="stylesheet" href="css/style.css" />
     <!-- <link rel="stylesheet" href="css/feed.css">  -->
     <style>
+      .like {
+        color: gray;
+      }
+
+      .like:hover {
+        color: red;
+      } 
+      
+      .unlike {
+        color:red;
+      }
+
+      .unlike:hover {
+        color: gray;
+      } 
+      
+
       .post {
           display: block;
           position: relative;
@@ -265,6 +300,7 @@
 
                       <!-- iterates through posts of a user and creates them -->
                       <?php
+
                         $post_query = "
                         SELECT * FROM log_posts
                         WHERE user_id = ?
@@ -280,31 +316,59 @@
                           echo "<p>No Posts Yet</p>";
                         } else {
                           $result = $posts->fetchAll();
-                          $posts_from_user = "";
-                          foreach ($result as $row) {
-                            $posts_from_user = $posts_from_user.
-                            "
-                              <div class='post'>
-                                <div class='post-body'>
-                                  <h6>".$_SESSION["user_name"]."</h6> 
-                                  <p class='post-text'>
-                                  ".$row["workout"]."
-                                  </p>
-                                  <div class='post-footer'>
-                                    <div class='post-footer-option'>
-                                      <!-- like count-->
-                                      <span>0</span>
-                                      <i class='fa-solid fa-heart fa-lg'></i>
-                                      <!-- Comment count-->
-                                      <span>0</span>  
-                                      <i class='fa-solid fa-message fa-lg'></i>
-                                    </div>
+                          foreach($result as $row) { ?>
+                            <div class='post'>
+                              <div class='post-body'>
+                                <h6><?php echo $_SESSION['user_name']?></h6> 
+                                <p class='post-text'>
+                                <?php echo $row["workout"]?>
+                                </p>
+                                <div class='post-footer'>
+                                  <div class='post-footer-option'>
+                                    <!-- like count-->
+                                    <?php 
+                                    $all_entries_for_likes = $conn->prepare("
+                                    SELECT * FROM likes
+                                    where post_id = ?
+                                    ");
+                                    $all_entries_for_likes->bindParam(1, $row["post_id"]);
+                                    $all_entries_for_likes->execute();
+                                    ?>
+                                    <span id="like-count-for-<?php echo$row["post_id"]?>"><?php echo $all_entries_for_likes->rowCount() ?></span>
+                                    <?php
+
+                                    // determine if user has already liked the post
+                                    $query = $conn->prepare("
+                                    SELECT * FROM likes
+                                    where user_id = ? AND post_id = ?
+                                    ");
+                                    $query->bindParam(1, $_SESSION["user_id"]);
+                                    $query->bindParam(2, $row["post_id"]);
+                                    $query->execute();
+                                    $unique_count = $query->rowCount();
+                                  
+                                    if ($unique_count > 0) {
+                                      // user has liked the post?>
+                                      <i class='unlike fa-solid fa-heart fa-lg liker' id="<?php echo $row["post_id"]?>" ></i>
+                                    <?php
+                                    } else {
+                                      // user has not liked the post
+                                    ?>
+                                      <i class='like fa-solid fa-heart fa-lg liker' id="<?php echo $row["post_id"]?>" ></i>
+                                    <?php
+                                    }
+                                    ?>
+
+                                    <!-- Comment count-->
+                                    <span>0</span>  
+                                    <i class='fa-solid fa-message fa-lg'></i>
                                   </div>
                                 </div>
                               </div>
-                            "; 
+                            </div>
+                          <?php
                           }
-                          echo $posts_from_user;
+
                         }
 
                       ?> 
@@ -317,12 +381,10 @@
         </div>
     </body>
     <!-- Optional JavaScript -->
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -333,5 +395,53 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script>
+      
+      // user clicks on like
+      $(document).ready(function() {
+        $('.liker').click(function(){
+          var postid = $(this).attr('id');
+          if ($(this).hasClass("like")) {
+            $(this).addClass("unlike");
+            $(this).removeClass("like");
+            id = "like-count-for-"+$(this).attr('id');
+            like_count_elem = document.getElementById(id)
+            like_count_elem.innerText = parseInt(like_count_elem.innerText) + 1
+            $.ajax({
+              url: 'user.php',
+              type: 'post',
+              async: false,
+              data: {
+                'liked':1,
+                'postid': postid
+              },
+              success:function(){
+              }
+            })
+          } else {
+            $(this).addClass("like");
+            $(this).removeClass("unlike");
+            id = "like-count-for-"+$(this).attr('id');
+            like_count_elem = document.getElementById(id)
+            like_count_elem.innerText = parseInt(like_count_elem.innerText) - 1
+            $.ajax({
+              url: 'user.php',
+              type: 'post',
+              async: false,
+              data: {
+                'unliked':1,
+                'postid': postid
+              },
+              success:function(){
+
+              }
+            })
+          }
+        })
+
+        
+      });
+
+    </script>
   </body>
 </html>
