@@ -5,6 +5,10 @@ session_start();
 // ini_set("session.cookie_lifetime", $timeout);
 include("db_connection.php");
 
+if (!isset($_SESSION["active"])) {
+  header("location:login.php");
+}
+
 $get_current_user = "SELECT * FROM user WHERE Username = ? LIMIT 1";
 $stmt = $conn->prepare($get_current_user);
 $stmt->bindParam(1, $_SESSION["user_name"], PDO::PARAM_STR);
@@ -36,19 +40,19 @@ foreach ($posts as $post) {
   //IF YOU ARE GOING TO UNCOMMENT THIS, USE A DIFFERENT VARIABLE THAN $username.
   //IT WILL OVERWRITE THE USERNAME OF THE POSTER OTHERWISE.
   
-  // $display_comments = '';
-  // if ($stmt->rowCount() > 0) {
-  //   $comments = $stmt->fetchAll();
-  //   foreach ($comments as $comment) {
-  //     $user_query = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
-  //     $stmt = $conn->prepare($user_query);
-  //     $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
-  //     $stmt->execute();
-  //     $username = $stmt->fetch();
-  //   //   $display_comments = $display_comments .
-  //       // "<div class='comment'><h4>$username[Username]</h4><p>$comment[content]</p></div>";
-  //   }
-  // }
+  $display_comments = '';
+  if ($stmt->rowCount() > 0) {
+    $comments = $stmt->fetchAll();
+    foreach ($comments as $comment) {
+      $user_query = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
+      $stmt = $conn->prepare($user_query);
+      $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
+      $stmt->execute();
+      $comment_username = $stmt->fetch();
+    //   $display_comments = $display_comments .
+        // "<div class='comment'><h4>$comment_username[Username]</h4><p>$comment[content]</p></div>";
+    }
+  }
 
   // Comment count
   $comment_count = $stmt->rowCount();
@@ -73,6 +77,13 @@ foreach ($posts as $post) {
       </div>
     </div>";
 }
+
+// Make the blue circle in Workouts actually be accurate
+$get_user_post_count = "SELECT * FROM log_posts WHERE user_id = ?";
+$stmt = $conn->prepare($get_user_post_count);
+$stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
+$stmt->execute();
+$workout_count = $stmt->rowCount();
 
 
 if (isset($_POST["submit_post"])) {
@@ -156,10 +167,6 @@ if (array_key_exists('foo', $_POST)) {
 <body>
   <?php
   include("navbar.php");
-  // if (isset($_SESSION['user_name'])) {
-  //   echo '<h2 align="center">Welcome ' . htmlspecialchars($_SESSION['user_name']) . '</h2>';
-  //   // echo $display_posts;
-  // }
   ?>
   <!-- parts of this code are from a template
       https://www.bootdey.com/snippets/view/shop-user-profile-with-ticket -->
@@ -182,8 +189,14 @@ if (array_key_exists('foo', $_POST)) {
         </aside>
         <nav class="list-group">
           <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
-          <a class="list-group-item with-badge" href="#"><i class="fa fa-th"></i>Workouts<span
-              class="badge badge-primary badge-pill">6</span></a>
+          <?php
+          echo "<a class='list-group-item with-badge' href='#'><i class='fa fa-th'></i>Workouts";
+            if ($workout_count > 0) {
+              echo "<span class='badge badge-primary badge-pill'>$workout_count</span></a>";
+            } else {
+              echo "<span class='badge badge-primary badge-pill'>Go Workout!</span></a>";
+            }
+          ?>
           <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
         </nav>
         <!-- Reply Form-->
