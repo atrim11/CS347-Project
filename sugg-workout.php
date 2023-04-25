@@ -84,7 +84,7 @@ session_start();
       <div id="workouts"></div>
     </div>
         <!--  JavaScript -->
-    <script src="workout.js"></script>
+    <script src="workout.js"  type="module"></script>
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
