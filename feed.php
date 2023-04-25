@@ -26,12 +26,21 @@ $posts = array_reverse($posts);
 foreach ($posts as $post) {
   $log_post = $post["workout"];
 
+  // User that posted the current log post.
   $get_user = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
   $stmt = $conn->prepare($get_user);
   $stmt->bindParam(1, $post["user_id"], PDO::PARAM_STR);
   $stmt->execute();
   $username = $stmt->fetch();
 
+  // Gets like count for the current post.
+  $get_likes = "SELECT * FROM likes WHERE post_id = ?";
+  $stmt = $conn->prepare($get_likes);
+  $stmt->bindParam(1, $post["post_id"], PDO::PARAM_INT);
+  $stmt->execute();
+  $like_count = $stmt->rowCount();
+
+  // Gets comments of the current post (should probably be moved elsewhere)
   $get_comments = "SELECT * FROM comments WHERE post_id = ?";
   $stmt = $conn->prepare($get_comments);
   $stmt->bindParam(1, $post["post_id"], PDO::PARAM_INT);
@@ -57,6 +66,21 @@ foreach ($posts as $post) {
   // Comment count
   $comment_count = $stmt->rowCount();
 
+  // Get whether the current user liked the current post.
+  $liked = "like";
+  $get_user_likes = "SELECT * FROM likes WHERE user_id = ?";
+  $stmt = $conn->prepare($get_user_likes);
+  $stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
+  $stmt->execute();
+  $user_likes = $stmt->fetchAll();
+
+  foreach ($user_likes as $like) {
+    if ($like["post_id"] == $post["post_id"]) {
+        $liked = "unlike";
+        break;
+    }
+  }
+
   $display_posts = $display_posts . 
     "<div class='post'>
       <div class='post-body' id='post_$post[post_id]'>
@@ -67,11 +91,11 @@ foreach ($posts as $post) {
         <div class='post-footer'>
           <div class='post-footer-option'>
             <!-- like count-->
-            <span>0</span>
-            <button class='btn' id='like_$post[post_id]'><i class='fa-solid fa-heart fa-lg'></i></button>
+            <span id='like_count_$post[post_id]'>$like_count</span>
+            <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
             <!-- Comment count-->
             <span>$comment_count</span>  
-            <button class='btn' id='comment_$post[post_id]'><i class='fa-solid fa-message fa-lg'></i></button>
+            <i class='fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
           </div>
         </div>
       </div>
@@ -102,19 +126,25 @@ if (isset($_POST["submit_post"])) {
     }
 }
 
-// EITHER OF THE BELOW SHOULD WORK IF IT'S WORKING PROPERLY. 
-// $data = json_decode(file_get_contents('php://input'), true);
-// if (isset($_POST["foo"])) {
-    // print_r($_POST);
-    // echo "<script>console.log('foo is set');</script>";
-    // if ($_POST["foo"] == "bar") {
-        // echo "<script>console.log('bar has been found');</script>";
-    // }
-// }
-if (array_key_exists('foo', $_POST)) {
-    $bar = $_POST['foo'];
-    echo json_encode('IT WORKS!');
-    echo $bar;
+// Add like if a post's like button is hit.
+if (isset($_POST["like"])) {
+    $add_like = "INSERT INTO likes (user_id, post_id, date_time) VALUES (?, ?, NOW())";
+    $create_like = $conn->prepare($add_like);
+    $create_like->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
+    $create_like->bindParam(2, $_POST["post_id"], PDO::PARAM_INT);
+    $create_like->execute();
+    unset($_POST["like"]);
+    exit();
+}
+// Or remove like if post was already liked by this user. 
+else if (isset($_POST["unlike"])) {
+    $remove_like = "DELETE FROM likes WHERE post_id = ? and user_id = ?";
+    $delete_like = $conn->prepare($remove_like);
+    $delete_like->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
+    $delete_like->bindParam(2, $user_info["user_id"], PDO::PARAM_INT);
+    $delete_like->execute();
+    unset($_POST["unlike"]);
+    exit();
 }
 
 ?>
@@ -146,9 +176,7 @@ if (array_key_exists('foo', $_POST)) {
 
   <!-- Scripts for navbar collapse and some styling -->
     <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"
     ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -247,8 +275,42 @@ if (array_key_exists('foo', $_POST)) {
               if(e.target && (/comment_/.test(e.target.id) || /comment_/.test(e.target.parentNode.id))) {
                   let postId = e.target.id.split('_')[1] || e.target.parentNode.id.split('_')[1];
                   window.open(`post_details.php?post_id=${postId}`, '_blank');
-              } else if (e.target && (/like_/.test(e.target.id) || /like_/.test(e.target.parentNode.id))) {
+              } else if (e.target && (/like_/.test(e.target.id))) {
                   console.log("this is like");
+                  postLike = e.target;
+                  let postId = parseInt(postLike.id.split('_')[1]);
+                  let like_count_elem = document.getElementById(`like_count_${postId}`);
+                  if (postLike.classList.contains("like")) {
+                    postLike.classList.add("unlike");
+                    postLike.classList.remove("like");
+                    like_count_elem.innerText = parseInt(like_count_elem.innerText) + 1;
+                    $.ajax({
+                        url: "feed.php",
+                        type: "post",
+                        async: false,
+                        data: {
+                            'like': 1,
+                            'post_id': postId
+                        },
+                        success: function() {
+                        }
+                    });
+                  } else if (postLike.classList.contains("unlike")) {
+                    postLike.classList.add("like");
+                    postLike.classList.remove("unlike");
+                    like_count_elem.innerText = parseInt(like_count_elem.innerText) - 1;
+                    $.ajax({
+                        url: "feed.php",
+                        type: "post",
+                        async: false,
+                        data: {
+                            'unlike': 1,
+                            'post_id': postId
+                        },
+                        success: function() {
+                        }
+                    });
+                  }
               } else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
                   console.log("this is post");
               }
