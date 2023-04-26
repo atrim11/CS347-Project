@@ -9,6 +9,47 @@ if (!isset($_SESSION["active"])) {
   header("location:login.php");
 }
 
+// Helper function to get the current user based on their id.
+function get_user($user_id, $conn) {
+  $get_user = "SELECT * FROM user WHERE user_id = ? LIMIT 1";
+  $stmt = $conn->prepare($get_user);
+  $stmt->bindParam(1, $user_id, PDO::PARAM_STR);
+  $stmt->execute();
+  return $stmt->fetch();
+}
+
+// Helper function to get a post's total number of likes via post id.
+function get_like_count ($post_id, $conn) {
+  $get_likes = "SELECT * FROM likes WHERE post_id = ?";
+  $stmt = $conn->prepare($get_likes);
+  $stmt->bindParam(1, $post_id, PDO::PARAM_INT);
+  $stmt->execute();
+  return $stmt->rowCount();
+}
+
+// Helper function to get a post's total number of comments via post id.
+function get_comment_count($post_id, $conn) {
+    $get_comments = "SELECT * FROM comments WHERE post_id = ?";
+    $stmt = $conn->prepare($get_comments);
+    $stmt->bindParam(1, $post_id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+// Helper function to get a post's liked status for the logged-in user.
+function get_liked_status($user_id, $post_id, $conn) {
+  $get_user_likes = "SELECT * FROM likes WHERE user_id = ? and post_id = ?";
+  $stmt = $conn->prepare($get_user_likes);
+  $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+  $stmt->bindParam(2, $post_id, PDO::PARAM_INT);
+  $stmt->execute();
+  if ($stmt->rowCount() > 0) {
+    return "unlike";
+  } else {
+    return "like";
+  }
+}
+
 $get_current_user = "SELECT * FROM user WHERE Username = ? LIMIT 1";
 $stmt = $conn->prepare($get_current_user);
 $stmt->bindParam(1, $_SESSION["user_name"], PDO::PARAM_STR);
@@ -27,24 +68,14 @@ foreach ($posts as $post) {
   $log_post = $post["workout"];
 
   // User that posted the current log post.
-  $get_user = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
-  $stmt = $conn->prepare($get_user);
-  $stmt->bindParam(1, $post["user_id"], PDO::PARAM_STR);
-  $stmt->execute();
-  $username = $stmt->fetch();
+  $username = get_user($post["user_id"], $conn);
 
   // Gets like count for the current post.
-  $get_likes = "SELECT * FROM likes WHERE post_id = ?";
-  $stmt = $conn->prepare($get_likes);
-  $stmt->bindParam(1, $post["post_id"], PDO::PARAM_INT);
-  $stmt->execute();
-  $like_count = $stmt->rowCount();
+  $like_count = get_like_count($post["post_id"], $conn);
 
   // Gets comments of the current post (should probably be moved elsewhere)
-  $get_comments = "SELECT * FROM comments WHERE post_id = ?";
-  $stmt = $conn->prepare($get_comments);
-  $stmt->bindParam(1, $post["post_id"], PDO::PARAM_INT);
-  $stmt->execute();
+  $comment_count = get_comment_count($post["post_id"], $conn);
+
 
   //IF YOU ARE GOING TO UNCOMMENT THIS, USE A DIFFERENT VARIABLE THAN $username.
   //IT WILL OVERWRITE THE USERNAME OF THE POSTER OTHERWISE.
@@ -63,23 +94,9 @@ foreach ($posts as $post) {
     }
   }
 
-  // Comment count
-  $comment_count = $stmt->rowCount();
 
   // Get whether the current user liked the current post.
-  $liked = "like";
-  $get_user_likes = "SELECT * FROM likes WHERE user_id = ?";
-  $stmt = $conn->prepare($get_user_likes);
-  $stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
-  $stmt->execute();
-  $user_likes = $stmt->fetchAll();
-
-  foreach ($user_likes as $like) {
-    if ($like["post_id"] == $post["post_id"]) {
-        $liked = "unlike";
-        break;
-    }
-  }
+  $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
 
   $display_posts = $display_posts . 
     "<div class='post'>
@@ -94,7 +111,7 @@ foreach ($posts as $post) {
             <span id='like_count_$post[post_id]'>$like_count</span>
             <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
             <!-- Comment count-->
-            <span>$comment_count</span>  
+            <span id='comment_count_$post[post_id]'>$comment_count</span>  
             <i class='fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
           </div>
         </div>
@@ -145,6 +162,103 @@ else if (isset($_POST["unlike"])) {
     $delete_like->execute();
     unset($_POST["unlike"]);
     exit();
+}
+
+// Open a post in the scrollable section of the feed page.
+if (isset($_POST["open_post"])) {
+    // Big query to grab post data alongside comment data for that post.
+    $get_current_post = "SELECT log_posts.workout, log_posts.post_id AS original_id, log_posts.user_id AS poster_id, 
+    comments.post_id AS parent_post_id, comments.user_id AS commenter_id, comments.content FROM log_posts INNER JOIN comments
+    ON log_posts.post_id = comments.post_id WHERE log_posts.post_id = ?";
+    $get_comments = $conn->prepare($get_current_post);
+    $get_comments->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
+    $get_comments->execute();
+    $comments_with_post = $get_comments->fetchAll();
+
+    $response = array();
+    // If there are comments to display.
+    if ($get_comments->rowCount() > 0) {
+        $opened_post = $comments_with_post[0];
+        // Call each of the defined functions to grab data on the post.
+        $poster_details = get_user($opened_post["poster_id"], $conn);
+        $like_count = get_like_count($opened_post["original_id"], $conn);
+        $comment_count = get_comment_count($opened_post["original_id"], $conn);
+        $liked = get_liked_status($user_info["user_id"], $_POST["post_id"], $conn);
+
+        // Format post.
+        $response[0] = "<div class='post'>
+                        <div class='post-body' id='post_$_POST[post_id]'>
+                        <h6>$poster_details[Username]</h6> 
+                        <p class='post-text'>
+                        $opened_post[workout]
+                        </p>
+                        <div class='post-footer'>
+                            <div class='post-footer-option'>
+                            <!-- like count-->
+                            <span id='like_count_$_POST[post_id]'>$like_count</span>
+                            <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
+                            <!-- Comment count-->
+                            <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
+                            <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                            </div>
+                        </div>
+                        </div>
+                    </div>";
+        $i = 1;
+        // For every comment, grab its data and format it.
+        foreach ($comments_with_post as $comments) {
+            $commenter = get_user($comments["commenter_id"], $conn);
+            $response[$i] = "<div class = 'post'>
+                                <div class='post-body'>
+                                    <h6>$commenter[Username]</h6>
+                                    <p class='post-text'>
+                                        $comments[content]
+                                    </p>
+                                </div>
+                            </div>";
+            $i = $i + 1;
+        }
+        // Encode full response as a JSON to send back to JavaScript.
+        echo json_encode($response);
+    }
+    // If no comments to display (the big query returns nothing if there are no comments). 
+    else {
+        // Get the post that was clicked on
+        $get_post = "SELECT * FROM log_posts WHERE post_id = ?";
+        $post_stmt = $conn->prepare($get_post);
+        $post_stmt->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
+        $post_stmt->execute();
+        $post_info = $post_stmt->fetch();
+
+        // Call defined functions for getting post data.
+        $poster = get_user($post_info["user_id"], $conn);
+        $comment_count = get_comment_count($_POST["post_id"], $conn);
+        $like_count = get_like_count($_POST["post_id"], $conn);
+        $liked = get_liked_status($poster["user_id"], $_POST["post_id"], $conn);
+
+        // Format the post.
+        $response[0] = "<div class='post'>
+                            <div class='post-body' id='post_$_POST[post_id]'>
+                                <h6>$poster[Username]</h6> 
+                                    <p class='post-text'>
+                                        $post_info[workout]
+                                    </p>
+                                <div class='post-footer'>
+                                    <div class='post-footer-option'>
+                                        <!-- like count-->
+                                        <span id='like_count_$_POST[post_id]'>$like_count</span>
+                                        <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
+                                        <!-- Comment count-->
+                                        <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
+                                        <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>";
+        // Encode it as a JSON for returning to JavaScript.
+        echo json_encode($response);
+    }
+    exit;
 }
 
 ?>
@@ -243,7 +357,7 @@ else if (isset($_POST["unlike"])) {
       </div>
       <div class="col-lg-8" id="feed">
         <?php
-        echo $display_posts;
+            echo $display_posts;
         ?>
         <!-- <div class="comment">
             <div class="comment-body">
@@ -272,11 +386,12 @@ else if (isset($_POST["unlike"])) {
         // buttons or whatever have you. Detects clicks properly,
         // but comment part does not work.
         document.addEventListener('click', function(e) {
-              if(e.target && (/comment_/.test(e.target.id) || /comment_/.test(e.target.parentNode.id))) {
-                  let postId = e.target.id.split('_')[1] || e.target.parentNode.id.split('_')[1];
-                  window.open(`post_details.php?post_id=${postId}`, '_blank');
+              if(e.target && (/comment_/.test(e.target.id))) {
+                  let postId = parseInt(e.target.id.split('_')[1]);
+                //   window.open(`post_details.php?post_id=${postId}`, '_blank');
+                  let comment_count_elem = document.getElementById(`comment_count_${postId}`);
+
               } else if (e.target && (/like_/.test(e.target.id))) {
-                  console.log("this is like");
                   postLike = e.target;
                   let postId = parseInt(postLike.id.split('_')[1]);
                   let like_count_elem = document.getElementById(`like_count_${postId}`);
@@ -312,7 +427,24 @@ else if (isset($_POST["unlike"])) {
                     });
                   }
               } else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
-                  console.log("this is post");
+                  let posts = document.getElementById("feed");
+                  let postId = parseInt(e.target.id.split('_')[1]) || parseInt(e.target.parentNode.id.split('_')[1]);
+                  $.ajax({
+                    url: "feed.php",
+                    type: "post",
+                    async: false,
+                    data: {
+                        'open_post': 1,
+                        'post_id': postId
+                    },
+                    success: function(response) {
+                        // If success, parse JSON respone and put it to the screen.
+                        console.log(response);
+                        posts.innerHTML = '';
+                        let server_rsp = JSON.parse(response);
+                        server_rsp.forEach(element => posts.innerHTML += element);
+                    }
+                  });
               }
           });
 
