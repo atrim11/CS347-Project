@@ -287,6 +287,22 @@ a.list-group-item, .list-group-item-action {
     margin-bottom: 0
 }
 
+.like {
+    color: gray;
+  }
+
+  .like:hover {
+    color: red;
+  } 
+  
+  .unlike {
+    color:red;
+  }
+
+  .unlike:hover {
+    color: gray;
+  } 
+
 @media (max-width: 576px) {
     .post {
         padding-left: 0
