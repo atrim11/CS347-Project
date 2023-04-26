@@ -1,11 +1,12 @@
 <?php
 session_start();
 include("db_connection.php");
+include("auth.php");
 // $timeout = 1800;
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 
-if (isset($_SESSION["user_name"])) {
+if (check_login()) {
     header("location:feed.php");
 }
 

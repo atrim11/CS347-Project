@@ -1,13 +1,14 @@
 <?php 
 session_start();
 include("db_connection.php");
+include("auth.php");
 
 // $timeout = 1800;
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 
 
-if(isset($_SESSION["user_name"]))
+if(check_login())
 {
  header("location:feed.php");
 }
@@ -41,8 +42,8 @@ if(isset($_POST["login"]))
     $result = $stmt->fetchAll();
     foreach($result as $row) {
       if (password_verify($_POST['user_password'], $row['Password'])) {
-        $time = time()+3600;
-        if (!empty($_POST["remember-me"])) {
+        $time = time()+5;
+        if (isset($_POST["remember-me"])) {
           // Sets timeout to expire January 9, 2038
           $time = 2147483647;
         }
@@ -54,8 +55,8 @@ if(isset($_POST["login"]))
         $_SESSION['date_joined'] = $row['Date_Joined'];
         $_SESSION['active'] = 1;
         $_SESSION['user_id'] = $row['user_id'];
-        // setcookie("user_name", $row['Username'], $time, '/');
-        // setcookie("active", 1, $time);
+        setcookie("user_name", $row['Username'], $time, '/');
+        setcookie("active", 1, $time);
         
         // $_COOKIE['user_name'] = $_POST["Username"];
         echo "<script>window.location.href='feed.php';</script>";
@@ -157,7 +158,7 @@ if(isset($_POST["login"]))
 
                 <div class="form-group">
                   <label class="checkbox">
-                    <input type="checkbox" value="remember-me" id="remember-me"> Remember Me
+                  <input type="checkbox" name="remember-me" value="remember-me" id="remember-me"> Remember Me
                   </label>
                 </div>
 

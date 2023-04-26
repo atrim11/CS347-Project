@@ -4,6 +4,7 @@ session_start();
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 
+include("auth.php");
 
 ?>
 <!DOCTYPE html>

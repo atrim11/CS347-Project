@@ -4,6 +4,7 @@
 // ini_set("session.cookie_lifetime", $timeout);
 
 session_start();
+include("auth.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

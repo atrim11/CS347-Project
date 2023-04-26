@@ -4,8 +4,9 @@ session_start();
 // ini_set("session.gc_maxlifetime", $timeout);
 // ini_set("session.cookie_lifetime", $timeout);
 include("db_connection.php");
+include("auth.php");
 
-if (!isset($_SESSION["active"])) {
+if (!check_login()) {
   header("location:login.php");
 }
 
