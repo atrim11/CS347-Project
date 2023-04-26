@@ -76,25 +76,6 @@ foreach ($posts as $post) {
   // Gets comments of the current post (should probably be moved elsewhere)
   $comment_count = get_comment_count($post["post_id"], $conn);
 
-
-  //IF YOU ARE GOING TO UNCOMMENT THIS, USE A DIFFERENT VARIABLE THAN $username.
-  //IT WILL OVERWRITE THE USERNAME OF THE POSTER OTHERWISE.
-  
-  $display_comments = '';
-  if ($stmt->rowCount() > 0) {
-    $comments = $stmt->fetchAll();
-    foreach ($comments as $comment) {
-      $user_query = "SELECT Username FROM user WHERE user_id = ? LIMIT 1";
-      $stmt = $conn->prepare($user_query);
-      $stmt->bindParam(1, $comment["user_id"], PDO::PARAM_INT);
-      $stmt->execute();
-      $comment_username = $stmt->fetch();
-    //   $display_comments = $display_comments .
-        // "<div class='comment'><h4>$comment_username[Username]</h4><p>$comment[content]</p></div>";
-    }
-  }
-
-
   // Get whether the current user liked the current post.
   $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
 
@@ -187,23 +168,35 @@ if (isset($_POST["open_post"])) {
 
         // Format post.
         $response[0] = "<div class='post'>
-                        <div class='post-body' id='post_$_POST[post_id]'>
-                        <h6>$poster_details[Username]</h6> 
-                        <p class='post-text'>
-                        $opened_post[workout]
-                        </p>
-                        <div class='post-footer'>
-                            <div class='post-footer-option'>
-                            <!-- like count-->
-                            <span id='like_count_$_POST[post_id]'>$like_count</span>
-                            <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
-                            <!-- Comment count-->
-                            <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
-                            <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
-                            </div>
+                          <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
+                            <i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>
+                            <h6>$poster_details[Username]</h6> 
+                            <p class='post-text'>
+                              $opened_post[workout]
+                            </p>
+                              <div class='post-footer'>
+                                <div class='post-footer-option'>
+                                  <!-- like count-->
+                                  <span id='like_count_$_POST[post_id]'>$like_count</span>
+                                  <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
+                                  <!-- Comment count-->
+                                  <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
+                                  <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                                </div>
+                              </div>
+                          </div>
                         </div>
-                        </div>
-                    </div>";
+                        <form id='create_comment' method='post' onsubmit='return comment_submit()'>
+                          <div class='form-group'>
+                            <textarea class='form-control form-control-rounded' id='comment_text' name='post_text' rows='8'
+                              placeholder='Write your message here...' required=''></textarea>
+                          </div>
+                          <div class='text-right'>
+                            <button id='submit_comment' name='submit_comment' class='btn btn-outline-primary' type='submit'>
+                              Submit Comment
+                            </button>
+                          </div>
+                        </form>";
         $i = 1;
         // For every comment, grab its data and format it.
         foreach ($comments_with_post as $comments) {
@@ -238,27 +231,70 @@ if (isset($_POST["open_post"])) {
 
         // Format the post.
         $response[0] = "<div class='post'>
-                            <div class='post-body' id='post_$_POST[post_id]'>
-                                <h6>$poster[Username]</h6> 
-                                    <p class='post-text'>
-                                        $post_info[workout]
-                                    </p>
-                                <div class='post-footer'>
-                                    <div class='post-footer-option'>
-                                        <!-- like count-->
-                                        <span id='like_count_$_POST[post_id]'>$like_count</span>
-                                        <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
-                                        <!-- Comment count-->
-                                        <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
-                                        <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
-                                    </div>
-                                </div>
+                          <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
+                            <i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>
+                            <h6>$poster[Username]</h6> 
+                            <p class='post-text'>
+                              $post_info[workout]
+                            </p>
+                            <div class='post-footer'>
+                              <div class='post-footer-option'>
+                                  <!-- like count-->
+                                  <span id='like_count_$_POST[post_id]'>$like_count</span>
+                                  <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
+                                  <!-- Comment count-->
+                                  <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
+                                  <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                              </div>
                             </div>
-                        </div>";
+                          </div>
+                        </div>
+                        <form id='create_comment' method='post' onsubmit='return comment_submit()'>
+                          <div class='form-group'>
+                            <textarea class='form-control form-control-rounded' id='comment_text' name='post_text' rows='8'
+                              placeholder='Write your message here...' required=''></textarea>
+                          </div>
+                          <div class='text-right'>
+                            <button id='submit_comment' name='submit_comment' class='btn btn-outline-primary' type='submit'>
+                              Submit Comment
+                            </button>
+                          </div>
+                        </form>";
         // Encode it as a JSON for returning to JavaScript.
         echo json_encode($response);
     }
     exit;
+}
+
+// If the user has created a comment and submitted it.
+if (isset($_POST["submit_comment"])) {
+  $create_comment = "INSERT INTO comments (user_id, post_id, date_time, content) VALUES (?, ?, NOW(), ?)";
+  $comment_stmt = $conn->prepare($create_comment);
+  $comment_stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
+  $comment_stmt->bindParam(2, $_POST["post_id"], PDO::PARAM_INT);
+  $comment_stmt->bindParam(3, $_POST["comment_text"], PDO::PARAM_STR);
+  $comment_stmt->execute();
+
+  $response = array();
+  $response[0] = "<div class = 'post'>
+                    <div class='post-body'>
+                      <h6>$user_info[Username]</h6>
+                      <p class='post-text'>
+                        $_POST[comment_text]
+                      </p>
+                    </div>
+                  </div>";
+  echo json_encode($response);
+
+  exit;
+}
+
+if (isset($_POST["back"])) {
+  $response = array();
+  $response[0] = $display_posts;
+  echo json_encode($response);
+
+  exit;
 }
 
 ?>
@@ -382,6 +418,29 @@ if (isset($_POST["open_post"])) {
         }
     </script>
     <script>
+      function comment_submit() {
+        let feed = document.getElementById("feed");
+        let post = document.getElementsByName("main_post")[0];
+        let postId = parseInt(post.id.split('_')[2]);
+        let comment = document.querySelector("#comment_text").value;
+        $.ajax({
+          url: "feed.php",
+          type: "post",
+          async: false,
+          data: {
+                  'post_id': postId,
+                  'comment_text': comment,
+                  'submit_comment': 1
+          }, 
+          success: function(response) {
+            let resp = JSON.parse(response);
+            resp.forEach(element => feed.innerHTML += element);
+          }
+        })
+        return false;
+      }
+    </script>
+    <script>
         // Event Listener for clicking on different profiles or 
         // buttons or whatever have you. Detects clicks properly,
         // but comment part does not work.
@@ -440,11 +499,28 @@ if (isset($_POST["open_post"])) {
                     success: function(response) {
                         // If success, parse JSON respone and put it to the screen.
                         console.log(response);
+                        window.history.pushState({additionalInformation: "Viewing a post"}, "FitNation", window.location.href + `?post_id=${postId}&open_post=1`);
                         posts.innerHTML = '';
                         let server_rsp = JSON.parse(response);
                         server_rsp.forEach(element => posts.innerHTML += element);
                     }
                   });
+              } else if (e.target && e.target.id == "back") {
+                let feed = document.getElementById("feed");
+                $.ajax({
+                  url: "feed.php",
+                  type: "post",
+                  async: false,
+                  data: {
+                    'back': 1
+                  },
+                  success: function(response) {
+                    window.history.pushState({additionalInformation: "Main feed for FitNation"}, "FitNation", window.location.href.split("?")[0]);
+                    let server_resp = JSON.parse(response);
+                    feed.innerHTML = '';
+                    server_resp.forEach(element => feed.innerHTML += element);
+                  }
+                });
               }
           });
 
