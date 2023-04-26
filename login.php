@@ -42,7 +42,8 @@ if(isset($_POST["login"]))
     $result = $stmt->fetchAll();
     foreach($result as $row) {
       if (password_verify($_POST['user_password'], $row['Password'])) {
-        $time = time()+5;
+        // Sets timeout to expire in 1 hour
+        $time = time()+3600;
         if (isset($_POST["remember-me"])) {
           // Sets timeout to expire January 9, 2038
           $time = 2147483647;

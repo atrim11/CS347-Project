@@ -1,9 +1,11 @@
 <?php
 session_start();
-if (isset($_COOKIE["user_name"])){
+include("auth.php");
+if (check_login()){
     unset($_COOKIE["user_name"]);
     unset($_COOKIE["active"]);
-    setcookie("user_name", null, -1);
+    setcookie("user_name", "", time() - 3600, "/");
+    setcookie("active", "", time() - 3600, "/");
 }
 // unset($_SESSION["logged"]);
 unset($_SESSION["user_name"]);
