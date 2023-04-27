@@ -312,6 +312,10 @@ a.list-group-item, .list-group-item-action {
     filter: drop-shadow(0 0 4px #000);
 }
 
+.comment_blob:hover {
+    color: #7768AE;
+}
+
 @media (max-width: 576px) {
     .post {
         padding-left: 0

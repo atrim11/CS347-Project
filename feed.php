@@ -96,7 +96,7 @@ foreach ($posts as $post) {
             <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
             <!-- Comment count-->
             <span id='comment_count_$post[post_id]'>$comment_count</span>  
-            <i class='fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
+            <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
           </div>
         </div>
       </div>
@@ -184,7 +184,7 @@ if (isset($_POST["open_post"])) {
                                   <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
                                   <!-- Comment count-->
                                   <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
-                                  <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                                  <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
                                 </div>
                               </div>
                           </div>
@@ -247,7 +247,7 @@ if (isset($_POST["open_post"])) {
                                   <i class='$liked fa-solid fa-heart fa-lg' id='like_$_POST[post_id]'></i>
                                   <!-- Comment count-->
                                   <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
-                                  <i class='fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                                  <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
                               </div>
                             </div>
                           </div>
