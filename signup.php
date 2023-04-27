@@ -104,16 +104,6 @@ function function_alert($msg) {
         align-items: center;
         flex-direction: column;
     }
-    /* .img_container {
-        position: relative;
-        max-height: 400px;
-        max-width: 100%;
-    } */
-    /* img {
-        max-height: 250px;
-        max-width: 100%;
-        object-fit: fill;
-    } */
     .img_container {
         max-width: 900px;
         overflow: hidden;
@@ -132,6 +122,19 @@ function function_alert($msg) {
         color: red;
         background-color: rgba(255, 49, 101, 0.1);
     }
+
+    /* Styling from: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying. */
+    .password-container{
+        position: relative;
+    }
+    .fa-eye, .fa-eye-slash{
+        position: absolute;
+        top: 21%;
+        right: 5%;
+        cursor: pointer;
+        color: lightgray;
+    }
+
 </style>
 
 <body>
@@ -147,12 +150,13 @@ function function_alert($msg) {
         <div class="container">
             <form id="signup_form" method="post" onsubmit="return submitPasswordValid();">
                 <div class="form-group">
-                    <label>Username</label>
+                    <label for="Username">Username</label>
                     <input type="text" name="Username" id="Username" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label>Password</label>
+                <div class="form-group password-container">
+                    <label for="Password">Password</label>
                     <input type="password" name="Password" id="Password" class="form-control">
+                    <i class="fa-solid fa-eye" id="eye"></i>
                     <span id="password_message">
                         <ul style="list-style-type: none">
                             <li id="password_letter">Password contains at least <b>one letter</b>.</li>
@@ -163,10 +167,10 @@ function function_alert($msg) {
                     </span>
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
+                    <label for="Email">Email</label>
                     <input type="email" name="Email" id="Email" class="form-control">
                 </div>
-                <div class="form-group">
+                <div class="form-group text-center">
                     <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" class="btn btn-lg btn-primary">
                 </div>
             </form>
@@ -192,6 +196,23 @@ function function_alert($msg) {
         if ( window.history.replaceState ) {
             window.history.replaceState( null, null, window.location.href );
         }
+    </script>
+    <script>
+    // Javascript based off of: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying.
+    let password_input = document.querySelector("#Password");
+    let eye_icon = document.querySelector("#eye");
+    eye_icon.addEventListener("click", function(){
+        this.classList.toggle("fa-eye-slash");
+        if (this.classList.contains("fa-eye")) {
+            this.classList.remove("fa-eye");
+            this.classList.add("fa-eye-slash");
+        } else {
+            this.classList.remove("fa-eye-slash");
+            this.classList.add("fa-eye");
+        }
+        const type = password_input.getAttribute("type") === "password" ? "text" : "password";
+        password_input.setAttribute("type", type);
+    });
     </script>
     <!-- Password verifier 
         Verifies that the password entered meets certain requirements.

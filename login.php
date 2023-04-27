@@ -108,10 +108,18 @@ if(isset($_POST["login"]))
             align-items: center;
             flex-direction: column;
         }
-        img {
+        /* img {
             position: relative;
             max-width: 100%;
             max-height: 100%;
+        } */
+        .img_container {
+            max-width: 900px;
+            overflow: hidden;
+        }
+        img {
+            width: 100%;
+            object-fit: contain;
         }
         /* Add a hover effect for buttons */
         button:hover {
@@ -120,6 +128,19 @@ if(isset($_POST["login"]))
         .checkbox {
           float: right;
         }
+
+        /* Styling from: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying. */
+        .password-container{
+          position: relative;
+        }
+        .fa-eye, .fa-eye-slash{
+          position: absolute;
+          top: 61%;
+          right: 7%;
+          cursor: pointer;
+          color: lightgray;
+        }
+
     </style>
 </head>
 <body>
@@ -130,7 +151,9 @@ if(isset($_POST["login"]))
     </header>
 
     <main role="main">
-        <img src="Images/Clear-Logo.png" alt="">
+        <div class="img_container">
+            <img src="Images/Purple-Logo.png" alt="FitNation Logo with Purple Background">
+        </div>
 
         <div class="container">
             <div class="panel panel-default">         
@@ -141,20 +164,21 @@ if(isset($_POST["login"]))
               <form method="post">
 
                 <div class="form-group">
-                  <label>User Email</label>
+                  <label for="user_email">User Email</label>
                   <input type="text" name="user_email" id="user_email" class="form-control" />
                 </div>
 
-                <div class="form-group">
-                  <label>Password</label>
+                <div class="form-group password-container">
+                  <label for="user_password">Password</label>
                   <input type="password" name="user_password" id="user_password" class="form-control" />
+                  <i class="fa-solid fa-eye" id="eye"></i>
                 </div>
 
                 <div class="form-group">
                   <a href="#">Forgot Password?</a>
-                  <label class="checkbox" >
+                  <!-- <label class="checkbox" >
                     <input type="checkbox" value="show-password" id="show-password"> Show Password
-                  </label>
+                  </label> -->
                 </div>
 
                 <div class="form-group">
@@ -163,7 +187,7 @@ if(isset($_POST["login"]))
                   </label>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group text-center">
                   <input type="submit" name="login" id="login" class="btn btn-lg btn-primary" value="Login" />
                 </div>
                
@@ -174,15 +198,31 @@ if(isset($_POST["login"]))
 </body>
 
 <script>
-  let show_password = document.getElementById("show-password");
-  show_password.onclick = function toggle_password_view() {
-      let password_box = document.getElementById("user_password");
-      if (password_box.type === "password") {
-          password_box.type = "text";
-      } else {
-          password_box.type = "password";
-      }
-  }
+  // let show_password = document.getElementById("show-password");
+  // show_password.onclick = function toggle_password_view() {
+  //     let password_box = document.getElementById("user_password");
+  //     if (password_box.type === "password") {
+  //         password_box.type = "text";
+  //     } else {
+  //         password_box.type = "password";
+  //     }
+  // }
+
+  // Javascript based off of: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying.
+  let password_input = document.querySelector("#user_password");
+  let eye_icon = document.querySelector("#eye");
+  eye_icon.addEventListener("click", function(){
+    // this.classList.toggle("fa-eye-slash");
+    if (this.classList.contains("fa-eye")) {
+      this.classList.remove("fa-eye");
+      this.classList.add("fa-eye-slash");
+    } else {
+      this.classList.remove("fa-eye-slash");
+      this.classList.add("fa-eye");
+    }
+    const type = password_input.getAttribute("type") === "password" ? "text" : "password";
+    password_input.setAttribute("type", type);
+  });
 </script>
 
 <script

@@ -381,8 +381,8 @@ if (isset($_POST["back"])) {
           <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
         </nav>
         <!-- Reply Form-->
-        <h5 class="mb-30 padding-top-1x">Post Your Workout</h5>
         <form id="post_form" method="post">
+          <label for="review_text"><h5 class="mb-30 padding-top-1x">Post Your Workout</h5></label>
           <div class="form-group">
             <textarea class="form-control form-control-rounded" id="review_text" name="post_text" rows="8"
               placeholder="Write your message here..." required=""></textarea>
@@ -398,20 +398,6 @@ if (isset($_POST["back"])) {
         <?php
             echo $display_posts;
         ?>
-        <!-- <div class="comment">
-            <div class="comment-body">
-              <p class="comment-text">
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                dolores et quas molestias excepturi sint occaecati cupiditate
-                non provident, similique sunt in culpa qui officia deserunt
-                mollitia animi.
-              </p>
-              <div class="comment-footer">
-                <span class="comment-meta">Daniel Adams</span>
-              </div>
-            </div>
-          </div> -->
       </div>
     </div>
   </div>
@@ -425,6 +411,7 @@ if (isset($_POST["back"])) {
         let feed = document.getElementById("feed");
         let post = document.getElementsByName("main_post")[0];
         let postId = parseInt(post.id.split('_')[2]);
+        let comment_count = document.getElementById(`comment_count_${postId}`);
         let comment = document.querySelector("#comment_text").value;
         $.ajax({
           url: "feed.php",
@@ -437,6 +424,7 @@ if (isset($_POST["back"])) {
           }, 
           success: function(response) {
             let resp = JSON.parse(response);
+            comment_count.innerText = parseInt(comment_count.innerText) + 1;
             resp.forEach(element => feed.innerHTML += element);
           }
         })

@@ -293,6 +293,7 @@ a.list-group-item, .list-group-item-action {
 
 .like:hover {
     color: red;
+    cursor: pointer;
 } 
 
 .unlike {
@@ -301,14 +302,15 @@ a.list-group-item, .list-group-item-action {
 
 .unlike:hover {
     color: gray;
+    cursor: pointer;
 } 
 
 #back:hover {
     text-shadow: 0 0 3px #000;
+    cursor: pointer;
 }
 
 .post:hover {
-    /* text-shadow: 0 0 3px #000; */
     filter: drop-shadow(0 0 4px #000);
 }
 
