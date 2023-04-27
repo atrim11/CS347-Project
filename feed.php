@@ -448,7 +448,7 @@ if (isset($_POST["back"])) {
         // buttons or whatever have you. Detects clicks properly,
         // but comment part does not work.
         document.addEventListener('click', function(e) {
-              if(e.target && (/comment_/.test(e.target.id))) {
+              if(e.target && (/comment_([0-9])+/.test(e.target.id))) {
                 //   let postId = parseInt(e.target.id.split('_')[1]);
                 // //   window.open(`post_details.php?post_id=${postId}`, '_blank');
                 //   let comment_count_elem = document.getElementById(`comment_count_${postId}`);
