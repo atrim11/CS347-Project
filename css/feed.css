@@ -291,17 +291,26 @@ a.list-group-item, .list-group-item-action {
     color: gray;
   }
 
-  .like:hover {
+.like:hover {
     color: red;
-  } 
-  
-  .unlike {
-    color:red;
-  }
+} 
 
-  .unlike:hover {
+.unlike {
+    color:red;
+}
+
+.unlike:hover {
     color: gray;
-  } 
+} 
+
+#back:hover {
+    text-shadow: 0 0 3px #000;
+}
+
+.post:hover {
+    /* text-shadow: 0 0 3px #000; */
+    filter: drop-shadow(0 0 4px #000);
+}
 
 @media (max-width: 576px) {
     .post {

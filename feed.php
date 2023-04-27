@@ -10,6 +10,8 @@ if (!check_login()) {
   header("location:login.php");
 }
 
+$url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
 // Helper function to get the current user based on their id.
 function get_user($user_id, $conn) {
   $get_user = "SELECT * FROM user WHERE user_id = ? LIMIT 1";
@@ -187,7 +189,7 @@ if (isset($_POST["open_post"])) {
                               </div>
                           </div>
                         </div>
-                        <form id='create_comment' method='post' onsubmit='return comment_submit()'>
+                        <form id='create_comment' method='post' style='display: none;' onsubmit='return comment_submit()'>
                           <div class='form-group'>
                             <textarea class='form-control form-control-rounded' id='comment_text' name='post_text' rows='8'
                               placeholder='Write your message here...' required=''></textarea>
@@ -250,7 +252,7 @@ if (isset($_POST["open_post"])) {
                             </div>
                           </div>
                         </div>
-                        <form id='create_comment' method='post' onsubmit='return comment_submit()'>
+                        <form id='create_comment' method='post' style='display: none;' onsubmit='return comment_submit()'>
                           <div class='form-group'>
                             <textarea class='form-control form-control-rounded' id='comment_text' name='post_text' rows='8'
                               placeholder='Write your message here...' required=''></textarea>
@@ -447,9 +449,15 @@ if (isset($_POST["back"])) {
         // but comment part does not work.
         document.addEventListener('click', function(e) {
               if(e.target && (/comment_/.test(e.target.id))) {
-                  let postId = parseInt(e.target.id.split('_')[1]);
-                //   window.open(`post_details.php?post_id=${postId}`, '_blank');
-                  let comment_count_elem = document.getElementById(`comment_count_${postId}`);
+                //   let postId = parseInt(e.target.id.split('_')[1]);
+                // //   window.open(`post_details.php?post_id=${postId}`, '_blank');
+                //   let comment_count_elem = document.getElementById(`comment_count_${postId}`);
+                let create_comment = document.getElementById("create_comment");
+                if (create_comment && create_comment.style.display == "none") {
+                  create_comment.style.display = "block";
+                } else if (create_comment && create_comment.style.display == "block") {
+                  create_comment.style.display = "none";
+                }
 
               } else if (e.target && (/like_/.test(e.target.id))) {
                   postLike = e.target;
