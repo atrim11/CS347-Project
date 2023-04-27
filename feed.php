@@ -388,7 +388,7 @@ if (isset($_POST["back"])) {
               placeholder="Write your message here..." required=""></textarea>
           </div>
           <div class="text-right">
-            <button id="submit_post" name="submit_post" class="btn btn-outline-primary" type="submit">
+            <button id="submit_post" name="submit_post" class="btn btn-primary" type="submit">
               Submit Workout
             </button>
           </div>

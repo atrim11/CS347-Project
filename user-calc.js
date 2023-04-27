@@ -6,10 +6,17 @@ const options = {
     "X-RapidAPI-Host": "fitness-calculator.p.rapidapi.com",
   },
 };
+//need to check if coach and if all data is filled out
+
+//then get the age weight and height from the user
 
 const age = 25;
-const weight = 220; // in kg
+//will need to multiply weight by 0.45359237
+const weight = 150; // in kg
+//will need to multiply height by 2.54
 const height = 180; // in cm
+// get gender 
+const gender = "male";
 // bmi calculation
 async function getBmi() {
   const response = await fetch(
@@ -20,20 +27,22 @@ async function getBmi() {
       "&height=" +
       height,
     options
-  )
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
+  );
+  var temp = await response.json();
+  console.log(temp);
 }
-
+getBmi();
 //ideal weight calculation
 async function getIdealWeight() {
-    const response = await fetch(
-        "https://fitness-calculator.p.rapidapi.com/ideal-weight?age=" + age + "&weight=" + weight, options)
-        .then((response) => response.json())
-        .then((response) => console.log(response))
-        .catch((err) => console.error(err));
-}   
-
-
+  const response = await fetch(
+    "https://fitness-calculator.p.rapidapi.com/idealweight?gender=" +
+      gender +
+      "&height=" +
+      height,
+    options
+  );
+  var temp = await response.json();
+  console.log(temp);
+}
+getIdealWeight();
 

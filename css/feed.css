@@ -1,4 +1,6 @@
-body{margin-top:100px;}
+body{
+    margin-top:100px;
+}
 
 #feed {
     height: 850px !important;
@@ -332,4 +334,11 @@ a.list-group-item, .list-group-item-action {
     .post .post-body::after {
         display: none
     }
+}
+
+
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #7768AE !important;
+    border-color: #7768AE !important;
 }
