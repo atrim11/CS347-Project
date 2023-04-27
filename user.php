@@ -4,6 +4,7 @@
     header("location:index.php");
   } 
   include("db_connection.php");
+  include("auth.php");
 
   if(isset($_POST['liked'])) {
 
