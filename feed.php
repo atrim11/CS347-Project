@@ -118,13 +118,35 @@ if (isset($_POST["submit_post"])) {
         $stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
         $stmt->bindParam(2, $_POST["post_text"], PDO::PARAM_STR);
         if ($stmt->execute()) {
-            echo "<script type='text/javascript'>alert('Log post successfully created!');</script>";
+            $post_id = $conn->lastInsertId();
+            // $response = array();
+            $response = "<div class='post'>
+                          <div class='post-body' id='post_$post_id'>
+                            <h6>$user_info[Username]</h6>
+                            <p class='post-text'>
+                              $_POST[post_text]
+                            </p>
+                            <div class='post-footer'>
+                              <div class='post-footer-option'>
+                                <!-- like count -->
+                                <span id='like_count_$post_id'>0</span>
+                                <i class='like fa-solid fa-heart fa-lg' id='like_$post_id'></i>
+                                <!-- Comment count -->
+                                <span id='comment_count_$post_id'>0</span>
+                                <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post_id'></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+            ";
             unset($_POST["submit_post"]);
+            // echo json_encode($response);
+            echo $response;
         }
     } else {
-        echo "<script type='text/javascript'>alert('You must enter text into the textbox to post!');</script";
         unset($_POST["submit_post"]);
     }
+    exit;
 }
 
 // Add like if a post's like button is hit.
@@ -381,7 +403,7 @@ if (isset($_POST["back"])) {
           <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
         </nav>
         <!-- Reply Form-->
-        <form id="post_form" method="post">
+        <form id="post_form" method="post" onsubmit="return post_submit()">
           <label for="review_text"><h5 class="mb-30 padding-top-1x">Post Your Workout</h5></label>
           <div class="form-group">
             <textarea class="form-control form-control-rounded" id="review_text" name="post_text" rows="8"
@@ -405,6 +427,34 @@ if (isset($_POST["back"])) {
         if ( window.history.replaceState ) {
             window.history.replaceState( null, null, window.location.href );
         }
+    </script>
+    <script>
+      // Function to submit a post and update the html to display the new post.
+      function post_submit() {
+        let feed = document.getElementById("feed");
+        let post_text = document.getElementById("review_text").value;
+        $.ajax({
+          url: "feed.php",
+          type: "post",
+          async: false,
+          data: {
+                'submit_post': 1,
+                'post_text': post_text
+          },
+          success: function(response) {
+            // If there is post text and check if on a post/comments screen rather than the feed.
+            if (response){
+              if (!window.location.href.includes('?')) {
+                feed.innerHTML = response + feed.innerHTML;
+              }
+              alert('Log post successfully created!');
+            } else {
+              alert('You must enter text into the textbox to post!');
+            }
+          }
+        });
+        return false;
+      }
     </script>
     <script>
       function comment_submit() {
