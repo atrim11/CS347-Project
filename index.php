@@ -54,7 +54,7 @@ include("auth.php");
               height="100%"
               object-fit="cover"
               src="Images/Purple-Logo.png"
-              alt=""
+              alt="purple fitnation logo"
               id="carousel-pic"
             />
           </div>
@@ -177,7 +177,7 @@ include("auth.php");
           <div class="col-md-5">
             <img
               src="Images/workout-pic7.jpg"
-              alt=""
+              alt="woman using trx photo"
               class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
               width="500px"
               height="500px"
@@ -206,7 +206,7 @@ include("auth.php");
           <div class="col-md-5">
             <img
               src="Images/workout-pic8.jpg"
-              alt=""
+              alt="man working out with cones"
               class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
               width="550px"
               height="550px"
@@ -236,7 +236,7 @@ include("auth.php");
           <div class="col-md-5">
             <img
               src="Images/workout-pic5.jpg"
-              alt=""
+              alt="woman doing yoga during sunset"
               class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
               width="500px"
               height="500px"
@@ -253,7 +253,7 @@ include("auth.php");
           <div class="col-lg-4">
             <img
               src="Images/dude2.jpg"
-              alt=""
+              alt="bald man"
               class="bd-placeholder-img rounded-circle"
               width="140"
               height="140"
@@ -271,7 +271,7 @@ include("auth.php");
           <div class="col-lg-4">
             <img
               src="Images/woman1.jpg"
-              alt=""
+              alt="woman in gym"
               class="bd-placeholder-img rounded-circle"
               width="140"
               height="140"
@@ -288,7 +288,7 @@ include("auth.php");
           <div class="col-lg-4">
             <img
               src="Images/football-trainer.jpg"
-              alt=""
+              alt="guy with football"
               class="bd-placeholder-img rounded-circle"
               width="140"
               height="140"
