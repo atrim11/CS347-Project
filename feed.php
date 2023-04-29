@@ -108,41 +108,6 @@ $stmt->execute();
 $posts = $stmt->fetchAll();
 $posts = array_reverse($posts);
 
-// foreach ($posts as $post) {
-//   $log_post = $post["workout"];
-
-//   // User that posted the current log post.
-//   $username = get_user($post["user_id"], $conn);
-
-//   // Gets like count for the current post.
-//   $like_count = get_like_count($post["post_id"], $conn);
-
-//   // Gets comments of the current post (should probably be moved elsewhere)
-//   $comment_count = get_comment_count($post["post_id"], $conn);
-
-//   // Get whether the current user liked the current post.
-//   $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
-
-//   $display_posts = $display_posts . 
-//     "<div class='post'>
-//       <div class='post-body' id='post_$post[post_id]'>
-//         <h6>$username[Username]</h6> 
-//         <p class='post-text'>
-//         $log_post
-//         </p>
-//         <div class='post-footer'>
-//           <div class='post-footer-option'>
-//             <!-- like count-->
-//             <span id='like_count_$post[post_id]'>$like_count</span>
-//             <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
-//             <!-- Comment count-->
-//             <span id='comment_count_$post[post_id]'>$comment_count</span>  
-//             <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
-//           </div>
-//         </div>
-//       </div>
-//     </div>";
-// }
 $display_posts = generate_posts($posts, $conn, $user_info);
 
 // Make the purple circle in Workouts actually be accurate
@@ -173,7 +138,7 @@ if (isset($_POST["submit_post"])) {
             $post_id = $conn->lastInsertId();
             $response = "<div class='post'>
                           <div class='post-body' id='post_$post_id'>
-                            <h6>$user_info[Username]</h6>
+                            <a href='user.php?user_id=$user_info[user_id]'><h6>$user_info[Username]</h6></a>
                             <p class='post-text'>
                               $_POST[post_text]
                             </p>
@@ -245,7 +210,7 @@ if (isset($_POST["open_post"])) {
         $response[0] = "<div class='post'>
                           <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
                             <i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>
-                            <h6>$poster_details[Username]</h6> 
+                            <a href='user.php?user_id=$poster_details[user_id]'><h6>$poster_details[Username]</h6></a>
                             <p class='post-text'>
                               $opened_post[workout]
                             </p>
@@ -278,7 +243,7 @@ if (isset($_POST["open_post"])) {
             $commenter = get_user($comments["commenter_id"], $conn);
             $response[$i] = "<div class = 'post'>
                                 <div class='post-body'>
-                                    <h6>$commenter[Username]</h6>
+                                    <a href='user.php?user_id=$commenter[user_id]'><h6>$commenter[Username]</h6></a>
                                     <p class='post-text'>
                                         $comments[content]
                                     </p>
@@ -308,7 +273,7 @@ if (isset($_POST["open_post"])) {
         $response[0] = "<div class='post'>
                           <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
                             <i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>
-                            <h6>$poster[Username]</h6> 
+                            <a href='user.php?user_id=$poster[user_id]'><h6>$poster[Username]</h6></a>
                             <p class='post-text'>
                               $post_info[workout]
                             </p>
@@ -353,7 +318,7 @@ if (isset($_POST["submit_comment"])) {
   $response = array();
   $response[0] = "<div class = 'post'>
                     <div class='post-body'>
-                      <h6>$user_info[Username]</h6>
+                      <a href='user.php?user_id=$user_info[user_id]'><h6>$user_info[Username]</h6></a>
                       <p class='post-text'>
                         $_POST[comment_text]
                       </p>
