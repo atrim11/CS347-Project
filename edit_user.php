@@ -32,6 +32,8 @@
 
 	$update_query->bindParam(8, $_SESSION["user_id"]);
 	$update_query->execute();
+	echo $_SESSION["user_id"];
+	exit;
   }
 
    $find_user_info = $conn->prepare("
@@ -491,8 +493,8 @@
 						'user_type_edited':usertype_drop.innerText
 
 					},
-					success:function(){
-						window.location.href='user.php';
+					success:function(id){
+						window.location.href=`user.php?user_id=${id}`;
 					}
 				});
 				alert("Saved Changes");
