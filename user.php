@@ -32,6 +32,13 @@
 
   }
 
+  $find_user_info = $conn->prepare("
+  SELECT * FROM user
+  WHERE user_id = ?
+  ");
+  $find_user_info->bindParam(1, $_SESSION["user_id"]);
+  $find_user_info->execute();
+  $row = $find_user_info->fetch();
 
 
 ?>
@@ -229,7 +236,12 @@
                             ?>
                             
                           </p>
-                          <p class="text-muted font-size-sm">Athlete or Coach</p>
+                          <p class="text-muted font-size-sm">
+                            <?php 
+                            $user_type = $row["User_Type"] === "coach" ? "Coach" : "User";
+                            echo $user_type;
+                            ?>
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -252,7 +264,15 @@
                           <h6 class="mb-0">Full Name</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          -
+                          <?php 
+                          $name = "-";
+                          if ($row["F_Name"] != null) {
+                            $name = $row["F_Name"];
+                            if ($row["L_Name"] != null) {
+                              $name = $name." ".$row["L_Name"];
+                            }
+                          }
+                          echo $name?>
                         </div>
                       </div>
                       <hr>
@@ -261,7 +281,10 @@
                           <h6 class="mb-0">Email</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          -
+                          <?php 
+                          $email = $row["Email"] != null ? $row["Email"]: "-"; 
+                          echo $email;
+                          ?>
                         </div>
                       </div>
                       <hr>
@@ -270,16 +293,34 @@
                           <h6 class="mb-0">Phone</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          -
+                          <?php 
+                          $phone = $row["Phone_Num"] != null ? $row["Phone_Num"] : "-";
+                          echo $phone; 
+                          ?>
                         </div>
                       </div>
                       <hr>
                       <div class="row">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Address</h6>
+                          <h6 class="mb-0">Weight</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          -
+                          <?php 
+                          $weight = $row["Weight"] != null ? $row["Weight"] : "-";
+                          echo $weight;
+                          ?>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Height</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          <?php 
+                          $height = $row["Height"] != null ? $row["Height"] : "-";
+                          echo $height;
+                          ?>
                         </div>
                       </div>
                       <hr>

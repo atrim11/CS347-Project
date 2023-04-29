@@ -6,6 +6,7 @@
   include("db_connection.php");
 
   if(isset($_POST['edited'])){
+	$q= "UPDATE user SET ";
 	$update_query = $conn->prepare("
 	UPDATE user
 	SET F_name=?, L_name=?, Height=?, Weight=?, Phone_Num = ?, Gender = ?, User_Type = ?
@@ -199,6 +200,17 @@
     <!-- Website Icon -->
     <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico" />
     <title>FitNation</title>
+	<style>
+		.valid {
+			color: green;
+			background-color: rgba(36, 207, 147, 0.1);
+		}
+
+		.invalid {
+			color: red;
+			background-color: rgba(255, 49, 101, 0.1);
+		}
+	</style>
   </head>
   <body>
     <header>
@@ -301,7 +313,7 @@
 										?>">
 										<span id="phone_num_message">
 											<ul style="list-style-type: none">
-												<li id="password_letter">Phone Number Format: <b>XXXXXXXXXX</b>.</li>
+												<li id="phone_validator">Phone Number Format: <b>XXXXXXXXXX</b>.</li>
 											</ul>
 										</span>
 									</div>
@@ -436,7 +448,6 @@
 				valid_fname = true;
 			} 
 
-			// TODO CHECK FOR LAST Name
 			if (l_name.value.length > 0 && /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/.test(l_name.value)) {
 				valid_lname = true;
 			}
@@ -490,8 +501,23 @@
 		}
 
 		// validating phone number
-		var phone_input = document.getElementById("phone-num-txtbox");
-		
+		var phone_input = document.getElementById("phone-num-txtbox");		
+		var invalid = "&#x274C";
+        var valid = "&#x2713;";
+
+		phone_input.oninput = function() {
+			symbol = document.getElementById("phone_validator");
+			console.log(symbol)
+			if (phone_input.value.match(/^\d{10}$/)) {
+            symbol.innerHTML = `${valid} Phone Number Format: <b>XXXXXXXXXX</b>`;
+            symbol.classList.remove("invalid");
+            symbol.classList.add("valid");
+			} else {
+				symbol.innerHTML = `${invalid} Phone Number Format: <b>XXXXXXXXXX</b>`;
+				symbol.classList.remove("valid");
+				symbol.classList.add("invalid");
+			}
+		}
 		
 
 
