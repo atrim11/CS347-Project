@@ -64,32 +64,8 @@ include("auth.php");
               width="100%"
               height="100%"
               object-fit="cover"
-              src="Images/workout-pic3.jpg"
-              alt=""
-              id="carousel-pic"
-            />
-            <div class="container">
-              <div class="carousel-caption text-left">
-                <h1>FitNation</h1>
-                <p>
-                  Fitness is Better with Friends
-                </p>
-                <p>
-                  <a class="btn btn-lg btn-primary" href="signup.php" role="button"
-                    >Sign up today</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img
-              class="bd-placeholder-img"
-              width="100%"
-              height="100%"
-              object-fit="cover"
               src="Images/workout-pic6.jpg"
-              alt=""
+              alt="woman running bw photo"
               id="carousel-pic"
             />
             <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"></rect></svg> -->
@@ -114,7 +90,7 @@ include("auth.php");
               height="100%"
               object-fit="cover"
               src="Images/racket-pic.jpg"
-              alt=""
+              alt="racket hitting ball"
               id="carousel-pic"
             />
             <div class="container">
@@ -127,6 +103,30 @@ include("auth.php");
                 <p>
                   <a class="btn btn-lg btn-primary" href="signup.php" role="button"
                     >Sign Up</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              class="bd-placeholder-img"
+              width="100%"
+              height="100%"
+              object-fit="fill"
+              src="Images/workout-pic.jpg"
+              alt="Man in army shirt doing pushups"
+              id="carousel-pic"
+            />
+            <div class="container">
+              <div class="carousel-caption text-left">
+                <h1>FitNation</h1>
+                <p>
+                  Fitness is Better with Friends
+                </p>
+                <p>
+                  <a class="btn btn-lg btn-primary" href="signup.php" role="button"
+                    >Sign up today</a
                   >
                 </p>
               </div>
