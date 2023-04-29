@@ -29,7 +29,7 @@ if(!check_login()) {
                 <a class=\"nav-link\" href=\".\logout.php\">Log Out</a>
             </li>
         </ul>
-        <a href=\".\user.php\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>
+        <a href=\".\user.php?user_id=$_SESSION[user_id]\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>
     ";
 }
 

@@ -36,9 +36,9 @@
   SELECT * FROM user
   WHERE user_id = ?
   ");
-  $find_user_info->bindParam(1, $_SESSION["user_id"]);
+  $find_user_info->bindParam(1, $_GET["user_id"]);
   $find_user_info->execute();
-  $row = $find_user_info->fetch();
+  $user_info = $find_user_info->fetch();
 
 
 ?>
@@ -225,20 +225,20 @@
                           <!-- User Name Display -->
                           <h4>
                             <?php
-                            echo $_SESSION["user_name"];
+                            echo $user_info["Username"];
                             ?>
                           </h4>
                           <p class="text-secondary mb-1">
                             <!-- Displays Date Joined -->
                             <?php 
-                            $date = date_create($_SESSION["date_joined"]);
+                            $date = date_create($user_info["Date_Joined"]);
                             echo "Joined: ".date_format($date,"m/d/Y");
                             ?>
                             
                           </p>
                           <p class="text-muted font-size-sm">
                             <?php 
-                            $user_type = $row["User_Type"] === "coach" ? "Coach" : "User";
+                            $user_type = $user_info["User_Type"] === "coach" ? "Coach" : "User";
                             echo $user_type;
                             ?>
                           </p>
@@ -266,10 +266,10 @@
                         <div class="col-sm-9 text-secondary">
                           <?php 
                           $name = "-";
-                          if ($row["F_Name"] != null) {
-                            $name = $row["F_Name"];
-                            if ($row["L_Name"] != null) {
-                              $name = $name." ".$row["L_Name"];
+                          if ($user_info["F_Name"] != null) {
+                            $name = $user_info["F_Name"];
+                            if ($user_info["L_Name"] != null) {
+                              $name = $name." ".$user_info["L_Name"];
                             }
                           }
                           echo $name?>
@@ -282,7 +282,7 @@
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <?php 
-                          $email = $row["Email"] != null ? $row["Email"]: "-"; 
+                          $email = $user_info["Email"] != null ? $user_info["Email"]: "-"; 
                           echo $email;
                           ?>
                         </div>
@@ -294,7 +294,7 @@
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <?php 
-                          $phone = $row["Phone_Num"] != null ? $row["Phone_Num"] : "-";
+                          $phone = $user_info["Phone_Num"] != null ? $user_info["Phone_Num"] : "-";
                           echo $phone; 
                           ?>
                         </div>
@@ -306,7 +306,7 @@
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <?php 
-                          $weight = $row["Weight"] != null ? $row["Weight"] : "-";
+                          $weight = $user_info["Weight"] != null ? $user_info["Weight"] : "-";
                           echo $weight;
                           ?>
                         </div>
@@ -318,17 +318,21 @@
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <?php 
-                          $height = $row["Height"] != null ? $row["Height"] : "-";
+                          $height = $user_info["Height"] != null ? $user_info["Height"] : "-";
                           echo $height;
                           ?>
                         </div>
                       </div>
                       <hr>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <a class="btn btn-info " href="edit_user.php">Edit</a>
-                        </div>
-                      </div>
+                      <?php
+                        if ($_SESSION["user_id"] == $user_info["user_id"]) {
+                          echo "<div class='row'>
+                            <div class='col-sm-12'>
+                              <a class='btn btn-info ' href='edit_user.php'>Edit</a>
+                            </div>
+                          </div>";
+                        }
+                      ?>
                     </div>
                   </div>
                   <div class="card mb-3">
@@ -349,7 +353,7 @@
                         ";
 
                         $posts = $conn->prepare($post_query);
-                        $posts->bindParam(1, $_SESSION["user_id"]);
+                        $posts->bindParam(1, $user_info["user_id"]);
                         $posts->execute();
 
                         $count = $posts->rowCount();
@@ -361,7 +365,7 @@
                           foreach($result as $row) { ?>
                             <div class='post'>
                               <div class='post-body'>
-                                <h6><?php echo $_SESSION['user_name']?></h6> 
+                                <h6><?php echo $user_info['Username']?></h6> 
                                 <p class='post-text'>
                                 <?php echo $row["workout"]?>
                                 </p>
@@ -384,7 +388,7 @@
                                     SELECT * FROM likes
                                     where user_id = ? AND post_id = ?
                                     ");
-                                    $query->bindParam(1, $_SESSION["user_id"]);
+                                    $query->bindParam(1, $user_info["user_id"]);
                                     $query->bindParam(2, $row["post_id"]);
                                     $query->execute();
                                     $unique_count = $query->rowCount();

@@ -74,7 +74,7 @@ function generate_posts($posts, $conn, $user_info) {
     $all_posts = $all_posts . 
       "<div class='post'>
         <div class='post-body' id='post_$post[post_id]'>
-          <h6>$username[Username]</h6> 
+          <a href='user.php?user_id=$post[user_id]'<h6>$username[Username]</h6></a>
           <p class='post-text'>
           $log_post
           </p>
