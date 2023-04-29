@@ -53,6 +53,47 @@ function get_liked_status($user_id, $post_id, $conn) {
   }
 }
 
+// Generates a set of posts and formats them to be displayed.
+function generate_posts($posts, $conn, $user_info) {
+  $all_posts = '';
+  foreach ($posts as $post) {
+    $log_post = $post["workout"];
+  
+    // User that posted the current log post.
+    $username = get_user($post["user_id"], $conn);
+  
+    // Gets like count for the current post.
+    $like_count = get_like_count($post["post_id"], $conn);
+  
+    // Gets comments of the current post (should probably be moved elsewhere)
+    $comment_count = get_comment_count($post["post_id"], $conn);
+  
+    // Get whether the current user liked the current post.
+    $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
+  
+    $all_posts = $all_posts . 
+      "<div class='post'>
+        <div class='post-body' id='post_$post[post_id]'>
+          <h6>$username[Username]</h6> 
+          <p class='post-text'>
+          $log_post
+          </p>
+          <div class='post-footer'>
+            <div class='post-footer-option'>
+              <!-- like count-->
+              <span id='like_count_$post[post_id]'>$like_count</span>
+              <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
+              <!-- Comment count-->
+              <span id='comment_count_$post[post_id]'>$comment_count</span>  
+              <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
+            </div>
+          </div>
+        </div>
+      </div>";
+  }
+  return $all_posts;
+}
+
 $get_current_user = "SELECT * FROM user WHERE Username = ? LIMIT 1";
 $stmt = $conn->prepare($get_current_user);
 $stmt->bindParam(1, $_SESSION["user_name"], PDO::PARAM_STR);
@@ -67,50 +108,61 @@ $stmt->execute();
 $posts = $stmt->fetchAll();
 $posts = array_reverse($posts);
 
-foreach ($posts as $post) {
-  $log_post = $post["workout"];
+// foreach ($posts as $post) {
+//   $log_post = $post["workout"];
 
-  // User that posted the current log post.
-  $username = get_user($post["user_id"], $conn);
+//   // User that posted the current log post.
+//   $username = get_user($post["user_id"], $conn);
 
-  // Gets like count for the current post.
-  $like_count = get_like_count($post["post_id"], $conn);
+//   // Gets like count for the current post.
+//   $like_count = get_like_count($post["post_id"], $conn);
 
-  // Gets comments of the current post (should probably be moved elsewhere)
-  $comment_count = get_comment_count($post["post_id"], $conn);
+//   // Gets comments of the current post (should probably be moved elsewhere)
+//   $comment_count = get_comment_count($post["post_id"], $conn);
 
-  // Get whether the current user liked the current post.
-  $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
+//   // Get whether the current user liked the current post.
+//   $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
 
-  $display_posts = $display_posts . 
-    "<div class='post'>
-      <div class='post-body' id='post_$post[post_id]'>
-        <h6>$username[Username]</h6> 
-        <p class='post-text'>
-        $log_post
-        </p>
-        <div class='post-footer'>
-          <div class='post-footer-option'>
-            <!-- like count-->
-            <span id='like_count_$post[post_id]'>$like_count</span>
-            <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
-            <!-- Comment count-->
-            <span id='comment_count_$post[post_id]'>$comment_count</span>  
-            <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
-          </div>
-        </div>
-      </div>
-    </div>";
-}
+//   $display_posts = $display_posts . 
+//     "<div class='post'>
+//       <div class='post-body' id='post_$post[post_id]'>
+//         <h6>$username[Username]</h6> 
+//         <p class='post-text'>
+//         $log_post
+//         </p>
+//         <div class='post-footer'>
+//           <div class='post-footer-option'>
+//             <!-- like count-->
+//             <span id='like_count_$post[post_id]'>$like_count</span>
+//             <i class='$liked fa-solid fa-heart fa-lg' id='like_$post[post_id]'></i>
+//             <!-- Comment count-->
+//             <span id='comment_count_$post[post_id]'>$comment_count</span>  
+//             <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
+//           </div>
+//         </div>
+//       </div>
+//     </div>";
+// }
+$display_posts = generate_posts($posts, $conn, $user_info);
 
-// Make the blue circle in Workouts actually be accurate
+// Make the purple circle in Workouts actually be accurate
 $get_user_post_count = "SELECT * FROM log_posts WHERE user_id = ?";
 $stmt = $conn->prepare($get_user_post_count);
 $stmt->bindParam(1, $user_info["user_id"], PDO::PARAM_INT);
 $stmt->execute();
 $workout_count = $stmt->rowCount();
 
+// Get the current logged user's workouts
+if (isset($_POST["user_workouts"])) {
+  $workouts = $stmt->fetchAll();
+  $response = "<i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>";
 
+  $response = $response . generate_posts($workouts, $conn, $user_info);
+  echo $response;
+  exit;
+}
+
+// Submit a workout log post.
 if (isset($_POST["submit_post"])) {
     if (strlen($_POST["post_text"]) > 0) { 
         $new_post = "INSERT INTO log_posts (user_id, workout, date) VALUES (?, ?, NOW())";
@@ -119,7 +171,6 @@ if (isset($_POST["submit_post"])) {
         $stmt->bindParam(2, $_POST["post_text"], PDO::PARAM_STR);
         if ($stmt->execute()) {
             $post_id = $conn->lastInsertId();
-            // $response = array();
             $response = "<div class='post'>
                           <div class='post-body' id='post_$post_id'>
                             <h6>$user_info[Username]</h6>
@@ -140,7 +191,6 @@ if (isset($_POST["submit_post"])) {
                         </div>
             ";
             unset($_POST["submit_post"]);
-            // echo json_encode($response);
             echo $response;
         }
     } else {
@@ -393,7 +443,7 @@ if (isset($_POST["back"])) {
         <nav class="list-group">
           <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
           <?php
-          echo "<a class='list-group-item with-badge' href='#'><i class='fa fa-th'></i>Workouts";
+          echo "<a class='list-group-item with-badge' href='javascript:show_users_workouts()'><i class='fa fa-th'></i>Workouts";
             if ($workout_count > 0) {
               echo "<span class='badge badge-primary badge-pill'>$workout_count</span></a>";
             } else {
@@ -429,10 +479,29 @@ if (isset($_POST["back"])) {
         }
     </script>
     <script>
+      function show_users_workouts() {
+        let feed = document.getElementById("feed");
+        $.ajax({
+          url: "feed.php",
+          type: "post",
+          async: false,
+          data: {
+                'user_workouts': 1
+          },
+          success: function(response) {
+            console.log(response);
+            feed.innerHTML = '';
+            feed.innerHTML = response;
+          }
+        })
+      }
+    </script>
+    <script>
       // Function to submit a post and update the html to display the new post.
       function post_submit() {
         let feed = document.getElementById("feed");
         let post_text = document.getElementById("review_text").value;
+        let workout_count = document.querySelector(".badge-pill");
         $.ajax({
           url: "feed.php",
           type: "post",
@@ -447,6 +516,7 @@ if (isset($_POST["back"])) {
               if (!window.location.href.includes('?')) {
                 feed.innerHTML = response + feed.innerHTML;
               }
+              workout_count.innerText = parseInt(workout_count.innerText) + 1;
               alert('Log post successfully created!');
             } else {
               alert('You must enter text into the textbox to post!');

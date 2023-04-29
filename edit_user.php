@@ -4,6 +4,7 @@
     header("location:index.php");
   } 
   include("db_connection.php");
+  include("auth.php");
 
   if(isset($_POST['edited'])){
 	$q= "UPDATE user SET ";
@@ -444,11 +445,11 @@
 				valid_height = true;
 			}
 			
-			if (f_name.value.length > 0 && /^[A-Z][a-z]+$/.test(f_name.value)) {
+			if (f_name.value.length > 0 && /^[A-Za-z]+$/.test(f_name.value)) {
 				valid_fname = true;
 			} 
 
-			if (l_name.value.length > 0 && /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/.test(l_name.value)) {
+			if (l_name.value.length > 0 && /^[\w'\-,.]*[^0-9_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/.test(l_name.value)) {
 				valid_lname = true;
 			}
 
@@ -465,11 +466,12 @@
 			if (is_coach) {
 				if (!(valid_fname && valid_lname && valid_height && valid_weight && valid_phone)) {
 					console.log("Missing fields");
-					console.log("iscoach", is_coach)
-					console.log("fname", valid_fname)
-					console.log("height", valid_height)
-					console.log("weight", valid_weight)
-					console.log("phone",valid_phone)
+					console.log("iscoach", is_coach);
+					console.log("fname", valid_fname);
+					console.log("lname", valid_lname);
+					console.log("height", valid_height);
+					console.log("weight", valid_weight);
+					console.log("phone",valid_phone);
 					finish = false;
 				}
 			}
@@ -490,6 +492,7 @@
 
 					},
 					success:function(){
+						window.location.href='user.php';
 					}
 				});
 				alert("Saved Changes");
