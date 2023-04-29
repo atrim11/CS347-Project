@@ -441,7 +441,7 @@ if (isset($_POST["back"])) {
           </div>
         </aside>
         <nav class="list-group">
-          <a class="list-group-item" href="#"><i class="fa fa-user"></i>Profile</a>
+          <a class="list-group-item" href=".\edit_user.php"><i class="fa fa-user"></i>Profile</a>
           <?php
           echo "<a class='list-group-item with-badge' href='javascript:show_users_workouts()'><i class='fa fa-th'></i>Workouts";
             if ($workout_count > 0) {
