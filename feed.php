@@ -8,6 +8,7 @@ include("auth.php");
 
 if (!check_login()) {
   header("location:login.php");
+  exit;
 }
 
 $url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -53,6 +54,21 @@ function get_liked_status($user_id, $post_id, $conn) {
   }
 }
 
+// Helper function to get the deletion status for a given post.
+// Allows for original make of the post or a Coach to delete posts.
+function get_delete_status($user_id, $post_id, $conn) {
+  $get_if_userpost = "SELECT * FROM log_posts WHERE user_id = ? and post_id = ?";
+  $stmt = $conn->prepare($get_if_userpost);
+  $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+  $stmt->bindParam(2, $post_id, PDO::PARAM_INT);
+  $stmt->execute();
+  if (get_user($user_id, $conn)["User_Type"] == "coach" || $stmt->rowCount() > 0) {
+    return "<i class='delete fa-solid fa-trash fa-lg float-right' id='delete_$post_id'></i>";
+  } else {
+    return "";
+  }
+}
+
 // Generates a set of posts and formats them to be displayed.
 function generate_posts($posts, $conn, $user_info) {
   $all_posts = '';
@@ -70,10 +86,14 @@ function generate_posts($posts, $conn, $user_info) {
   
     // Get whether the current user liked the current post.
     $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
+    
+    // Get whether the logged user can delete the current post.
+    $delete = get_delete_status($username["user_id"], $post["post_id"], $conn);
   
     $all_posts = $all_posts . 
       "<div class='post'>
         <div class='post-body' id='post_$post[post_id]'>
+          $delete
           <a href='user.php?user_id=$post[user_id]'<h6>$username[Username]</h6></a>
           <p class='post-text'>
           $log_post
@@ -138,6 +158,7 @@ if (isset($_POST["submit_post"])) {
             $post_id = $conn->lastInsertId();
             $response = "<div class='post'>
                           <div class='post-body' id='post_$post_id'>
+                            <i class='fa-solid fa-trash fa-lg float-right' id='delete_$post_id'></i>
                             <a href='user.php?user_id=$user_info[user_id]'><h6>$user_info[Username]</h6></a>
                             <p class='post-text'>
                               $_POST[post_text]
@@ -205,11 +226,13 @@ if (isset($_POST["open_post"])) {
         $like_count = get_like_count($opened_post["original_id"], $conn);
         $comment_count = get_comment_count($opened_post["original_id"], $conn);
         $liked = get_liked_status($user_info["user_id"], $_POST["post_id"], $conn);
+        $delete = get_delete_status($user_info["user_id"], $_POST["post_id"], $conn);
 
         // Format post.
         $response[0] = "<div class='post'>
                           <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
-                            <i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>
+                            <i class='fa-solid fa-lg fa-arrow-left' style='font-size: 16px' id='back'></i>
+                            $delete
                             <a href='user.php?user_id=$poster_details[user_id]'><h6>$poster_details[Username]</h6></a>
                             <p class='post-text'>
                               $opened_post[workout]
@@ -268,11 +291,13 @@ if (isset($_POST["open_post"])) {
         $comment_count = get_comment_count($_POST["post_id"], $conn);
         $like_count = get_like_count($_POST["post_id"], $conn);
         $liked = get_liked_status($poster["user_id"], $_POST["post_id"], $conn);
+        $delete = get_delete_status($user_info["user_id"], $_POST["post_id"], $conn);
 
         // Format the post.
         $response[0] = "<div class='post'>
                           <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
-                            <i class='fa-solid fa-arrow-left' style='font-size: 16px' id='back'></i>
+                            <i class='fa-solid fa-lg fa-arrow-left' style='font-size: 16px' id='back'></i>
+                            $delete
                             <a href='user.php?user_id=$poster[user_id]'><h6>$poster[Username]</h6></a>
                             <p class='post-text'>
                               $post_info[workout]
@@ -325,6 +350,9 @@ if (isset($_POST["submit_comment"])) {
                     </div>
                   </div>";
   echo json_encode($response);
+  unset($_POST["submit_comment"]);
+  unset($_POST["post_id"]);
+  unset($_POST["comment_text"]);
 
   exit;
 }
@@ -333,7 +361,32 @@ if (isset($_POST["back"])) {
   $response = array();
   $response[0] = $display_posts;
   echo json_encode($response);
+  unset($_POST["back"]);
 
+  exit;
+}
+
+// If a delete has been approved by a user.
+if (isset($_POST["delete"])) {
+  $get_post_comments = "SELECT comment_id FROM comments WHERE post_id = ?";
+  $comment_query = $conn->prepare($get_post_comments);
+  $comment_query->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
+  $comment_query->execute();
+  $comments = $comment_query->fetchAll();
+  
+  foreach ($comments as $comment) {
+    $delete_comment = "DELETE FROM comments WHERE comment_id = ?";
+    $comment_query = $conn->prepare($delete_comment);
+    $comment_query->bindParam(1, $comment["comment_id"], PDO::PARAM_INT);
+    $comment_query->execute();
+  }
+  $delete_post = "DELETE FROM log_posts WHERE post_id = ?";
+  $post_delete_query = $conn->prepare($delete_post);
+  $post_delete_query->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
+  $post_delete_query->execute();
+
+  unset($_POST["post_id"]);
+  unset($_POST["delete"]);
   exit;
 }
 
@@ -521,18 +574,17 @@ if (isset($_POST["back"])) {
         // buttons or whatever have you. Detects clicks properly,
         // but comment part does not work.
         document.addEventListener('click', function(e) {
+              // Listener for comment bubble interaction
               if(e.target && (/comment_([0-9])+/.test(e.target.id))) {
-                //   let postId = parseInt(e.target.id.split('_')[1]);
-                // //   window.open(`post_details.php?post_id=${postId}`, '_blank');
-                //   let comment_count_elem = document.getElementById(`comment_count_${postId}`);
                 let create_comment = document.getElementById("create_comment");
                 if (create_comment && create_comment.style.display == "none") {
                   create_comment.style.display = "block";
                 } else if (create_comment && create_comment.style.display == "block") {
                   create_comment.style.display = "none";
                 }
-
-              } else if (e.target && (/like_/.test(e.target.id))) {
+              } 
+              // Listener for like button interaction.
+              else if (e.target && (/like_/.test(e.target.id))) {
                   postLike = e.target;
                   let postId = parseInt(postLike.id.split('_')[1]);
                   let like_count_elem = document.getElementById(`like_count_${postId}`);
@@ -567,7 +619,35 @@ if (isset($_POST["back"])) {
                         }
                     });
                   }
-              } else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
+              } 
+              // Listener for delete button interaction.
+              else if (e.target && (/delete_([0-9])+/).test(e.target.id)) {
+                  let confirmation = confirm("Would you like to delete this post?");
+                  if (confirmation) {
+                    let postId = parseInt(e.target.id.split('_')[1]);
+                    let post = e.target.parentNode;
+                    let feed = document.getElementById("feed");
+                    $.ajax({
+                      url: "feed.php",
+                      type: "post",
+                      async: false,
+                      data: {
+                          'delete': 1,
+                          'post_id': postId
+                      },
+                      success: function() {
+                        alert("Post successfully deleted!");
+                        post.remove();
+                        if (window.location.href.includes('?')) {
+                          feed.innerHTML = '';
+                          feed.innerHTML += "<div class='post'><div class='post-body'><p class='post-text'>We're sorry, but you must go <b id='back'>back to the feed page</b>.</p></div></div>";
+                        }
+                      }
+                    });
+                  }
+              }
+              // Listener for clicking on a post. 
+              else if (e.target && (/post_([0-9])+/.test(e.target.id) || /post_([0-9])/.test(e.target.parentNode.id))) {
                   let posts = document.getElementById("feed");
                   let postId = parseInt(e.target.id.split('_')[1]) || parseInt(e.target.parentNode.id.split('_')[1]);
                   $.ajax({
@@ -587,7 +667,9 @@ if (isset($_POST["back"])) {
                         server_rsp.forEach(element => posts.innerHTML += element);
                     }
                   });
-              } else if (e.target && e.target.id == "back") {
+              }
+              // Listener for clicking on a back to feed button 
+              else if (e.target && e.target.id == "back") {
                 let feed = document.getElementById("feed");
                 $.ajax({
                   url: "feed.php",

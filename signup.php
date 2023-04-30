@@ -50,7 +50,9 @@ if (isset($_POST["Sign_Up"])) {
                     function_alert("User successfully created!");
                     $_SESSION["user_name"] = $_POST["Username"];
                     $_SESSION["active"] = 1;
-                    //setcookie("user_name", $_POST["Username"], time()+3600);
+                    $_SESSION['user_id'] = $row['user_id'];
+                    // setcookie("user_name", $row['Username'], time()+3600, '/');
+                    // setcookie("active", 1, time()+3600, '/');
                     echo "<script>window.location.href='feed.php';</script>";
                 }
             }

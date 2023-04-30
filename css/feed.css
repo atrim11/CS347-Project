@@ -308,7 +308,8 @@ a.list-group-item, .list-group-item-action {
 } 
 
 #back:hover {
-    text-shadow: 0 0 3px #000;
+    text-shadow: 0 0 2px #000;
+    color: #7768AE;
     cursor: pointer;
 }
 
@@ -318,6 +319,11 @@ a.list-group-item, .list-group-item-action {
 
 .comment_blob:hover {
     color: #7768AE;
+}
+
+.delete:hover {
+    color: #7768AE;
+    cursor: pointer;
 }
 
 @media (max-width: 576px) {
