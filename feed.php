@@ -12,6 +12,7 @@ if (!check_login()) {
 }
 
 $url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+date_default_timezone_set('US/Eastern');
 
 // Helper function to get the current user based on their id.
 function get_user($user_id, $conn) {
@@ -106,6 +107,7 @@ function generate_posts($posts, $conn, $user_info) {
               <!-- Comment count-->
               <span id='comment_count_$post[post_id]'>$comment_count</span>  
               <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post[post_id]'></i>
+              <span class='float-right'>$post[date]</span>
             </div>
           </div>
         </div>
@@ -156,6 +158,7 @@ if (isset($_POST["submit_post"])) {
         $stmt->bindParam(2, $_POST["post_text"], PDO::PARAM_STR);
         if ($stmt->execute()) {
             $post_id = $conn->lastInsertId();
+            $date = date('Y-m-d H:i:s');
             $response = "<div class='post'>
                           <div class='post-body' id='post_$post_id'>
                             <i class='fa-solid fa-trash fa-lg float-right' id='delete_$post_id'></i>
@@ -171,6 +174,7 @@ if (isset($_POST["submit_post"])) {
                                 <!-- Comment count -->
                                 <span id='comment_count_$post_id'>0</span>
                                 <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$post_id'></i>
+                                <span class='float-right'>$date</span>
                               </div>
                             </div>
                           </div>
@@ -210,12 +214,19 @@ else if (isset($_POST["unlike"])) {
 if (isset($_POST["open_post"])) {
     // Big query to grab post data alongside comment data for that post.
     $get_current_post = "SELECT log_posts.workout, log_posts.post_id AS original_id, log_posts.user_id AS poster_id, 
-    comments.post_id AS parent_post_id, comments.user_id AS commenter_id, comments.content FROM log_posts INNER JOIN comments
+    comments.post_id AS parent_post_id, comments.user_id AS commenter_id, comments.content, comments.date_time FROM log_posts INNER JOIN comments
     ON log_posts.post_id = comments.post_id WHERE log_posts.post_id = ?";
     $get_comments = $conn->prepare($get_current_post);
     $get_comments->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
     $get_comments->execute();
     $comments_with_post = $get_comments->fetchAll();
+
+    // Get the post that was clicked on
+    $get_post = "SELECT * FROM log_posts WHERE post_id = ?";
+    $post_stmt = $conn->prepare($get_post);
+    $post_stmt->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
+    $post_stmt->execute();
+    $post_info = $post_stmt->fetch();
 
     $response = array();
     // If there are comments to display.
@@ -245,6 +256,7 @@ if (isset($_POST["open_post"])) {
                                   <!-- Comment count-->
                                   <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
                                   <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                                  <span class='float-right'>$post_info[date]</span>
                                 </div>
                               </div>
                           </div>
@@ -255,7 +267,7 @@ if (isset($_POST["open_post"])) {
                               placeholder='Write your message here...' required=''></textarea>
                           </div>
                           <div class='text-right'>
-                            <button id='submit_comment' name='submit_comment' class='btn btn-outline-primary' type='submit'>
+                            <button id='submit_comment' name='submit_comment' class='btn btn-primary' type='submit'>
                               Submit Comment
                             </button>
                           </div>
@@ -270,6 +282,7 @@ if (isset($_POST["open_post"])) {
                                     <p class='post-text'>
                                         $comments[content]
                                     </p>
+                                    <span class='float-right'>$comments[date_time]</span>
                                 </div>
                             </div>";
             $i = $i + 1;
@@ -279,13 +292,6 @@ if (isset($_POST["open_post"])) {
     }
     // If no comments to display (the big query returns nothing if there are no comments). 
     else {
-        // Get the post that was clicked on
-        $get_post = "SELECT * FROM log_posts WHERE post_id = ?";
-        $post_stmt = $conn->prepare($get_post);
-        $post_stmt->bindParam(1, $_POST["post_id"], PDO::PARAM_INT);
-        $post_stmt->execute();
-        $post_info = $post_stmt->fetch();
-
         // Call defined functions for getting post data.
         $poster = get_user($post_info["user_id"], $conn);
         $comment_count = get_comment_count($_POST["post_id"], $conn);
@@ -310,6 +316,7 @@ if (isset($_POST["open_post"])) {
                                   <!-- Comment count-->
                                   <span id='comment_count_$_POST[post_id]'>$comment_count</span>  
                                   <i class='comment_blob fa-solid fa-message fa-lg' id='comment_$_POST[post_id]'></i>
+                                  <span class='float-right'>$post_info[date]</span>
                               </div>
                             </div>
                           </div>
@@ -320,7 +327,7 @@ if (isset($_POST["open_post"])) {
                               placeholder='Write your message here...' required=''></textarea>
                           </div>
                           <div class='text-right'>
-                            <button id='submit_comment' name='submit_comment' class='btn btn-outline-primary' type='submit'>
+                            <button id='submit_comment' name='submit_comment' class='btn btn-primary' type='submit'>
                               Submit Comment
                             </button>
                           </div>
@@ -340,6 +347,7 @@ if (isset($_POST["submit_comment"])) {
   $comment_stmt->bindParam(3, $_POST["comment_text"], PDO::PARAM_STR);
   $comment_stmt->execute();
 
+  $date = date('Y-m-d H:i:s');
   $response = array();
   $response[0] = "<div class = 'post'>
                     <div class='post-body'>
@@ -347,6 +355,7 @@ if (isset($_POST["submit_comment"])) {
                       <p class='post-text'>
                         $_POST[comment_text]
                       </p>
+                      <span class='float-right'>$date</span>
                     </div>
                   </div>";
   echo json_encode($response);
@@ -442,55 +451,54 @@ if (isset($_POST["delete"])) {
   <!-- parts of this code are from a template
       https://www.bootdey.com/snippets/view/shop-user-profile-with-ticket -->
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-  <div class="container padding-bottom-3x mb-2">
-    <div class="row">
-      <div class="col-lg-4" id="leftside">
-        <aside class="user-info-wrapper" style="background-color: #7768AE">
-          <div class="user-info">
-            <div class="user-data">
-              <?php 
-            //   echo '<h4>' . htmlspecialchars($_SESSION['user_name']) . '</h4>';
-            //   echo '<span>Joined ' . $_SESSION['date_joined'] . '</span>';
-                echo '<h4>' . htmlspecialchars($user_info['Username']) . '<h4>';
-                echo '<span>Joined ' . $user_info['Date_Joined'] . '</span>';
-              ?>
-              <!-- <span>Joined February 06, 2017</span> -->
+  <main>
+    <div class="container padding-bottom-3x mb-2">
+      <div class="row">
+        <div class="col-lg-4" id="leftside">
+          <aside class="user-info-wrapper" style="background-color: #7768AE">
+            <div class="user-info">
+              <div class="user-data">
+                <?php 
+                  echo '<h4>' . htmlspecialchars($user_info['Username']) . '<h4>';
+                  echo '<span>Joined ' . $user_info['Date_Joined'] . '</span>';
+                ?>
+              </div>
             </div>
-          </div>
-        </aside>
-        <nav class="list-group">
-          <a class="list-group-item" href=".\edit_user.php"><i class="fa fa-user"></i>Profile</a>
+          </aside>
+          <nav class="list-group">
+            <a class="list-group-item" href=".\edit_user.php"><i class="fa fa-user"></i>Profile</a>
+            <?php
+            echo "<a class='list-group-item with-badge' href='javascript:show_users_workouts()'><i class='fa fa-th'></i>Workouts";
+              if ($workout_count > 0) {
+                echo "<span class='badge badge-primary badge-pill'>$workout_count</span></a>";
+              } else {
+                echo "<span class='badge badge-primary badge-pill'>Go Workout!</span></a>";
+              }
+            ?>
+            <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
+          </nav>
+          <!-- Reply Form-->
+          <form id="post_form" method="post" onsubmit="return post_submit()">
+            <label for="review_text"><h5 class="mb-30 padding-top-1x">Post Your Workout</h5></label>
+            <div class="form-group">
+              <textarea class="form-control form-control-rounded" id="review_text" name="post_text" rows="8"
+                placeholder="Write your message here..." required=""></textarea>
+            </div>
+            <div class="text-right">
+              <button id="submit_post" name="submit_post" class="btn btn-primary" type="submit">
+                Submit Workout
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-8" id="feed">
           <?php
-          echo "<a class='list-group-item with-badge' href='javascript:show_users_workouts()'><i class='fa fa-th'></i>Workouts";
-            if ($workout_count > 0) {
-              echo "<span class='badge badge-primary badge-pill'>$workout_count</span></a>";
-            } else {
-              echo "<span class='badge badge-primary badge-pill'>Go Workout!</span></a>";
-            }
+              echo $display_posts;
           ?>
-          <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
-        </nav>
-        <!-- Reply Form-->
-        <form id="post_form" method="post" onsubmit="return post_submit()">
-          <label for="review_text"><h5 class="mb-30 padding-top-1x">Post Your Workout</h5></label>
-          <div class="form-group">
-            <textarea class="form-control form-control-rounded" id="review_text" name="post_text" rows="8"
-              placeholder="Write your message here..." required=""></textarea>
-          </div>
-          <div class="text-right">
-            <button id="submit_post" name="submit_post" class="btn btn-primary" type="submit">
-              Submit Workout
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="col-lg-8" id="feed">
-        <?php
-            echo $display_posts;
-        ?>
+        </div>
       </div>
     </div>
-  </div>
+</main>
     <script>
         if ( window.history.replaceState ) {
             window.history.replaceState( null, null, window.location.href );

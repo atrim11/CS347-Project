@@ -108,11 +108,6 @@ if(isset($_POST["login"]))
             align-items: center;
             flex-direction: column;
         }
-        /* img {
-            position: relative;
-            max-width: 100%;
-            max-height: 100%;
-        } */
         .img_container {
             max-width: 900px;
             overflow: hidden;

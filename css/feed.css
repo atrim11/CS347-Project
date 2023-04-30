@@ -344,7 +344,10 @@ a.list-group-item, .list-group-item-action {
 
 
 
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+.btn-primary, .btn-primary:active, .btn-primary:visited {
     background-color: #7768AE !important;
     border-color: #7768AE !important;
+}
+.btn-primary:hover{
+    filter: brightness(0.8);
 }
