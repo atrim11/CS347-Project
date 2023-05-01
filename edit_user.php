@@ -42,6 +42,9 @@
    ");
    $find_user_info->bindParam(1, $_SESSION["user_id"]);
    $find_user_info->execute();
+   $row = $find_user_info->fetch();
+
+
 
 ?>
 <!DOCTYPE html>
@@ -62,139 +65,7 @@
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
-    <!-- <link rel="stylesheet" href="css/feed.css">  -->
-    <style>
-      .like {
-        color: gray;
-      }
-
-      .like:hover {
-        color: red;
-      } 
-      
-      .unlike {
-        color:red;
-      }
-
-      .unlike:hover {
-        color: gray;
-      } 
-      
-
-      .post {
-          display: block;
-          position: relative;
-          margin-bottom: 30px;
-      }
-
-      .post .post-author-ava {
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 50px;
-          border-radius: 50%;
-          overflow: hidden
-      }
-
-      .post .post-author-ava>img {
-          display: block;
-          width: 100%
-      }
-
-      .post .post-body {
-          position: relative;
-          padding: 24px;
-          border: 1px solid #e1e7ec;
-          border-radius: 7px;
-          background-color: #fff
-      }
-
-      .post .post-body::after {
-          border-width: 9px;
-          border-color: transparent;
-          border-right-color: #fff
-      }
-
-      .post .post-body::before {
-          margin-top: -1px;
-          border-width: 10px;
-          border-color: transparent;
-          border-right-color: #e1e7ec
-      }
-
-      .post .post-title {
-          margin-bottom: 8px;
-          color: #606975;
-          font-size: 14px;
-          font-weight: 500
-      }
-
-      .post .post-text {
-          margin-bottom: 12px
-      }
-
-      .post .post-footer {
-          display: table;
-          width: 100%
-      }
-
-      .post .post-footer>.column {
-          display: table-cell;
-          vertical-align: middle
-      }
-
-      .post .post-footer>.column:last-child {
-          text-align: right
-      }
-
-      .post .post-meta {
-          color: #9da9b9;
-          font-size: 13px
-      }
-
-      .post .reply-link {
-          transition: color .3s;
-          color: #606975;
-          font-size: 14px;
-          font-weight: 500;
-          letter-spacing: .07em;
-          text-transform: uppercase;
-          text-decoration: none
-      }
-
-      .post .reply-link>i {
-          display: inline-block;
-          margin-top: -3px;
-          margin-right: 4px;
-          vertical-align: middle
-      }
-
-      .post .reply-link:hover {
-          color: #0da9ef
-      }
-
-      .post.post-reply {
-          margin-top: 30px;
-          margin-bottom: 0
-      }
-
-      @media (max-width: 576px) {
-          .post {
-              padding-left: 0
-          }
-          .post .post-author-ava {
-              display: none
-          }
-          .post .post-body {
-              padding: 15px
-          }
-          .post .post-body::before,
-          .post .post-body::after {
-              display: none
-          }
-      }
-    </style>
+    
     <!-- Icon script -->
     <script
       src="https://kit.fontawesome.com/2b70e8a21a.js"
@@ -230,18 +101,19 @@
               <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                   <div class="card">
+				  <span style="background-color: #7768AE">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
-                        <i class="fa fa-user fa-2xl"></i>
-                        <div class="mt-3">
+                        <i class="fa fa-user fa-2xl" style="color:black"></i>
+                        <div class="mt-3" style="color:black">
                           <!-- User Name Display -->
                           <h4>
                             <?php
                             echo $_SESSION["user_name"];
                             ?>
                           </h4>
-                          <p class="text-secondary mb-1">
+                          <p class="mb-1" style="color:black">
                             <!-- Displays Date Joined -->
                             <?php 
                             $date = date_create($_SESSION["date_joined"]);
@@ -249,9 +121,15 @@
                             ?>
                             
                           </p>
-                          <p class="text-muted font-size-sm">Athlete or Coach</p>
+                          <p class="font-size-sm" style="color: black">
+                            <?php 
+                            $user_type = $row["User_Type"] == "coach" ? "Coach" : "User";
+                            echo $user_type;
+                            ?>
+                          </p>
                         </div>
                       </div>
+					</span>
                     </div>
                   </div>
                 </div>
@@ -267,7 +145,6 @@
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id ="fn-txtbox" type="text" class="form-control" value="<?php 
-										$row = $find_user_info->fetch();
 										echo $row["F_Name"];
 										?>">
 									</div>

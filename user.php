@@ -36,7 +36,7 @@
   SELECT * FROM user
   WHERE user_id = ?
   ");
-  $find_user_info->bindParam(1, $_GET["user_id"]);
+  $find_user_info->bindParam(1, $_SESSION["user_id"]);
   $find_user_info->execute();
   $user_info = $find_user_info->fetch();
 
@@ -239,7 +239,7 @@
                           </p>
                           <p class="font-size-sm" style="color: black">
                             <?php 
-                            $user_type = $user_info["User_Type"] === "coach" ? "Coach" : "User";
+                            $user_type = $user_info["User_Type"] == "coach" ? "Coach" : "User";
                             echo $user_type;
                             ?>
                           </p>
@@ -524,7 +524,13 @@
               var li = document.createElement("li");
               let classes = "list-group-item d-flex justify-content-between align-items-center flex-wrap".split(' ');
               li.classList.add(...classes);
-              li.innerText = "In order to see bmi data, "+error
+              if (error == "height must be between 130 cm to 230 cm. ") {
+                li.innerText = "In order to see bmi data, your height must be between 51 in and 90 in."
+              } else if (error == "weight must be between 40 kg to 160 kg. ") {
+                li.innerText = "In order to see bmi data, your weight must be between 89 lbs and 352 lbs."
+              } else {
+                li.innerText = "In order to see bmi data, your "+error
+              }
               pd_list.appendChild(li)
             });
           }
