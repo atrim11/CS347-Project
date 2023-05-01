@@ -217,18 +217,19 @@
               <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                   <div class="card">
+                    <span style="background-color: #7768AE">
                     <div class="card-body">
-                      <div class="d-flex flex-column align-items-center text-center">
+                      <div class="d-flex flex-column align-items-center text-center" >
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
-                        <i class="fa fa-user fa-2xl"></i>
+                        <i class="fa fa-user fa-2xl" style="color: black"></i>
                         <div class="mt-3">
                           <!-- User Name Display -->
-                          <h4>
+                          <h4 style="color:black">
                             <?php
                             echo $user_info["Username"];
                             ?>
                           </h4>
-                          <p class="text-secondary mb-1">
+                          <p class="mb-1" style="color: black";>
                             <!-- Displays Date Joined -->
                             <?php 
                             $date = date_create($user_info["Date_Joined"]);
@@ -236,7 +237,7 @@
                             ?>
                             
                           </p>
-                          <p class="text-muted font-size-sm">
+                          <p class="font-size-sm" style="color: black">
                             <?php 
                             $user_type = $user_info["User_Type"] === "coach" ? "Coach" : "User";
                             echo $user_type;
@@ -245,16 +246,19 @@
                         </div>
                       </div>
                     </div>
+                    </span>
                   </div>
+
+                  <?php if ($user_info["User_Type"] == "coach") { ?>
                   <div class="card mt-3">
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <ul class="list-group list-group-flush" id="pd_list">
+                      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap" >
                         <h6 class="mb-0">Personal Data</h6> 
                         <span class="text-secondary">Data</span>
                       </li>
-                      
                     </ul>
                   </div>
+                  <?php }?>
                 </div>
                 <div class="col-md-8">
                   <div class="card mb-3">
@@ -302,24 +306,46 @@
                       <hr>
                       <div class="row">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Weight</h6>
+                          <h6 class="mb-0">Weight (lbs)</h6>
                         </div>
-                        <div class="col-sm-9 text-secondary">
+                        <div class="col-sm-9 text-secondary" id="weight">
                           <?php 
                           $weight = $user_info["Weight"] != null ? $user_info["Weight"] : "-";
-                          echo $weight;
+                          echo "<span id='weight'>".$weight."</span>";
                           ?>
                         </div>
                       </div>
                       <hr>
                       <div class="row">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Height</h6>
+                          <h6 class="mb-0">Height (in)</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <?php 
                           $height = $user_info["Height"] != null ? $user_info["Height"] : "-";
-                          echo $height;
+                          echo "<span id='height'>".$height."</span>";
+                          ?>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <h6 class="mb-0">Age</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          <?php 
+                          $dob = $user_info["DOB"] != null ? $user_info["DOB"] : null;
+      
+                          if ($dob != null) {
+                            $dob = new DateTime($dob);
+
+                            $now = new DateTime();
+                            $diff = $now->diff($dob);
+                            echo "<span id='age'>".$diff->y."</span>";
+
+                          } else {
+                            echo "<span id='age'>-</span>";
+                          }
                           ?>
                         </div>
                       </div>
@@ -442,8 +468,71 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      
-      // user clicks on like
+      var weight = Number(document.getElementById("weight").innerText.trim()) * 0.45359237;
+      var height = Number(document.getElementById("height").innerText.trim()) * 2.54;
+      var age = document.getElementById("age").innerText.trim();
+
+
+      function createPersonalData(header, data) {
+        let li = document.createElement("li");
+        let classes = "list-group-item d-flex justify-content-between align-items-center flex-wrap".split(' ');
+        li.classList.add(...classes);
+
+        let h6 = document.createElement("h6");
+        h6.classList.add("mb-0");
+        h6.innerText = header;
+
+        let span = document.createElement("span");
+        span.innerText = data
+        
+        li.appendChild(h6)
+        li.appendChild(span)
+        console.log(li)
+        return li
+      }
+
+      async function bmi(weight, height, age) {
+        const url = 'https://fitness-calculator.p.rapidapi.com/bmi?age='+age+'&weight='+weight+'&height='+height;
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': '87b9f2b24dmsh19936e7fdd96710p1d89c2jsn9dd293a65f60',
+            'X-RapidAPI-Host': 'fitness-calculator.p.rapidapi.com'
+          }
+        };
+        try {
+            let response = await fetch(url, options);
+
+            response = await response.json();
+            return response;
+            // console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+      }
+
+      pd_list =document.getElementById("pd_list");
+      if (pd_list != null) { 
+        bmi(weight, height, age).then((val) => {
+          console.log(val)
+          if (val.status_code/100 == 2) {
+            pd_list.appendChild(createPersonalData("bmi", val.data["bmi"]));
+            pd_list.appendChild(createPersonalData("Ideal bmi range", val.data["healthy_bmi_range"]))
+            pd_list.appendChild(createPersonalData("health", val.data["health"]));
+          } else {
+            val.errors.forEach(error => {
+              var li = document.createElement("li");
+              let classes = "list-group-item d-flex justify-content-between align-items-center flex-wrap".split(' ');
+              li.classList.add(...classes);
+              li.innerText = "In order to see bmi data, "+error
+              pd_list.appendChild(li)
+            });
+          }
+
+        });
+      }
+
+      // user on like
       $(document).ready(function() {
         $('.liker').click(function(){
           var postid = $(this).attr('id');

@@ -459,14 +459,15 @@ if (isset($_POST["delete"])) {
             <div class="user-info">
               <div class="user-data">
                 <?php 
+                  $date = date_create($user_info["Date_Joined"]);
                   echo '<h4>' . htmlspecialchars($user_info['Username']) . '<h4>';
-                  echo '<span>Joined ' . $user_info['Date_Joined'] . '</span>';
+                  echo '<span>Joined ' . date_format($date, "m/d/y") . '</span>';
                 ?>
               </div>
             </div>
           </aside>
           <nav class="list-group">
-            <a class="list-group-item" href=".\edit_user.php"><i class="fa fa-user"></i>Profile</a>
+            <a class="list-group-item" href=".\user.php"><i class="fa fa-user"></i>Profile</a>
             <?php
             echo "<a class='list-group-item with-badge' href='javascript:show_users_workouts()'><i class='fa fa-th'></i>Workouts";
               if ($workout_count > 0) {

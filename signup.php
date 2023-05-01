@@ -11,8 +11,8 @@ if (check_login()) {
 }
 
 if (isset($_POST["Sign_Up"])) {
-    if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"])) {
-        function_alert("You must input something in to the \"Username\", \"Password\", and \"Email\" fields.");
+    if(empty($_POST["Username"]) || empty($_POST["Password"]) || empty($_POST["Email"] || empty($_POST["DOB"]))) {
+        function_alert("You must input something in to the \"Username\", \"Password\", \"Email\", and \"Date of Birth\" fields.");
     } else {
         $char = "/[a-zA-Z]/";
         $num = "/[0-9]/";
@@ -35,7 +35,7 @@ if (isset($_POST["Sign_Up"])) {
             } else {
                 // Hash the password
                 $hashed_password = password_hash($_POST["Password"], PASSWORD_DEFAULT);
-                $sql = "INSERT INTO user (Email, Password, Username, Date_Joined) VALUES (?, ?, ?, CURDATE())";
+                $sql = "INSERT INTO user (Email, Password, Username, Date_Joined, DOB) VALUES (?, ?, ?, CURDATE(), ?)";
             
                 // Prepare the SQL statement
                 $stmt = $conn->prepare($sql);
@@ -44,6 +44,7 @@ if (isset($_POST["Sign_Up"])) {
                 $stmt->bindParam(1, $_POST["Email"], PDO::PARAM_STR);
                 $stmt->bindParam(2, $hashed_password, PDO::PARAM_STR);
                 $stmt->bindParam(3, $_POST["Username"], PDO::PARAM_STR);
+                $stmt->bindParam(4, $_POST["DOB"]);
         
                 // Execute the SQL statement
                 if ($stmt->execute()) {
@@ -171,6 +172,11 @@ function function_alert($msg) {
                 <div class="form-group">
                     <label for="Email">Email</label>
                     <input type="email" name="Email" id="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="DOB">Date of Birth</label>
+                    <input type="date" name="DOB" id="DOB" class="form-control">
+
                 </div>
                 <div class="form-group text-center">
                     <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" class="btn btn-lg btn-primary">
