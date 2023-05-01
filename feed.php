@@ -669,7 +669,7 @@ if (isset($_POST["delete"])) {
                     success: function(response) {
                         // If success, parse JSON respone and put it to the screen.
                         console.log(response);
-                        window.history.pushState({additionalInformation: "Viewing a post"}, "FitNation", window.location.href + `?post_id=${postId}&open_post=1`);
+                        window.history.pushState({additionalInformation: "Viewing a post"}, "FitNation", window.location.href.split('?')[0] + `?post_id=${postId}&open_post=1`);
                         posts.innerHTML = '';
                         let server_rsp = JSON.parse(response);
                         server_rsp.forEach(element => posts.innerHTML += element);
