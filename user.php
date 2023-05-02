@@ -36,7 +36,7 @@
   SELECT * FROM user
   WHERE user_id = ?
   ");
-  $find_user_info->bindParam(1, $_SESSION["user_id"]);
+  $find_user_info->bindParam(1, $_GET["user_id"]);
   $find_user_info->execute();
   $user_info = $find_user_info->fetch();
 

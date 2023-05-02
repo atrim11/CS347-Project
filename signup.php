@@ -48,10 +48,11 @@ if (isset($_POST["Sign_Up"])) {
         
                 // Execute the SQL statement
                 if ($stmt->execute()) {
+                    $user_id = $conn->lastInsertId();
                     function_alert("User successfully created!");
                     $_SESSION["user_name"] = $_POST["Username"];
                     $_SESSION["active"] = 1;
-                    $_SESSION['user_id'] = $row['user_id'];
+                    $_SESSION['user_id'] = $user_id;
                     // setcookie("user_name", $row['Username'], time()+3600, '/');
                     // setcookie("active", 1, time()+3600, '/');
                     echo "<script>window.location.href='feed.php';</script>";

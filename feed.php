@@ -89,7 +89,7 @@ function generate_posts($posts, $conn, $user_info) {
     $liked = get_liked_status($user_info["user_id"], $post["post_id"], $conn);
     
     // Get whether the logged user can delete the current post.
-    $delete = get_delete_status($username["user_id"], $post["post_id"], $conn);
+    $delete = get_delete_status($user_info["user_id"], $post["post_id"], $conn);
   
     $all_posts = $all_posts . 
       "<div class='post'>
