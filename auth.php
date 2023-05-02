@@ -1,6 +1,6 @@
 <?php
 function check_login() {
-  if (isset($_SESSION["user_name"]) && isset($_COOKIE['user_name']) && isset($_COOKIE['active'])) {
+  if (isset($_SESSION["user_name"]) && isset($_SESSION['active'])) {
     return true;
   }
   return false;

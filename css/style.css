@@ -123,3 +123,9 @@ body {
     margin-top: 7rem;
   }
 }
+
+
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+  background-color: #7768AE !important;
+  border-color: #7768AE !important;
+}
