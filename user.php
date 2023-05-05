@@ -46,20 +46,20 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    >
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
-    />
+    >
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/feed.css">  -->
     <style>
       .like {
@@ -199,7 +199,7 @@
       crossorigin="anonymous"
     ></script>
     <!-- Website Icon -->
-    <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico" />
+    <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
     <title>FitNation</title>
   </head>
   <body>
@@ -208,7 +208,6 @@
         include("navbar.php");
       ?>
     </header>
-    <body>
       <div class="container">
         <div class="main-body">
 
@@ -217,36 +216,24 @@
               <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                   <div class="card">
-                    <span style="background-color: #7768AE">
+                    <div style="background-color: #7768AE">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center" >
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
                         <i class="fa fa-user fa-2xl" style="color: black"></i>
                         <div class="mt-3">
-                          <!-- User Name Display -->
-                          <h4 style="color:black">
+                          <!-- User Info Display -->
                             <?php
-                            echo $user_info["Username"];
-                            ?>
-                          </h4>
-                          <p class="mb-1" style="color: black";>
-                            <!-- Displays Date Joined -->
-                            <?php 
+                            echo "<h4 style='color:black'>$user_info[Username]</h4>";
                             $date = date_create($user_info["Date_Joined"]);
-                            echo "Joined: ".date_format($date,"m/d/Y");
-                            ?>
-                            
-                          </p>
-                          <p class="font-size-sm" style="color: black">
-                            <?php 
+                            echo "<p class='mb-1' style='color: black;'>Joined: ".date_format($date,"m/d/Y")."</p>"; 
                             $user_type = $user_info["User_Type"] == "coach" ? "Coach" : "User";
-                            echo $user_type;
+                            echo "<p class='font-size-sm' style='color: black'>$user_type</p>";
                             ?>
-                          </p>
                         </div>
                       </div>
                     </div>
-                    </span>
+                    </div>
                   </div>
 
                   <?php if ($user_info["User_Type"] == "coach") { ?>
@@ -450,8 +437,6 @@
               </div>
     
             </div>
-        </div>
-    </body>
     <!-- Optional JavaScript -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

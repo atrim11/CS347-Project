@@ -74,26 +74,61 @@ function function_alert($msg) {
 <html lang="en">
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    >
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
-    />
+    >
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css">
     <!-- google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
     <style>
         .navbar-brand {
             font-family: 'Anton', sans-serif;
         } 
+        main {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        .img_container {
+            max-width: 900px;
+            overflow: hidden;
+        }
+        img {
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .valid {
+            color: green;
+            background-color: rgba(36, 207, 147, 0.1);
+        }
+
+        .invalid {
+            color: red;
+            background-color: rgba(255, 49, 101, 0.1);
+        }
+
+        /* Styling from: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying. */
+        .password-container{
+            position: relative;
+        }
+        .fa-eye, .fa-eye-slash{
+            position: absolute;
+            top: 21%;
+            right: 5%;
+            cursor: pointer;
+            color: lightgray;
+        }
     </style>
     <!-- Icon script -->
     <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
@@ -102,44 +137,6 @@ function function_alert($msg) {
     <title>Sign Up For FitNation</title>
 
 </head>
-<style>
-    main {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-    .img_container {
-        max-width: 900px;
-        overflow: hidden;
-    }
-    img {
-        width: 100%;
-        object-fit: contain;
-    }
-
-    .valid {
-        color: green;
-        background-color: rgba(36, 207, 147, 0.1);
-    }
-
-    .invalid {
-        color: red;
-        background-color: rgba(255, 49, 101, 0.1);
-    }
-
-    /* Styling from: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying. */
-    .password-container{
-        position: relative;
-    }
-    .fa-eye, .fa-eye-slash{
-        position: absolute;
-        top: 21%;
-        right: 5%;
-        cursor: pointer;
-        color: lightgray;
-    }
-
-</style>
 
 <body>
     <header>
@@ -147,7 +144,7 @@ function function_alert($msg) {
             include("navbar.php");
         ?>
     </header>
-    <main role="main">
+    <main>
         <div class="img_container">
             <img src="Images/Purple-Logo.png" alt="FitNation Logo with Purple Background">
         </div>
@@ -161,14 +158,14 @@ function function_alert($msg) {
                     <label for="Password">Password</label>
                     <input type="password" name="Password" id="Password" class="form-control">
                     <i class="fa-solid fa-eye" id="eye"></i>
-                    <span id="password_message">
+                    <div id="password_message">
                         <ul style="list-style-type: none">
                             <li id="password_letter">Password contains at least <b>one letter</b>.</li>
                             <li id="password_number">Password contains at least <b>one number</b>.</li>
-                            <li id="password_symbol">Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~`!@#$%^&*_:;",.?/<br>Not Allowed Symbols: <>[]'()\+-={}</li>
+                            <li id="password_symbol">Password contains at least <b>one symbol</b>.<br>Allowed Symbols: ~`!@#$%^&*_:;",.?/<br>Not Allowed Symbols: &lt;&gt;[]'()\+-={}</li>
                             <li id="password_length">Password must be at least <b>7 characters</b> in length.</li>
                         </ul>
-                    </span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="Email">Email</label>
@@ -180,7 +177,7 @@ function function_alert($msg) {
 
                 </div>
                 <div class="form-group text-center">
-                    <input type="submit" name="Sign Up" id="Sign Up" value="Sign Up" class="btn btn-lg btn-primary">
+                    <input type="submit" name="Sign Up" id="Sign_Up" value="Sign Up" class="btn btn-lg btn-primary">
                 </div>
             </form>
         </div>
@@ -226,7 +223,7 @@ function function_alert($msg) {
     <!-- Password verifier 
         Verifies that the password entered meets certain requirements.
     -->
-    <script type="text/javascript">
+    <script>
         var password = document.getElementById("Password");
         password.oninput = function verifyPassword() {
 

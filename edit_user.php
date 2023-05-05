@@ -42,7 +42,7 @@
    ");
    $find_user_info->bindParam(1, $_SESSION["user_id"]);
    $find_user_info->execute();
-   $row = $find_user_info->fetch();
+   $user_info = $find_user_info->fetch();
 
 
 
@@ -51,20 +51,20 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    >
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
-    />
+    >
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css">
     
     <!-- Icon script -->
     <script
@@ -72,7 +72,7 @@
       crossorigin="anonymous"
     ></script>
     <!-- Website Icon -->
-    <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico" />
+    <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
     <title>FitNation</title>
 	<style>
 		.valid {
@@ -92,7 +92,6 @@
         include("navbar.php");
       ?>
     </header>
-    <body>
       <div class="container">
         <div class="main-body">
 
@@ -101,35 +100,24 @@
               <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                   <div class="card">
-				  <span style="background-color: #7768AE">
+				  <div style="background-color: #7768AE">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
                         <i class="fa fa-user fa-2xl" style="color:black"></i>
                         <div class="mt-3" style="color:black">
-                          <!-- User Name Display -->
-                          <h4>
-                            <?php
-                            echo $_SESSION["user_name"];
-                            ?>
-                          </h4>
-                          <p class="mb-1" style="color:black">
-                            <!-- Displays Date Joined -->
-                            <?php 
-                            $date = date_create($_SESSION["date_joined"]);
-                            echo "Joined: ".date_format($date,"m/d/Y");
-                            ?>
-                            
-                          </p>
-                          <p class="font-size-sm" style="color: black">
-                            <?php 
-                            $user_type = $row["User_Type"] == "coach" ? "Coach" : "User";
-                            echo $user_type;
-                            ?>
+                          <!-- User Info Display -->
+						  <?php
+                            echo "<h4 style='color:black'>$user_info[Username]</h4>";
+                            $date = date_create($user_info["Date_Joined"]);
+                            echo "<p class='mb-1' style='color: black;'>Joined: ".date_format($date,"m/d/Y")."</p>"; 
+                            $user_type = $user_info["User_Type"] == "coach" ? "Coach" : "User";
+                            echo "<p class='font-size-sm' style='color: black'>$user_type</p>";
+						   ?>
                           </p>
                         </div>
                       </div>
-					</span>
+					</div>
                     </div>
                   </div>
                 </div>
@@ -145,7 +133,7 @@
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id ="fn-txtbox" type="text" class="form-control" value="<?php 
-										echo $row["F_Name"];
+										echo $user_info["F_Name"];
 										?>">
 									</div>
 								</div>
@@ -155,7 +143,7 @@
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="ln-txtbox" type="text" class="form-control" value="<?php 
-										echo $row["L_Name"];
+										echo $user_info["L_Name"];
 										?>">
 									</div>
 								</div>
@@ -165,7 +153,7 @@
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="height-txtbox" type="text" class="form-control" value="<?php 
-										echo $row["Height"];
+										echo $user_info["Height"];
 										?>">
 									</div>
 								</div>
@@ -175,7 +163,7 @@
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="weight-txtbox" type="text" class="form-control" value="<?php 
-										echo $row["Weight"];
+										echo $user_info["Weight"];
 										?>">
 									</div>
 								</div>
@@ -185,17 +173,17 @@
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="phone-num-txtbox" type="text" class="form-control" value="<?php 
-										if ($row["Phone_Num"] != null) {
-											echo $row["Phone_Num"];
+										if ($user_info["Phone_Num"] != null) {
+											echo $user_info["Phone_Num"];
 										} else {
 											echo "-";
 										}
 										?>">
-										<span id="phone_num_message">
+										<div id="phone_num_message">
 											<ul style="list-style-type: none">
 												<li id="phone_validator">Phone Number Format: <b>XXXXXXXXXX</b>.</li>
 											</ul>
-										</span>
+										</div>
 									</div>
 
 								</div>
@@ -208,8 +196,8 @@
 										<div class="dropdown">
 											<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonForGender" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												<?php 
-												if ($row["Gender"] != null) {
-													echo $row["Gender"];
+												if ($user_info["Gender"] != null) {
+													echo $user_info["Gender"];
 												} else {
 													echo "Other";
 												}
@@ -231,7 +219,7 @@
 										<div class="dropdown">
 											<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonForAccounts" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php 
-											if ($row["User_Type"] == "user") {
+											if ($user_info["User_Type"] == "user") {
 												echo "User";
 											} else {
 												echo "Coach";
@@ -260,7 +248,6 @@
     
             </div>
         </div>
-    </body>
     <!-- Optional JavaScript -->
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

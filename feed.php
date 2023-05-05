@@ -406,14 +406,14 @@ if (isset($_POST["delete"])) {
 
 <head>
   <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/feed.css" />
+  <link rel="stylesheet" href="css/feed.css">
   <!-- google fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
     <style>
@@ -450,7 +450,7 @@ if (isset($_POST["delete"])) {
   ?>
   <!-- parts of this code are from a template
       https://www.bootdey.com/snippets/view/shop-user-profile-with-ticket -->
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <main>
     <div class="container padding-bottom-3x mb-2">
       <div class="row">
@@ -460,14 +460,14 @@ if (isset($_POST["delete"])) {
               <div class="user-data">
                 <?php 
                   $date = date_create($user_info["Date_Joined"]);
-                  echo '<h4>' . htmlspecialchars($user_info['Username']) . '<h4>';
+                  echo '<h4>' . htmlspecialchars($user_info['Username']) . '</h4>';
                   echo '<span>Joined ' . date_format($date, "m/d/y") . '</span>';
                 ?>
               </div>
             </div>
           </aside>
           <nav class="list-group">
-            <a class="list-group-item" href=".\user.php"><i class="fa fa-user"></i>Profile</a>
+            <a class="list-group-item" href="./user.php"><i class="fa fa-user"></i>Profile</a>
             <?php
             echo "<a class='list-group-item with-badge' href='javascript:show_users_workouts()'><i class='fa fa-th'></i>Workouts";
               if ($workout_count > 0) {
@@ -476,11 +476,11 @@ if (isset($_POST["delete"])) {
                 echo "<span class='badge badge-primary badge-pill'>Go Workout!</span></a>";
               }
             ?>
-            <a class="list-group-item" href=".\sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
+            <a class="list-group-item" href="./sugg-workout.php"><i class="fa fa-th"></i>Suggested Workouts</a>
           </nav>
           <!-- Reply Form-->
           <form id="post_form" method="post" onsubmit="return post_submit()">
-            <label for="review_text"><h5 class="mb-30 padding-top-1x">Post Your Workout</h5></label>
+            <label for="review_text"><strong class="mb-30 padding-top-1x" style="font-size:1.5em;">Post Your Workout</strong></label>
             <div class="form-group">
               <textarea class="form-control form-control-rounded" id="review_text" name="post_text" rows="8"
                 placeholder="Write your message here..." required=""></textarea>

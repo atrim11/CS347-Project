@@ -6,13 +6,13 @@ if(!check_login()) {
     $options = "
         <ul class=\"navbar-nav mr-auto\">
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\index.php\">Home</a>
+                <a class=\"nav-link\" href=\"./index.php\">Home</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\login.php\">Login</a>
+                <a class=\"nav-link\" href=\"./login.php\">Login</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\signup.php\">Sign Up</a>
+                <a class=\"nav-link\" href=\"./signup.php\">Sign Up</a>
             </li>
         </ul>
     ";
@@ -20,13 +20,13 @@ if(!check_login()) {
     $options = "
         <ul class=\"navbar-nav mr-auto\">
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\index.php\">Home</a>
+                <a class=\"nav-link\" href=\"./index.php\">Home</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\\feed.php\">Feed</a>
+                <a class=\"nav-link\" href=\"./feed.php\">Feed</a>
             </li>
             <li class=\"nav-item\">
-                <a class=\"nav-link\" href=\".\logout.php\">Log Out</a>
+                <a class=\"nav-link\" href=\"./logout.php\">Log Out</a>
             </li>
         </ul>
         <a href=\".\user.php?user_id=$_SESSION[user_id]\"> <i class=\"fa-regular fa-user fa-xl\" style=\"color: white\"></i> </a>

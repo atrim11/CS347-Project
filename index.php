@@ -11,22 +11,22 @@ include("auth.php");
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    >
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
-    />
+    >
     <!-- google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css">
     <!-- Website Icon -->
     <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
     <title>FitNation</title>
@@ -37,7 +37,7 @@ include("auth.php");
         include("navbar.php");
       ?>
     </header>
-    <main role="main">
+    <main>
       <!-- this is the carosel -->
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -50,28 +50,28 @@ include("auth.php");
           <div class="carousel-item active">
             <img
               class="bd-placeholder-img"
-              width="100%"
-              height="100%"
-              object-fit="cover"
+              style="width:100%;
+              height:100%;
+              object-fit:cover;"
               src="Images/Purple-Logo.png"
               alt="purple fitnation logo"
-              id="carousel-pic"
-            />
+              id="carousel-pic-logo"
+            >
           </div>
           <div class="carousel-item">
             <img
               class="bd-placeholder-img"
-              width="100%"
-              height="100%"
-              object-fit="cover"
+              style="width:100%;
+              height:100%;
+              object-fit:cover;"
               src="Images/workout-pic6.jpg"
               alt="woman running bw photo"
-              id="carousel-pic"
-            />
+              id="carousel-pic-run"
+            >
             <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"></rect></svg> -->
             <div class="container">
               <div class="carousel-caption text-right">
-                <h1 id="carousel-words">Join FitNation Today!</h1>
+                <h1 id="carousel-join">Join FitNation Today!</h1>
                 <p id="carousel-words">
                   Workout Together, Achieve Together with FitNation
                 </p>
@@ -86,13 +86,13 @@ include("auth.php");
           <div class="carousel-item">
             <img
               class="bd-placeholder-img"
-              width="100%"
-              height="100%"
-              object-fit="cover"
+              style="width:100%;
+              height:100%;
+              object-fit:cover;"
               src="Images/racket-pic.jpg"
               alt="racket hitting ball"
-              id="carousel-pic"
-            />
+              id="carousel-pic-racket"
+            >
             <div class="container">
               <div class="carousel-caption text-right">
                 <h1 id="car-head">Join FitNation Today!</h1>
@@ -111,13 +111,13 @@ include("auth.php");
           <div class="carousel-item">
             <img
               class="bd-placeholder-img"
-              width="100%"
-              height="100%"
-              object-fit="fill"
+              style="width:100%;
+              height:100%;
+              object-fit:fill;"
               src="Images/workout-pic.jpg"
               alt="Man in army shirt doing pushups"
-              id="carousel-pic"
-            />
+              id="carousel-pic-pushup"
+            >
             <div class="container">
               <div class="carousel-caption text-left">
                 <h1>FitNation</h1>
@@ -178,16 +178,16 @@ include("auth.php");
             <img
               src="Images/workout-pic7.jpg"
               alt="woman using trx photo"
-              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-              width="500px"
-              height="500px"
-              object-fit="cover"
-              id="workout-pic"
-            />
+              class="workout-pic bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+              style="width:500px;
+              height:500px;
+              object-fit:cover;"
+              id="workout-pic-trx"
+            >
           </div>
         </div>
 
-        <hr class="featurette-divider" />
+        <hr class="featurette-divider">
 
         <div class="row featurette">
           <div class="col-md-7 order-md-2">
@@ -207,16 +207,16 @@ include("auth.php");
             <img
               src="Images/workout-pic8.jpg"
               alt="man working out with cones"
-              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-              width="550px"
-              height="550px"
-              object-fit="cover"
-              id="workout-pic"
-            />
+              class="workout-pic bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+              style="width:550px;
+              height:550px;
+              object-fit:cover;"
+              id="workout-pic-cones"
+            >
           </div>
         </div>
 
-        <hr class="featurette-divider" />
+        <hr class="featurette-divider">
 
         <div class="row featurette">
           <div class="col-md-7">
@@ -237,17 +237,17 @@ include("auth.php");
             <img
               src="Images/workout-pic5.jpg"
               alt="woman doing yoga during sunset"
-              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-              width="500px"
-              height="500px"
-              object-fit="cover"
-              id="workout-pic"
-            />
+              class="workout-pic bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+              style="width:500px;
+              height:500px;
+              object-fit:cover;"
+              id="workout-pic-yoga"
+            >
           </div>
         </div>
         <!-- /END THE FEATURETTES -->
 
-        <hr class="featurette-divider" />
+        <hr class="featurette-divider">
         <!-- Three columns of text -->
         <div class="row">
           <div class="col-lg-4">
@@ -255,9 +255,9 @@ include("auth.php");
               src="Images/dude2.jpg"
               alt="bald man"
               class="bd-placeholder-img rounded-circle"
-              width="140"
-              height="140"
-            />
+              style="width:140px;
+              height:140px;"
+            >
             <h2>Alex M.</h2>
             <p>
               "I was skeptical about using a workout tracking site, but
@@ -273,9 +273,9 @@ include("auth.php");
               src="Images/woman1.jpg"
               alt="woman in gym"
               class="bd-placeholder-img rounded-circle"
-              width="140"
-              height="140"
-            />
+              style="width:140px;
+              height:140px;"
+            >
             <h2>Jane D.</h2>
             <p>
               "FitNation has made it so easy for me to track my workouts and
@@ -290,9 +290,9 @@ include("auth.php");
               src="Images/football-trainer.jpg"
               alt="guy with football"
               class="bd-placeholder-img rounded-circle"
-              width="140"
-              height="140"
-            />
+              style="width:140px;
+              height:140px;"
+            >
             <h2>David T.</h2>
             <p>
               "As someone who is always on the go, it can be tough to stay

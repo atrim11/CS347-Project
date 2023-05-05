@@ -75,20 +75,20 @@ if(isset($_POST["login"]))
 <html lang="en">
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    >
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
-    />
+    >
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css">
     <!-- Icon script -->
     <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
     <!-- google fonts -->
@@ -145,7 +145,7 @@ if(isset($_POST["login"]))
         ?>
     </header>
 
-    <main role="main">
+    <main>
         <div class="img_container">
             <img src="Images/Purple-Logo.png" alt="FitNation Logo with Purple Background">
         </div>
@@ -160,20 +160,17 @@ if(isset($_POST["login"]))
 
                 <div class="form-group">
                   <label for="user_email">User Email</label>
-                  <input type="text" name="user_email" id="user_email" class="form-control" />
+                  <input type="text" name="user_email" id="user_email" class="form-control">
                 </div>
 
                 <div class="form-group password-container">
                   <label for="user_password">Password</label>
-                  <input type="password" name="user_password" id="user_password" class="form-control" />
+                  <input type="password" name="user_password" id="user_password" class="form-control">
                   <i class="fa-solid fa-eye" id="eye"></i>
                 </div>
 
                 <div class="form-group">
                   <a href="#">Forgot Password?</a>
-                  <!-- <label class="checkbox" >
-                    <input type="checkbox" value="show-password" id="show-password"> Show Password
-                  </label> -->
                 </div>
 
                 <div class="form-group">
@@ -183,26 +180,15 @@ if(isset($_POST["login"]))
                 </div>
 
                 <div class="form-group text-center">
-                  <input type="submit" name="login" id="login" class="btn btn-lg btn-primary" value="Login" />
+                  <input type="submit" name="login" id="login" class="btn btn-lg btn-primary" value="Login">
                 </div>
                
               </form>
              </div>
             </div>
+          </div>
     </main>
-</body>
-
 <script>
-  // let show_password = document.getElementById("show-password");
-  // show_password.onclick = function toggle_password_view() {
-  //     let password_box = document.getElementById("user_password");
-  //     if (password_box.type === "password") {
-  //         password_box.type = "text";
-  //     } else {
-  //         password_box.type = "password";
-  //     }
-  // }
-
   // Javascript based off of: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying.
   let password_input = document.querySelector("#user_password");
   let eye_icon = document.querySelector("#eye");
@@ -235,4 +221,6 @@ if(isset($_POST["login"]))
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+</body>
+
 </html>
