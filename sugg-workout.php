@@ -85,7 +85,7 @@ include("auth.php");
       <div id="workouts"></div>
     </div>
         <!--  JavaScript -->
-    <script src="workout.js"  type="module"></script>
+    <script src="script/workout.js"  type="module"></script>
     </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

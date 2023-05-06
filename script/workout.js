@@ -1,4 +1,4 @@
-import getKey from './help.js';
+import getKey from './script/help.js';
 var abdominals,
   biceps,
   calves,
