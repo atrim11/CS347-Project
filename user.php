@@ -298,7 +298,7 @@
                         <div class="col-sm-9 text-secondary" id="weight">
                           <?php 
                           $weight = $user_info["Weight"] != null ? $user_info["Weight"] : "-";
-                          echo "<span id='weight'>".$weight."</span>";
+                          echo "<span id='user_weight'>".$weight."</span>";
                           ?>
                         </div>
                       </div>

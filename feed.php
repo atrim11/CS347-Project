@@ -95,7 +95,7 @@ function generate_posts($posts, $conn, $user_info) {
       "<div class='post'>
         <div class='post-body' id='post_$post[post_id]'>
           $delete
-          <a href='user.php?user_id=$post[user_id]' style='color:black'><h6>$username[Username]</h6></a>
+          <a href='user.php?user_id=$post[user_id]'><h6>$username[Username]</h6></a>
           <p class='post-text'>
           $log_post
           </p>
@@ -241,7 +241,7 @@ if (isset($_POST["open_post"])) {
 
         // Format post.
         $response[0] = "<div class='post'>
-                          <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
+                          <div class='post-body main_post' id='post_large_$_POST[post_id]'>
                             <i class='fa-solid fa-lg fa-arrow-left' style='font-size: 16px' id='back'></i>
                             $delete
                             <a href='user.php?user_id=$poster_details[user_id]'><h6>$poster_details[Username]</h6></a>
@@ -301,7 +301,7 @@ if (isset($_POST["open_post"])) {
 
         // Format the post.
         $response[0] = "<div class='post'>
-                          <div class='post-body' name='main_post' id='post_large_$_POST[post_id]'>
+                          <div class='post-body main_post' id='post_large_$_POST[post_id]'>
                             <i class='fa-solid fa-lg fa-arrow-left' style='font-size: 16px' id='back'></i>
                             $delete
                             <a href='user.php?user_id=$poster[user_id]'><h6>$poster[Username]</h6></a>
@@ -556,7 +556,7 @@ if (isset($_POST["delete"])) {
     <script>
       function comment_submit() {
         let feed = document.getElementById("feed");
-        let post = document.getElementsByName("main_post")[0];
+        let post = document.getElementsByClassName("main_post")[0];
         let postId = parseInt(post.id.split('_')[2]);
         let comment_count = document.getElementById(`comment_count_${postId}`);
         let comment = document.querySelector("#comment_text").value;
