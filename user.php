@@ -220,15 +220,15 @@
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center" >
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
-                        <i class="fa fa-user fa-2xl" style="color: black"></i>
+                        <i class="fa fa-user fa-2xl" style="color: white"></i>
                         <div class="mt-3">
                           <!-- User Info Display -->
                             <?php
-                            echo "<h4 style='color:black'>$user_info[Username]</h4>";
+                            echo "<h4 style='color:white'>$user_info[Username]</h4>";
                             $date = date_create($user_info["Date_Joined"]);
-                            echo "<p class='mb-1' style='color: black;'>Joined: ".date_format($date,"m/d/Y")."</p>"; 
+                            echo "<p class='mb-1' style='color: white;'>Joined: ".date_format($date,"m/d/Y")."</p>"; 
                             $user_type = $user_info["User_Type"] == "coach" ? "Coach" : "User";
-                            echo "<p class='font-size-sm' style='color: black'>$user_type</p>";
+                            echo "<p class='font-size-sm' style='color: white'>$user_type</p>";
                             ?>
                         </div>
                       </div>

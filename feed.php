@@ -95,7 +95,7 @@ function generate_posts($posts, $conn, $user_info) {
       "<div class='post'>
         <div class='post-body' id='post_$post[post_id]'>
           $delete
-          <a href='user.php?user_id=$post[user_id]'<h6>$username[Username]</h6></a>
+          <a href='user.php?user_id=$post[user_id]' style='color:black'><h6>$username[Username]</h6></a>
           <p class='post-text'>
           $log_post
           </p>
@@ -460,8 +460,8 @@ if (isset($_POST["delete"])) {
               <div class="user-data">
                 <?php 
                   $date = date_create($user_info["Date_Joined"]);
-                  echo '<h4>' . htmlspecialchars($user_info['Username']) . '</h4>';
-                  echo '<span>Joined ' . date_format($date, "m/d/y") . '</span>';
+                  echo '<h4 style="color:white">' . htmlspecialchars($user_info['Username']) . '</h4>';
+                  echo '<p style="color:white">Joined ' . date_format($date, "m/d/y") . '</p>';
                 ?>
               </div>
             </div>

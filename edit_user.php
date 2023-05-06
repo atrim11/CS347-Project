@@ -104,15 +104,15 @@
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
                         <!-- Profile pic <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150"> -->
-                        <i class="fa fa-user fa-2xl" style="color:black"></i>
+                        <i class="fa fa-user fa-2xl" style="color:white"></i>
                         <div class="mt-3" style="color:black">
                           <!-- User Info Display -->
 						  <?php
-                            echo "<h4 style='color:black'>$user_info[Username]</h4>";
+                            echo "<h4 style='color:white;'>$user_info[Username]</h4>";
                             $date = date_create($user_info["Date_Joined"]);
-                            echo "<p class='mb-1' style='color: black;'>Joined: ".date_format($date,"m/d/Y")."</p>"; 
+                            echo "<p class='mb-1' style='color: white;'>Joined: ".date_format($date,"m/d/Y")."</p>"; 
                             $user_type = $user_info["User_Type"] == "coach" ? "Coach" : "User";
-                            echo "<p class='font-size-sm' style='color: black'>$user_type</p>";
+                            echo "<p class='font-size-sm' style='color: white'>$user_type</p>";
 						   ?>
                           </p>
                         </div>
@@ -127,9 +127,9 @@
 							<div class="card-body">
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">
+										<label for="fn-txtbox" class="mb-0">
 											First Name
-										</h6>
+										</label>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id ="fn-txtbox" type="text" class="form-control" value="<?php 
@@ -139,7 +139,7 @@
 								</div>
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Last Name</h6>
+										<label for="ln-txtbox" class="mb-0">Last Name</label>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="ln-txtbox" type="text" class="form-control" value="<?php 
@@ -149,7 +149,7 @@
 								</div>
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Height (in)</h6>
+										<label for="height-txtbox" class="mb-0">Height (in)</label>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="height-txtbox" type="text" class="form-control" value="<?php 
@@ -159,7 +159,7 @@
 								</div>
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Weight (lbs)</h6>
+										<label for="weight-txtbox" class="mb-0">Weight (lbs)</label>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="weight-txtbox" type="text" class="form-control" value="<?php 
@@ -169,7 +169,7 @@
 								</div>
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Phone Number</h6>
+										<label for="phone-num-txtbox" class="mb-0">Phone Number</label>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<input id="phone-num-txtbox" type="text" class="form-control" value="<?php 
@@ -189,7 +189,7 @@
 								</div>
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Gender</h6>
+										<p class="mb-0">Gender</p>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<!-- <input type="text" class="form-control" value="Bay Area, San Francisco, CA"> -->
@@ -203,7 +203,7 @@
 												}
 												?>
 											</button>
-											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButtonForGender">
 												<button class="dropdown-item gender-dropdown-item" type="button">Female</button>
 												<button class="dropdown-item gender-dropdown-item" type="button">Male</button>
 												<button class="dropdown-item gender-dropdown-item" type="button">Other</button>
@@ -213,7 +213,7 @@
 								</div>
 								<div class="row mb-3">
 									<div class="col-sm-3">
-										<h6 class="mb-0">Account Type</h6>
+										<p class="mb-0">Account Type</p>
 									</div>
 									<div class="col-sm-9 text-secondary">
 										<div class="dropdown">
@@ -226,7 +226,7 @@
 											}
 											?>
 											</button>
-											<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuButtonForAccounts">
 												<button class="dropdown-item usertype-dropdown-item" type="button">User</button>
 												<button class="dropdown-item usertype-dropdown-item" type="button">Coach</button>
 											</div>

@@ -310,10 +310,9 @@ include("auth.php");
 
       <!-- FOOTER -->
       <footer class="container">
-        <p class="float-right"><a href="#">Back to top</a></p>
+        <p class="float-right"><a href="#" style="color:black">Back to top</a></p>
         <p>
-          <a href="#">Join Now</a> ·
-          <a href="#">Sign up</a>
+          <a href="signup.php" style="color:black">Sign up</a>
         </p>
       </footer>
     </main>
