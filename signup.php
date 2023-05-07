@@ -90,46 +90,7 @@ function function_alert($msg) {
     <link rel="stylesheet" href="css/style.css">
     <!-- google fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton">
-    <style>
-        .navbar-brand {
-            font-family: 'Anton', sans-serif;
-        } 
-        main {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-        }
-        .img_container {
-            max-width: 900px;
-            overflow: hidden;
-        }
-        img {
-            width: 100%;
-            object-fit: contain;
-        }
-
-        .valid {
-            color: green;
-            background-color: rgba(36, 207, 147, 0.1);
-        }
-
-        .invalid {
-            color: red;
-            background-color: rgba(255, 49, 101, 0.1);
-        }
-
-        /* Styling from: https://medium.com/@mignunez/html-css-javascript-how-to-show-hide-password-using-the-eye-icon-27f033bf84ad#:~:text=JavaScript%3A,them%20each%20in%20a%20variable.&text=Now%20add%20a%20click%20event,input%20field%20is%20currently%20displaying. */
-        .password-container{
-            position: relative;
-        }
-        .fa-eye, .fa-eye-slash{
-            position: absolute;
-            top: 21%;
-            right: 5%;
-            cursor: pointer;
-            color: lightgray;
-        }
-    </style>
+    <link rel="stylesheet" href="css/signup.css">
     <!-- Icon script -->
     <script src="https://kit.fontawesome.com/2b70e8a21a.js" crossorigin="anonymous"></script>
     <!-- Website Icon -->

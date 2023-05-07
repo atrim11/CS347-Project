@@ -74,17 +74,7 @@
     <!-- Website Icon -->
     <link rel="icon" type="image/x-icon" href="Images/logo_icon.ico">
     <title>FitNation</title>
-	<style>
-		.valid {
-			color: green;
-			background-color: rgba(36, 207, 147, 0.1);
-		}
-
-		.invalid {
-			color: red;
-			background-color: rgba(255, 49, 101, 0.1);
-		}
-	</style>
+  	<link rel="stylesheet" href="css/edit_user.css">
   </head>
   <body>
     <header>
