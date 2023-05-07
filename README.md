@@ -1,5 +1,5 @@
-This is the final project for CS347. It was a group project with:
-Aidan Trimmer @atrim11
+This is the final project for CS347. It was a group project with:<br>
+Aidan Trimmer @atrim11<br>
 Eric Hernandez-Diaz @herna4er
 Jonathan Wist @JonathanWist
 Alden Geipel @Myradose
