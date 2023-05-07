@@ -159,7 +159,7 @@ if(isset($_POST["login"]))
               <form method="post">
 
                 <div class="form-group">
-                  <label for="user_email">User Email</label>
+                  <label for="user_email">Email</label>
                   <input type="text" name="user_email" id="user_email" class="form-control">
                 </div>
 
